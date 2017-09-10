@@ -20,21 +20,23 @@ function getEvents(userID) {
 }
 
 // GET all Users (superuser only)
-router.get('/users', (req, res, next) => {
-  // Add check if Admin
-  knex('users').then((allUsers) => {
-    res.json(allUsers);
-  }).catch((err) => {
-    console.error(err);
-    next(err);
-  });
+router.get('/', (req, res, next) => {
+  if (req.session.is_admin) {
+    knex('users').then((allUsers) => {
+      res.json(allUsers);
+    }).catch((err) => {
+      console.error(err);
+      next(err);
+    });
+  } else {
+    res.status(401).send({ error: 'Not authorized!' });
+  }
 });
 
 // GET a User with a given ID
-router.get('/users/:id', (req, res, next) => {
-  // Add check for session
+router.get('/:id', (req, res, next) => {
   const userID = Number.parseInt(req.params.id, 10);
-  if (_.isValidID(userID)) {
+  if (_.isValidID(userID) && req.session.id === userID) {
     getEvents(userID).then((events) => {
       res.json(events);
     }).catch((err) => {
@@ -42,15 +44,14 @@ router.get('/users/:id', (req, res, next) => {
       next(err);
     });
   } else {
-    next();
+    res.status(401).send({ error: 'Not authorized!' });
   }
 });
 
 // GET a user's account info
-router.get('/users/:id/edit', (req, res, next) => {
+router.get('/:id/edit', (req, res, next) => {
   const userID = Number.parseInt(req.params.id, 10);
-  // Add Check for Session
-  if (_.isValidID(userID)) {
+  if (_.isValidID(userID) && req.session.id === userID) {
     knex.select('first_name', 'last_name')
       .from('users')
       .where('id', userID)
@@ -63,38 +64,42 @@ router.get('/users/:id/edit', (req, res, next) => {
         next(err);
       });
   } else {
-    next();
+    res.status(401).send({ error: 'Not authorized!' });
   }
 });
 
 // New User Registration
-router.post('/users', ev(validations.reg_post), (req, res, next) => {
-  bcrypt.hash(req.body.password, saltRounds).then((digest) => {
-    knex('users')
-      .insert({
-        first_name: req.body.first_name,
-        last_name: req.body.last_name,
-        email: req.body.email,
-        hashed_password: digest,
-      })
-      .then(() => {
-        res.sendStatus(200);
-      })
+router.post('/', ev(validations.reg_post), (req, res, next) => {
+  if (!req.session.id) {
+    bcrypt.hash(req.body.password, saltRounds).then((digest) => {
+      knex('users')
+        .insert({
+          first_name: req.body.first_name,
+          last_name: req.body.last_name,
+          email: req.body.email,
+          hashed_password: digest,
+        })
+        .then(() => {
+          res.redirect('/login');
+        })
+        .catch((err) => {
+          console.error(err);
+          res.status(400).send({ error: 'That email address is already registered!' });
+        });
+    })
       .catch((err) => {
         console.error(err);
-        res.status(400).send({ error: 'That email address is already registered!' });
+        next(err);
       });
-  })
-    .catch((err) => {
-      console.error(err);
-      next(err);
-    });
+  } else {
+    // If the user is already registered and logged in, redirect to user page
+    res.redirect(`/${req.session.id}`);
+  }
 });
 
-router.put('/users/:id/edit', ev(validations.put), (req, res, next) => {
+router.put('/:id/edit', ev(validations.put), (req, res, next) => {
   const userID = Number.parseInt(req.params.id, 10);
-  // Add check for session
-  if (_.isValidID(userID)) {
+  if (_.isValidID(userID) && req.session.id === userID) {
     // Add code to change password
     knex('users')
       .where('id', userID)
@@ -109,35 +114,79 @@ router.put('/users/:id/edit', ev(validations.put), (req, res, next) => {
         next(err);
       });
   } else {
-    next();
+    res.status(401).send({ error: 'Not authorized!' });
   }
 });
 
-router.delete('/user/:id', (req, res, next) => {
-  // Check if user is Admin
-  const userID = Number.parseInt(req.params.id, 10);
-  if (_.isValidID(userID)) {
-    // Delete from join table first
-    knex('users_events')
-      .where('user_id', userID)
-      .del()
-      .then(() => {
-        knex('users')
-          .where('id', userID)
-          .del()
-          .then(() => {
-            res.sendStatus(200);
+router.delete('/:id', (req, res, next) => {
+  if (req.session.is_admin) {
+    const userID = Number.parseInt(req.params.id, 10);
+    if (_.isValidID(userID)) {
+      // Delete from join table first
+      knex('users_events')
+        .where('user_id', userID)
+        .del()
+        .then(() => {
+          knex('users')
+            .where('id', userID)
+            .del()
+            .then(() => {
+              res.sendStatus(200);
+            })
+            .catch((err) => {
+              console.error(err);
+              next(err);
+            });
+        })
+        .catch((err) => {
+          console.error(err);
+          next(err);
+        });
+    } else {
+      res.status(400).send({ error: 'Bad request!' });
+    }
+  } else {
+    res.status(401).send({ error: 'Not authorized! ' });
+  }
+});
+
+router.post('/login', ev(validations.login_post), (req, res, next) => {
+  if (!req.session.id) {
+    knex('users')
+      .where('email', req.body.email)
+      .first()
+      .then((user) => {
+        const userID = user.id;
+        const storedPassword = user.hashed_password;
+
+        bcrypt.compare(req.body.password, storedPassword)
+          .then((matched) => {
+            if (matched) {
+              req.session.id = userID;
+              req.session.is_admin = user.is_admin;
+              res.redirect(`/${userID}`);
+            } else {
+              res.status(401).send({ error: 'Wrong email or password!' });
+            }
           })
           .catch((err) => {
             console.error(err);
-            next(err);
+            res.status(500).send({ error: 'Server errror!' });
           });
       })
       .catch((err) => {
         console.error(err);
-        next(err);
+        res.status(401).send({ error: 'Wrong email or password!' });
       });
   } else {
-    next();
+    // If the user is already logged in, redirect to user page
+    res.redirect(`/${req.session.id}`);
   }
 });
+
+router.delete('/logout', (req, res, next) => {
+  req.session = null;
+  res.redirect('/');
+});
+
+module.exports = router;
