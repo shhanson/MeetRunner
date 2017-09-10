@@ -38,3 +38,20 @@ module.exports.put = {
   entry_fee_cents: Joi.number().integer().label('entry_fee_cents'),
 
 };
+
+module.exports.session_post = {
+
+};
+
+
+module.exports.session_put = {
+
+};
+
+module.exports.athlete_post = {
+
+};
+
+module.exporst.athlete_put = {
+
+};

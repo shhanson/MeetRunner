@@ -76,7 +76,7 @@ router.put('/:id/edit', ev(validations.put), (req, res, next) => {
 });
 
 // New User Registration
-router.post('/', ev(validations.reg_post), (req, res, next) => {
+router.post('/new', ev(validations.reg_post), (req, res, next) => {
   if (!req.session.id) {
     bcrypt.hash(req.body.password, saltRounds).then((digest) => {
       knex('users')

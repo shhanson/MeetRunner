@@ -13,6 +13,7 @@ router.use(bodyParser.urlencoded({
   extended: false,
 }));
 
+// Helper function for deleting events
 function deleteEventReferences(eventID) {
   return Promise.all([
     knex('events_athletes').where('event_id', eventID).del(),
@@ -53,7 +54,7 @@ router.get('/:id', (req, res, next) => {
 });
 
 // POST a new Event
-router.post('/events', ev(validations.post), (req, res, next) => {
+router.post('/new', ev(validations.post), (req, res, next) => {
   if (req.session.id) {
     knex('events')
       .insert({
@@ -92,7 +93,7 @@ router.post('/events', ev(validations.post), (req, res, next) => {
 });
 
 // Edit a single event
-router.put('/events/:id', ev(validations.event_put), (req, res, next) => {
+router.put('/:id/edit', ev(validations.put), (req, res, next) => {
   const userID = req.session.id;
   const eventID = Number.parseInt(req.params.id, 10);
 
@@ -139,7 +140,7 @@ router.put('/events/:id', ev(validations.event_put), (req, res, next) => {
 });
 
 // DELETE an event
-router.delete('/events/:id', (req, res, next) => {
+router.delete('/:id', (req, res, next) => {
   const userID = req.session.id;
   const eventID = Number.parseInt(req.params.id, 10);
   if (_.isValidID(userID) && _.isValidID(eventID)) {
@@ -163,6 +164,93 @@ router.delete('/events/:id', (req, res, next) => {
   } else {
     res.status(400).send({ error: 'Bad request!' });
   }
+});
+
+
+/** ********************************************************* */
+/** ************** Session-related Routes ******************* */
+/** ********************************************************* */
+
+// GET all sessions within an event
+router.get('/:id/sessions', (req, res, next) => {
+
+});
+
+// POST a new session to the event
+router.post('/:id/sessions/new', ev(validations.session_post), (req, res, next) => {
+  // Check logged in
+});
+
+// GET the requested session from an event
+router.get('/:event_id/sessions/:session_id', (req, res, next) => {
+
+});
+
+// PUT request for specified session within an event
+router.put('/:event_id/sessions/:session_id/edit', ev(validations.session_put), (req, res, next) => {
+  // Check logged in
+
+});
+
+// DELETE a session within an event
+router.delete('/:event_id/sessions/:session_id', (req, res, next) => {
+  // Check logged in
+});
+
+/** ********************************************************* */
+/** ************** Athlete-related Routes ******************* */
+/** ********************************************************* */
+
+// GET all athletes registered for an event
+router.get('/:id/athletes', (req, res, next) => {
+  // Check logged in
+});
+
+// POST a new athlete to the event
+router.post('/:id/athletes/new', ev(validations.athlete_post), (req, res, next) => {
+  // Check logged in
+});
+
+// GET the requested athlete from an event
+router.get('/:event_id/athletes/:athlete_id', (req, res, next) => {
+  // Check logged in
+});
+
+// PUT request for specified athlete within an event
+router.put('/:event_id/athletes/:athlete_id/edit', ev(validations.session_put), (req, res, next) => {
+  // Check logged in
+});
+
+// DELETE an athlete from an event
+router.delete('/:event_id/athletes/:athlete_id', (req, res, next) => {
+  // Check logged in
+
+});
+
+
+/** *********************************************************** */
+/** ************** Sessions-Athletes Routes ******************* */
+/** *********************************************************** */
+
+// GET all athletes in the specified session
+router.get('/:event_id/sessions/:session_id/athletes', (req, res, next) => {
+  // Check logged in
+});
+
+// DELETE an athlete from a session
+router.delete('/:event_id/sessions/:session_id/athletes/:athlete_id/remove', (req, res, next) => {
+  // Check logged in
+
+});
+
+// Add an athlete to the session
+router.post('/:event_id/sessions/:session_id/athletes/:athlete_id/add', (req, res, next) => {
+  // Check logged in
+});
+
+// EDIT an athlete's session
+router.put('/:event_id/sessions/:session_id/athletes/:athlete_id/edit', (req, res, next) => {
+  // Check logged in
 });
 
 module.exports = router;
