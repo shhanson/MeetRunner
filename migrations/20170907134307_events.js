@@ -1,8 +1,8 @@
 exports.up = knex =>
   knex.schema.createTable('events', (table) => {
     table.increments('id');
-    table.string('title').notNullable();
-    table.string('organizer').notNullable();
+    table.string('title', 50).notNullable();
+    table.string('organizer', 50).notNullable();
     table.string('sanction_id').notNullable();
     table.date('start_date').notNullable();
     table.date('end_date').notNullable();

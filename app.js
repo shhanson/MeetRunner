@@ -23,7 +23,8 @@ app.use(cookieSession({
   maxAge: 24 * 60 * 60 * 1000, // 24 hours
 }));
 
-app.use('/api/users', require('./routes/users'));
+app.use('/users', require('./routes/users'));
+app.use('/api/events', require('./routes/events'));
 
 
 app.use('*', (req, res, next) => {
