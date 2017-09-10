@@ -193,52 +193,5 @@ router.get('/:id/events/', (req, res, next) => {
   }
 });
 
-// Edit a single event of a user
-router.put('/:user_id/events/:event_id', ev(validations.event_put), (req, res, next) => {
-  const userID = Number.parseInt(req.params.user_id, 10);
-  const eventID = Number.parseInt(req.params.event_id, 10);
-
-  if (_.isValidID(userID) && _.isValidID(eventID) && req.session.id === userID) {
-    // First check if the user owns the event
-    knex('users_events')
-      .where('event_id', eventID)
-      .then((data) => {
-        if (data.user_id === userID) {
-          knex('events')
-            .where('id', eventID)
-            .update({
-              title: req.body.title,
-              organizer: req.body.organizer,
-              sanction_id: req.body.sanction_id,
-              start_date: req.body.start_date,
-              end_date: req.body.end_date,
-              street_address: req.body.street_address,
-              city: req.body.city,
-              state: req.body.state,
-              zip_code: req.body.zip_code,
-              phone: req.body.phone,
-              email: req.body.email,
-              description: req.body.description,
-              entry_fee_cents: req.body.entry_fee_cents,
-            }).then(() => {
-              res.sendStatus(200);
-            })
-            .catch((err) => {
-              console.error(err);
-              next(err);
-            });
-        } else {
-          res.status(401).send({ error: 'Not authorized!' });
-        }
-      })
-      .catch((err) => {
-        console.error(err);
-        next();
-      });
-  } else {
-    res.status(401).send({ error: 'Not authorized!' });
-  }
-});
-
 
 module.exports = router;

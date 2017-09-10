@@ -34,7 +34,3 @@ module.exports.put = {
   },
 
 };
-
-module.exports.event_put = {
-
-};
