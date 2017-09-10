@@ -5,6 +5,7 @@ exports.up = knex =>
     table.string('last_name').notNullable();
     table.string('email').notNullable().unique();
     table.string('hashed_password').notNullable();
+    table.boolean('is_admin').notNullable().defaultTo(false);
   });
 
 exports.down = knex =>
