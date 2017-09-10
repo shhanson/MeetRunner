@@ -37,6 +37,23 @@ module.exports.events = [
     entry_fee_cents: 45000,
   },
 
+  {
+    id: 2,
+    title: 'Naturally Fit Games',
+    organizer: 'David Griffin',
+    sanction_id: '11-1122',
+    start_date: '2018-07-07',
+    end_date: '2018-07-08',
+    street_address: '500 E Cesar Chavez St',
+    city: 'Austin',
+    state: 'TX',
+    zip_code: '78701',
+    phone: '2104890342',
+    email: 'david.c.griffin2@gmail.com',
+    description: 'Join us at the Naturally Fit Games!',
+    entry_fee_cents: 75000,
+  },
+
 ];
 
 module.exports.sessions = [
