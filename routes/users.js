@@ -16,18 +16,20 @@ router.use(bodyParser.urlencoded({
 }));
 
 function getEvents(userID) {
-  knex('users_events').join('events', 'users_events.event_id', 'event.id').where('users_events.user_id', userID);
+  return knex.select('events.*').from('users_events').join('events', 'users_events.event_id', 'events.id').where('users_events.user_id', userID);
 }
 
 // GET all Users (superuser only)
 router.get('/', (req, res, next) => {
   if (req.session.is_admin) {
-    knex('users').then((allUsers) => {
-      res.json(allUsers);
-    }).catch((err) => {
-      console.error(err);
-      next(err);
-    });
+    knex.select('first_name', 'last_name', 'email')
+      .from('users')
+      .then((allUsers) => {
+        res.json(allUsers);
+      }).catch((err) => {
+        console.error(err);
+        next(err);
+      });
   } else {
     res.status(401).send({ error: 'Not authorized!' });
   }
@@ -88,7 +90,7 @@ router.post('/new', ev(validations.reg_post), (req, res, next) => {
           hashed_password: digest,
         })
         .then(() => {
-          res.redirect('/login');
+          res.redirect('/users/login');
         })
         .catch((err) => {
           console.error(err);
@@ -101,7 +103,7 @@ router.post('/new', ev(validations.reg_post), (req, res, next) => {
       });
   } else {
     // If the user is already registered and logged in, redirect to user page
-    res.redirect(`/${req.session.id}`);
+    res.redirect(`/users/${req.session.id}`);
   }
 });
 
@@ -164,13 +166,14 @@ router.post('/login', ev(validations.login_post), (req, res, next) => {
       });
   } else {
     // If the user is already logged in, redirect to user page
-    res.redirect(`/${req.session.id}`);
+    res.redirect(`/users/${req.session.id}`);
   }
 });
 
 router.delete('/logout', (req, res, next) => {
+  console.log('wut');
   req.session = null;
-  res.redirect('/');
+  res.redirect('/users/login');
 });
 
 // GET all user's events

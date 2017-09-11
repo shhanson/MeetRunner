@@ -6,6 +6,7 @@ module.exports.users = [
     last_name: 'Griffin',
     email: 'david@email.com',
     password: 'abc123',
+    is_admin: false,
   },
 
   {
@@ -14,6 +15,7 @@ module.exports.users = [
     last_name: 'Hanson',
     email: 'sarah@email.com',
     password: 'coolgirl',
+    is_admin: true,
   },
 
 ];

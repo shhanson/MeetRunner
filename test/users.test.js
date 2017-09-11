@@ -18,7 +18,13 @@ const userCredentials = {
   password: 'abc123',
 };
 
+const adminCredentials = {
+  email: 'sarah@email.com',
+  password: 'coolgirl',
+};
+
 const authenticatedUser = request.agent(app);
+const adminUser = request.agent(app);
 
 describe('routes : users', () => {
   beforeEach((done) => {
@@ -45,6 +51,17 @@ describe('routes : users', () => {
       });
   });
 
+  beforeEach((done) => {
+    adminUser
+      .post('/users/login')
+      .send(adminCredentials)
+      .end((err, response) => {
+        should.not.exist(err);
+        expect(response.statusCode).to.equal(302);
+        done();
+      });
+  });
+
   afterEach((done) => {
     knex.migrate.rollback()
       .then(() => {
@@ -52,11 +69,20 @@ describe('routes : users', () => {
       });
   });
 
+
+  // describe('POST /users/login', () => {
+  //
+  // });
+
+  describe('DELETE /users/logout', () => {
+
+  });
+
   describe('GET /users/:id', () => {
     it('should return the users\'s profile information', (done) => {
       authenticatedUser.get('/users/1')
-        // .expect(200, done);
         .end((err, res) => {
+          should.not.exist(err);
           res.should.have.status(200);
           res.body.should.have.property('first_name').eql(testUsers[0].first_name);
           res.body.should.have.property('last_name').eql(testUsers[0].last_name);
@@ -67,6 +93,7 @@ describe('routes : users', () => {
       request(app)
         .get('/users/1')
         .end((err, res) => {
+          should.not.exist(err);
           res.should.have.status(401);
           done();
         });
@@ -74,8 +101,88 @@ describe('routes : users', () => {
     it('should return a 401 if a logged in user tries to access another user\'s profile', (done) => {
       authenticatedUser.get('/users/2')
         .end((err, res) => {
+          should.not.exist(err);
           res.should.have.status(401);
           done();
+        });
+    });
+  });
+
+  describe('GET /users/:id/events', () => {
+    it('should return the user\'s events', (done) => {
+      authenticatedUser.get('/users/1/events')
+        .end((err, res) => {
+          should.not.exist(err);
+          res.body.should.be.an('array');
+          expect(res.body).to.have.lengthOf(2);
+          done();
+        });
+    });
+    it('should not let the user see another user\'s events', (done) => {
+      authenticatedUser.get('/users/2/events')
+        .end((err, res) => {
+          res.should.have.status(401);
+          done();
+        });
+    });
+    it('should not let an anonymous user see a user\'s events', (done) => {
+      request(app).get('/users/1/events')
+        .end((err, res) => {
+          res.should.have.status(401);
+          done();
+        });
+    });
+  });
+
+  describe('PUT /users/:id/edit', () => {
+
+  });
+
+
+  describe('POST /users/new (new user registration)', () => {
+
+  });
+
+  describe('GET /users (admin task)', () => {
+    it('should allow the admin to view all registered users', (done) => {
+      adminUser.get('/users')
+        .end((err, res) => {
+          res.should.have.status(200);
+          should.not.exist(err);
+          res.body.should.be.an('array');
+          expect(res.body).to.have.lengthOf(2);
+          done();
+        });
+    });
+
+    it('should not allow non-admin users to view all users', (done) => {
+      authenticatedUser.get('/users')
+        .end((err, res) => {
+          res.should.have.status(401);
+          done();
+        });
+    });
+
+    it('should not allow anonymous users to view all users', (done) => {
+      request(app).get('/users')
+        .end((err, res) => {
+          res.should.have.status(401);
+          done();
+        });
+    });
+  });
+
+  describe('DELETE /users/:id (admin task)', () => {
+    it('should allow an admin user to delete another user', (done) => {
+      adminUser.delete('/users/1')
+        .end(() => {
+          adminUser.get('/users')
+            .end((err, res) => {
+              should.not.exist(err);
+              res.body.should.be.an('array');
+              expect(res.body).to.have.lengthOf(1);
+              done();
+            });
         });
     });
   });

@@ -10,6 +10,7 @@ function insertUser(knex, userData) {
     last_name: userData.last_name,
     hashed_password: bcrypt.hashSync(userData.password, saltRounds),
     email: userData.email,
+    is_admin: userData.is_admin,
   });
 }
 
