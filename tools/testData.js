@@ -54,9 +54,62 @@ module.exports.events = [
     entry_fee_cents: 75000,
   },
 
+  {
+    id: 3,
+    title: 'Christmas Classic',
+    organizer: 'Sarah Hanson',
+    sanction_id: '11-1422',
+    start_date: '2018-12-25',
+    end_date: '2018-12-25',
+    street_address: '4125 Guadalupe St',
+    city: 'Austin',
+    state: 'TX',
+    zip_code: '78751',
+    phone: '2104890342',
+    email: 'sarahh.hanson@gmail.com',
+    description: 'Ho ho ho! Come lift in the cold.',
+    entry_fee_cents: 55000,
+  },
+
 ];
 
 module.exports.sessions = [
+
+  {
+    id: 1,
+    event_id: 1,
+    date: '2017-11-11',
+    weigh_time: '09:00:00',
+    start_time: '11:00:00',
+    description: 'Senior Women A',
+  },
+
+  {
+    id: 2,
+    event_id: 1,
+    date: '2017-11-11',
+    weigh_time: '12:00:00',
+    start_time: '14:00:00',
+    description: 'Senior Men A',
+  },
+
+  {
+    id: 3,
+    event_id: 2,
+    date: '2018-07-07',
+    weigh_time: '07:00:00',
+    start_time: '09:00:00',
+    description: 'Open Female A',
+  },
+
+  {
+    id: 4,
+    event_id: 3,
+    date: '2018-12-25',
+    weigh_time: '06:00:00',
+    start_time: '08:00:00',
+    description: 'Open Female 1',
+  },
 
 ];
 

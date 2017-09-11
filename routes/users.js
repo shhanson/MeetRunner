@@ -16,7 +16,7 @@ router.use(bodyParser.urlencoded({
 }));
 
 function getEvents(userID) {
-  knex('users_events').join('events', 'event_id', 'event.id').where('users_events.user_id', userID).orderBy('events.id', 'desc');
+  knex('users_events').join('events', 'users_events.event_id', 'event.id').where('users_events.user_id', userID);
 }
 
 // GET all Users (superuser only)
@@ -36,6 +36,7 @@ router.get('/', (req, res, next) => {
 // GET a user's account info
 router.get('/:id', (req, res, next) => {
   const userID = Number.parseInt(req.params.id, 10);
+
   if (_.isValidID(userID) && req.session.id === userID) {
     knex.select('first_name', 'last_name')
       .from('users')
@@ -92,7 +93,6 @@ router.post('/new', ev(validations.reg_post), (req, res, next) => {
         .catch((err) => {
           console.error(err);
           res.status(400).send({ error: 'That email address is already registered!' });
-          return;
         });
     })
       .catch((err) => {
@@ -102,7 +102,6 @@ router.post('/new', ev(validations.reg_post), (req, res, next) => {
   } else {
     // If the user is already registered and logged in, redirect to user page
     res.redirect(`/${req.session.id}`);
-    return;
   }
 });
 
@@ -111,15 +110,24 @@ router.delete('/:id', (req, res, next) => {
   const userID = Number.parseInt(req.params.id, 10);
   if (!_.isValidID(userID)) {
     res.status(400).send({ error: 'Bad request!' });
-    return;
   }
   if (req.session.is_admin) {
-    knex('users')
-      .where('id', userID)
-      .del()
+    // knex('users')
+    //   .where('id', userID)
+    //   .del()
+    //   .then(() => {
+    //     res.sendStatus(200);
+    //   })
+    //   .catch((err) => {
+    //     console.error(err);
+    //     next(err);
+    //   });
+    Promise.all([
+      knex('users').where('id', userID).del(),
+      getEvents(userID).del(),
+    ])
       .then(() => {
         res.sendStatus(200);
-        return;
       })
       .catch((err) => {
         console.error(err);
@@ -127,7 +135,6 @@ router.delete('/:id', (req, res, next) => {
       });
   } else {
     res.status(401).send({ error: 'Not authorized! ' });
-    return;
   }
 });
 
@@ -141,17 +148,15 @@ router.post('/login', ev(validations.login_post), (req, res, next) => {
       .then((user) => {
         const userID = user.id;
         const storedPassword = user.hashed_password;
-
-        return bcrypt.compare(req.body.password, storedPassword)
-          .then((matched) => {
-            if (matched) {
-              req.session.id = userID;
-              req.session.is_admin = user.is_admin;
-              res.redirect(`/${userID}`);
-            } else {
-              res.status(401).send({ error: 'Wrong email or password!' });
-            }
-          });
+        bcrypt.compare(req.body.password, storedPassword, (err, result) => {
+          if (result) {
+            req.session.id = userID;
+            req.session.is_admin = user.is_admin;
+            res.redirect(`/users/${userID}`);
+          } else {
+            res.status(401).send({ error: 'Wrong email or password!' });
+          }
+        });
       })
       .catch((err) => {
         console.error(err);

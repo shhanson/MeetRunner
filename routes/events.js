@@ -14,13 +14,13 @@ router.use(bodyParser.urlencoded({
 }));
 
 // Helper function for deleting events
-function deleteEventReferences(eventID) {
-  return Promise.all([
-    knex('events_athletes').where('event_id', eventID).del(),
-    knex('sessions').where('event_id', eventID).del(),
-    knex('users_events').where('event_id', eventID).del(),
-  ]);
-}
+// function deleteEventReferences(eventID) {
+//   return Promise.all([
+//     knex('events_athletes').where('event_id', eventID).del(),
+//     knex('sessions').where('event_id', eventID).del(),
+//     knex('users_events').where('event_id', eventID).del(),
+//   ]);
+// }
 
 // GET all events
 router.get('/', (req, res, next) => {
@@ -41,7 +41,6 @@ router.get('/:id', (req, res, next) => {
   if (_.isValid(eventID)) {
     knex('events')
       .where('id', eventID)
-      .first()
       .then((eventInfo) => {
         res.json(eventInfo);
         return;
@@ -76,16 +75,13 @@ router.post('/new', ev(validations.post), (req, res, next) => {
         entry_fee_cents: req.body.entry_fee_cents,
       })
       .returning('id')
-      .then((id) => {
-        knex('users_events')
-          .insert({
-            user_id: req.session.id,
-            event_id: id,
-          })
-          .then(() => {
-            res.sendStatus(200);
-            return;
-          });
+      .then(id => knex('users_events')
+        .insert({
+          user_id: req.session.id,
+          event_id: id,
+        }))
+      .then(() => {
+        res.sendStatus(200);
       })
       .catch((err) => {
         console.error(err);
@@ -93,7 +89,6 @@ router.post('/new', ev(validations.post), (req, res, next) => {
       });
   } else {
     res.status(401).send({ error: 'Not authorized!' });
-    return;
   }
 });
 
@@ -104,18 +99,14 @@ router.put('/:id/edit', ev(validations.put), (req, res, next) => {
 
   if (!_.isValidID(eventID)) {
     res.status(400).send({ error: 'Bad request!' });
-    return;
-  }
-
-
-  if (req.session.id) {
+  } else if (req.session.id) {
     // First check if the user owns the event
     knex('users_events')
       .where('event_id', eventID)
       .returning('user_id')
       .then((userID) => {
         if (userID === req.session.id) {
-          knex('events')
+          return knex('events')
             .where('id', eventID)
             .update({
               title: req.body.title,
@@ -131,18 +122,12 @@ router.put('/:id/edit', ev(validations.put), (req, res, next) => {
               email: req.body.email,
               description: req.body.description,
               entry_fee_cents: req.body.entry_fee_cents,
-            }).then(() => {
-              res.sendStatus(200);
-              return;
-            })
-            .catch((err) => {
-              console.error(err);
-              next(err);
             });
-        } else {
-          res.status(401).send({ error: 'Not authorized!' });
-          return;
         }
+        return res.status(401).send({ error: 'Not authorized!' });
+      })
+      .then(() => {
+        res.sendStatus(200);
       })
       .catch((err) => {
         console.error(err);
@@ -159,37 +144,21 @@ router.delete('/:id', (req, res, next) => {
 
   if (!_.isValidID(eventID)) {
     res.status(400).send({ error: 'Bad request!' });
-    return;
-  }
-
-  if (req.session.id) {
+  } else if (req.session.id) {
     // Check if the logged in user owns the event
     knex('users_events')
       .where('event_id', eventID)
       .returning('user_id')
       .then((userID) => {
         if (req.session.id === userID) {
-          res.status(401).send({ error: 'Not authorized!' });
-        } else {
-          // Must delete foreign keys in other tables that reference the event first
-          deleteEventReferences(eventID).then(() => {
-            knex('events')
-              .where('id', eventID)
-              .del()
-              .then(() => {
-                res.sendStatus(200);
-                return;
-              })
-              .catch((err) => {
-                console.error(err);
-                next(err);
-              });
-          })
-            .catch((err) => {
-              console.error(err);
-              next(err);
-            });
+          return knex('events')
+            .where('id', eventID)
+            .del();
         }
+        return res.status(401).send({ error: 'Not authorized!' });
+      })
+      .then(() => {
+        res.sendStatus(200);
       })
       .catch((err) => {
         console.error(err);
@@ -197,7 +166,6 @@ router.delete('/:id', (req, res, next) => {
       });
   } else {
     res.status(401).send({ error: 'Not authorized!' });
-    return;
   }
 });
 
