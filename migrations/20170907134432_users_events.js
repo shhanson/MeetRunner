@@ -1,8 +1,8 @@
 // For associating users with the events they've created
 exports.up = knex =>
   knex.schema.createTable('users_events', (table) => {
-    table.integer('user_id').references('id').inTable('users').notNullable();
-    table.integer('event_id').references('id').inTable('events').notNullable();
+    table.integer('user_id').references('id').inTable('users').notNullable().onDelete('CASCADE');
+    table.integer('event_id').references('id').inTable('events').notNullable().onDelete('CASCADE');
     table.timestamps(true, true);
   });
 

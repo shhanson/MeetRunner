@@ -92,6 +92,7 @@ router.post('/new', ev(validations.reg_post), (req, res, next) => {
         .catch((err) => {
           console.error(err);
           res.status(400).send({ error: 'That email address is already registered!' });
+          return;
         });
     })
       .catch((err) => {
@@ -101,39 +102,32 @@ router.post('/new', ev(validations.reg_post), (req, res, next) => {
   } else {
     // If the user is already registered and logged in, redirect to user page
     res.redirect(`/${req.session.id}`);
+    return;
   }
 });
 
 // Delete user (admin only)
 router.delete('/:id', (req, res, next) => {
+  const userID = Number.parseInt(req.params.id, 10);
+  if (!_.isValidID(userID)) {
+    res.status(400).send({ error: 'Bad request!' });
+    return;
+  }
   if (req.session.is_admin) {
-    const userID = Number.parseInt(req.params.id, 10);
-    if (_.isValidID(userID)) {
-      // Delete from join table first
-      knex('users_events')
-        .where('user_id', userID)
-        .del()
-        .then(() => {
-          knex('users')
-            .where('id', userID)
-            .del()
-            .then(() => {
-              res.sendStatus(200);
-            })
-            .catch((err) => {
-              console.error(err);
-              next(err);
-            });
-        })
-        .catch((err) => {
-          console.error(err);
-          next(err);
-        });
-    } else {
-      res.status(400).send({ error: 'Bad request!' });
-    }
+    knex('users')
+      .where('id', userID)
+      .del()
+      .then(() => {
+        res.sendStatus(200);
+        return;
+      })
+      .catch((err) => {
+        console.error(err);
+        next(err);
+      });
   } else {
     res.status(401).send({ error: 'Not authorized! ' });
+    return;
   }
 });
 
@@ -148,7 +142,7 @@ router.post('/login', ev(validations.login_post), (req, res, next) => {
         const userID = user.id;
         const storedPassword = user.hashed_password;
 
-        bcrypt.compare(req.body.password, storedPassword)
+        return bcrypt.compare(req.body.password, storedPassword)
           .then((matched) => {
             if (matched) {
               req.session.id = userID;
@@ -157,10 +151,6 @@ router.post('/login', ev(validations.login_post), (req, res, next) => {
             } else {
               res.status(401).send({ error: 'Wrong email or password!' });
             }
-          })
-          .catch((err) => {
-            console.error(err);
-            res.status(500).send({ error: 'Server errror!' });
           });
       })
       .catch((err) => {
