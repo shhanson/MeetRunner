@@ -27,6 +27,7 @@ router.get('/', (req, res, next) => {
   knex('events')
     .then((allEvents) => {
       res.json(allEvents);
+      return;
     })
     .catch((err) => {
       console.error(err);
@@ -43,6 +44,7 @@ router.get('/:id', (req, res, next) => {
       .first()
       .then((eventInfo) => {
         res.json(eventInfo);
+        return;
       })
       .catch((err) => {
         console.error(err);
@@ -50,6 +52,7 @@ router.get('/:id', (req, res, next) => {
       });
   } else {
     res.status(400).send({ error: 'Bad request!' });
+    return;
   }
 });
 
@@ -81,6 +84,7 @@ router.post('/new', ev(validations.post), (req, res, next) => {
           })
           .then(() => {
             res.sendStatus(200);
+            return;
           });
       })
       .catch((err) => {
@@ -89,20 +93,28 @@ router.post('/new', ev(validations.post), (req, res, next) => {
       });
   } else {
     res.status(401).send({ error: 'Not authorized!' });
+    return;
   }
 });
 
 // Edit a single event
 router.put('/:id/edit', ev(validations.put), (req, res, next) => {
-  const userID = req.session.id;
+  // const userID = req.session.id;
   const eventID = Number.parseInt(req.params.id, 10);
 
-  if (_.isValidID(userID) && _.isValidID(eventID)) {
+  if (!_.isValidID(eventID)) {
+    res.status(400).send({ error: 'Bad request!' });
+    return;
+  }
+
+
+  if (req.session.id) {
     // First check if the user owns the event
     knex('users_events')
       .where('event_id', eventID)
-      .then((data) => {
-        if (data.user_id === userID) {
+      .returning('user_id')
+      .then((userID) => {
+        if (userID === req.session.id) {
           knex('events')
             .where('id', eventID)
             .update({
@@ -121,6 +133,7 @@ router.put('/:id/edit', ev(validations.put), (req, res, next) => {
               entry_fee_cents: req.body.entry_fee_cents,
             }).then(() => {
               res.sendStatus(200);
+              return;
             })
             .catch((err) => {
               console.error(err);
@@ -128,6 +141,7 @@ router.put('/:id/edit', ev(validations.put), (req, res, next) => {
             });
         } else {
           res.status(401).send({ error: 'Not authorized!' });
+          return;
         }
       })
       .catch((err) => {
@@ -141,116 +155,50 @@ router.put('/:id/edit', ev(validations.put), (req, res, next) => {
 
 // DELETE an event
 router.delete('/:id', (req, res, next) => {
-  const userID = req.session.id;
   const eventID = Number.parseInt(req.params.id, 10);
-  if (_.isValidID(userID) && _.isValidID(eventID)) {
-    // Must delete foreign keys in other tables that reference the event first
-    deleteEventReferences(eventID).then(() => {
-      knex('events')
-        .where('id', eventID)
-        .del()
-        .then(() => {
-          res.sendStatus(200);
-        })
-        .catch((err) => {
-          console.error(err);
-          next(err);
-        });
-    })
+
+  if (!_.isValidID(eventID)) {
+    res.status(400).send({ error: 'Bad request!' });
+    return;
+  }
+
+  if (req.session.id) {
+    // Check if the logged in user owns the event
+    knex('users_events')
+      .where('event_id', eventID)
+      .returning('user_id')
+      .then((userID) => {
+        if (req.session.id === userID) {
+          res.status(401).send({ error: 'Not authorized!' });
+        } else {
+          // Must delete foreign keys in other tables that reference the event first
+          deleteEventReferences(eventID).then(() => {
+            knex('events')
+              .where('id', eventID)
+              .del()
+              .then(() => {
+                res.sendStatus(200);
+                return;
+              })
+              .catch((err) => {
+                console.error(err);
+                next(err);
+              });
+          })
+            .catch((err) => {
+              console.error(err);
+              next(err);
+            });
+        }
+      })
       .catch((err) => {
         console.error(err);
         next(err);
       });
   } else {
-    res.status(400).send({ error: 'Bad request!' });
+    res.status(401).send({ error: 'Not authorized!' });
+    return;
   }
-});
-
-
-/** ********************************************************* */
-/** ************** Session-related Routes ******************* */
-/** ********************************************************* */
-
-// GET all sessions within an event
-router.get('/:id/sessions', (req, res, next) => {
-
-});
-
-// POST a new session to the event
-router.post('/:id/sessions/new', ev(validations.session_post), (req, res, next) => {
-  // Check logged in
-});
-
-// GET the requested session from an event
-router.get('/:event_id/sessions/:session_id', (req, res, next) => {
-
-});
-
-// PUT request for specified session within an event
-router.put('/:event_id/sessions/:session_id/edit', ev(validations.session_put), (req, res, next) => {
-  // Check logged in
-
-});
-
-// DELETE a session within an event
-router.delete('/:event_id/sessions/:session_id', (req, res, next) => {
-  // Check logged in
-});
-
-/** ********************************************************* */
-/** ************** Athlete-related Routes ******************* */
-/** ********************************************************* */
-
-// GET all athletes registered for an event
-router.get('/:id/athletes', (req, res, next) => {
-  // Check logged in
-});
-
-// POST a new athlete to the event
-router.post('/:id/athletes/new', ev(validations.athlete_post), (req, res, next) => {
-  // Check logged in
-});
-
-// GET the requested athlete from an event
-router.get('/:event_id/athletes/:athlete_id', (req, res, next) => {
-  // Check logged in
-});
-
-// PUT request for specified athlete within an event
-router.put('/:event_id/athletes/:athlete_id/edit', ev(validations.session_put), (req, res, next) => {
-  // Check logged in
-});
-
-// DELETE an athlete from an event
-router.delete('/:event_id/athletes/:athlete_id', (req, res, next) => {
-  // Check logged in
-
-});
-
-
-/** *********************************************************** */
-/** ************** Sessions-Athletes Routes ******************* */
-/** *********************************************************** */
-
-// GET all athletes in the specified session
-router.get('/:event_id/sessions/:session_id/athletes', (req, res, next) => {
-  // Check logged in
-});
-
-// DELETE an athlete from a session
-router.delete('/:event_id/sessions/:session_id/athletes/:athlete_id/remove', (req, res, next) => {
-  // Check logged in
-
-});
-
-// Add an athlete to the session
-router.post('/:event_id/sessions/:session_id/athletes/:athlete_id/add', (req, res, next) => {
-  // Check logged in
-});
-
-// EDIT an athlete's session
-router.put('/:event_id/sessions/:session_id/athletes/:athlete_id/edit', (req, res, next) => {
-  // Check logged in
 });
 
 module.exports = router;
