@@ -75,11 +75,12 @@ describe('routes : users', () => {
   // });
 
   describe('PUT /users/logout', () => {
-    xit('should allow the user to logout and redirect to index', (done) => {
+    it('should allow the user to logout and redirect to index', (done) => {
       authenticatedUser.put('/users/logout')
         .end((err, res) => {
           should.not.exist(err);
           res.should.have.status(302);
+          done();
         });
     });
   });
@@ -141,7 +142,45 @@ describe('routes : users', () => {
   });
 
   describe('PUT /users/:id/edit', () => {
+    it('should allow a user to change their first name and last name', (done) => {
+      authenticatedUser.put('/users/1/edit')
+        .send({ first_name: 'Test', last_name: 'Profile' })
+        .end((err, res) => {
+          res.should.have.status(200);
+          res.body.should.have.property('first_name').eql('Test');
+          res.body.should.have.property('last_name').eql('Profile');
+          done();
+        });
+    });
 
+    it('should allow a user to change their first OR last name', (done) => {
+      authenticatedUser.put('/users/1/edit')
+        .send({ first_name: 'Test' })
+        .end((err, res) => {
+          res.should.have.status(200);
+          res.body.should.have.property('first_name').eql('Test');
+          res.body.should.have.property('last_name').eql('Griffin');
+          done();
+        });
+    });
+
+    it('should not allow another user to change a user\'s profile', (done) => {
+      adminUser.put('/users/1/edit')
+        .send({ last_name: 'HACKED' })
+        .end((err, res) => {
+          res.should.have.status(401);
+          done();
+        });
+    });
+
+    it('should not allow an anonymous user to change a user\'s profile', (done) => {
+      request(app).put('/users/1/edit')
+        .send({ first_name: 'test' })
+        .end((err, res) => {
+          res.should.have.status(401);
+          done();
+        });
+    });
   });
 
 

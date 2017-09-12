@@ -7,6 +7,7 @@ module.exports.users = [
     email: 'david@email.com',
     password: 'abc123',
     is_admin: false,
+    timezone: '-06',
   },
 
   {
@@ -16,6 +17,7 @@ module.exports.users = [
     email: 'sarah@email.com',
     password: 'coolgirl',
     is_admin: true,
+    timezone: '-06',
   },
 
 ];
@@ -81,8 +83,8 @@ module.exports.sessions = [
     id: 1,
     event_id: 1,
     date: '2017-11-11',
-    weigh_time: '09:00:00',
-    start_time: '11:00:00',
+    weigh_time: '2017-11-11 09:00:00-06',
+    start_time: '2017-11-11 11:00:00-06',
     description: 'Senior Women A',
   },
 
@@ -90,8 +92,8 @@ module.exports.sessions = [
     id: 2,
     event_id: 1,
     date: '2017-11-11',
-    weigh_time: '12:00:00',
-    start_time: '14:00:00',
+    weigh_time: '2017-11-11 12:00:00-06',
+    start_time: '2017-11-11 14:00:00-06',
     description: 'Senior Men A',
   },
 
@@ -99,8 +101,8 @@ module.exports.sessions = [
     id: 3,
     event_id: 2,
     date: '2018-07-07',
-    weigh_time: '07:00:00',
-    start_time: '09:00:00',
+    weigh_time: '2018-07-07 07:00:00-06',
+    start_time: '2018-07-07 09:00:00-06',
     description: 'Open Female A',
   },
 
@@ -108,8 +110,8 @@ module.exports.sessions = [
     id: 4,
     event_id: 3,
     date: '2018-12-25',
-    weigh_time: '06:00:00',
-    start_time: '08:00:00',
+    weigh_time: '2018-12-25 06:00:00-06',
+    start_time: '2018-12-25 08:00:00-06',
     description: 'Open Female 1',
   },
 

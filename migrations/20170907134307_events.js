@@ -4,8 +4,8 @@ exports.up = knex =>
     table.string('title', 50).notNullable();
     table.string('organizer', 50).notNullable();
     table.string('sanction_id').notNullable();
-    table.date('start_date').notNullable();
-    table.date('end_date').notNullable();
+    table.timestamp('start_date').notNullable();
+    table.timestamp('end_date').notNullable();
     table.string('street_address').notNullable();
     table.string('city').notNullable();
     table.string('state', 2).notNullable();

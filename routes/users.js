@@ -40,7 +40,7 @@ router.get('/:id', (req, res, next) => {
   const userID = Number.parseInt(req.params.id, 10);
 
   if (_.isValidID(userID) && req.session.id === userID) {
-    knex.select('first_name', 'last_name')
+    knex.select('first_name', 'last_name', 'timezone')
       .from('users')
       .where('id', userID)
       .first()
@@ -63,11 +63,14 @@ router.put('/:id/edit', ev(validations.put), (req, res, next) => {
     // Add code to change password
     knex('users')
       .where('id', userID)
+      .returning(['first_name', 'last_name', 'timezone'])
       .update({
         first_name: req.body.first_name,
         last_name: req.body.last_name,
-      }).then(() => {
-        res.sendStatus(200);
+        timezone: req.body.timezone,
+      })
+      .then((updatedData) => {
+        res.json(updatedData[0]);
       })
       .catch((err) => {
         console.error(err);
@@ -81,22 +84,18 @@ router.put('/:id/edit', ev(validations.put), (req, res, next) => {
 // New User Registration
 router.post('/new', ev(validations.reg_post), (req, res, next) => {
   if (!req.session.id) {
-    bcrypt.hash(req.body.password, saltRounds).then((digest) => {
-      knex('users')
+    bcrypt.hash(req.body.password, saltRounds)
+      .then(digest => knex('users')
         .insert({
           first_name: req.body.first_name,
           last_name: req.body.last_name,
           email: req.body.email,
           hashed_password: digest,
-        })
-        .then(() => {
-          res.redirect('/users/login');
-        })
-        .catch((err) => {
-          console.error(err);
-          res.status(400).send({ error: 'That email address is already registered!' });
-        });
-    })
+          timezone: req.body.timezone,
+        }))
+      .then(() => {
+        res.redirect('/');
+      })
       .catch((err) => {
         console.error(err);
         next(err);
@@ -114,16 +113,6 @@ router.delete('/:id', (req, res, next) => {
     res.status(400).send({ error: 'Bad request!' });
   }
   if (req.session.is_admin) {
-    // knex('users')
-    //   .where('id', userID)
-    //   .del()
-    //   .then(() => {
-    //     res.sendStatus(200);
-    //   })
-    //   .catch((err) => {
-    //     console.error(err);
-    //     next(err);
-    //   });
     Promise.all([
       knex('users').where('id', userID).del(),
       getEvents(userID).del(),
@@ -154,7 +143,7 @@ router.post('/login', ev(validations.login_post), (req, res, next) => {
           if (result) {
             req.session.id = userID;
             req.session.is_admin = user.is_admin;
-            res.redirect(`/users/${userID}`);
+            res.redirect(`/users/${userID}/events`);
           } else {
             res.status(401).send({ error: 'Wrong email or password!' });
           }
@@ -166,7 +155,7 @@ router.post('/login', ev(validations.login_post), (req, res, next) => {
       });
   } else {
     // If the user is already logged in, redirect to user page
-    res.redirect(`/users/${req.session.id}`);
+    res.redirect(`/users/${req.session.id}/events`);
   }
 });
 

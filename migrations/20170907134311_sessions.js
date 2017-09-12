@@ -3,9 +3,9 @@ exports.up = knex =>
     table.increments('id');
     table.integer('event_id').references('id').inTable('events').notNullable()
       .onDelete('CASCADE');
-    table.date('date').notNullable();
-    table.time('weigh_time');
-    table.time('start_time');
+    table.timestamp('date').notNullable();
+    table.timestamp('weigh_time');
+    table.timestamp('start_time');
     table.string('description');
     table.timestamps(true, true);
   });
