@@ -74,8 +74,14 @@ describe('routes : users', () => {
   //
   // });
 
-  describe('DELETE /users/logout', () => {
-
+  describe('PUT /users/logout', () => {
+    xit('should allow the user to logout and redirect to index', (done) => {
+      authenticatedUser.put('/users/logout')
+        .end((err, res) => {
+          should.not.exist(err);
+          res.should.have.status(302);
+        });
+    });
   });
 
   describe('GET /users/:id', () => {
@@ -140,7 +146,21 @@ describe('routes : users', () => {
 
 
   describe('POST /users/new (new user registration)', () => {
-
+    it('should allow a new user to register', (done) => {
+      request(app)
+        .post('/users/new')
+        .send({
+          email: 'newUser@test.com',
+          first_name: 'Test',
+          last_name: 'User',
+          password: 'testpass',
+        })
+        .end((err, res) => {
+          should.not.exist(err);
+          res.should.have.status(302);
+        });
+      done();
+    });
   });
 
   describe('GET /users (admin task)', () => {
@@ -179,10 +199,25 @@ describe('routes : users', () => {
           adminUser.get('/users')
             .end((err, res) => {
               should.not.exist(err);
+              res.should.have.status(200);
               res.body.should.be.an('array');
               expect(res.body).to.have.lengthOf(1);
               done();
             });
+        });
+    });
+    it('should not allow a non-admin user to delete users', (done) => {
+      authenticatedUser.delete('/users/2')
+        .end((err, res) => {
+          res.should.have.status(401);
+          done();
+        });
+    });
+    it('should not allow an anonymous user to delete users', (done) => {
+      request(app).delete('/users/2')
+        .end((err, res) => {
+          res.should.have.status(401);
+          done();
         });
     });
   });

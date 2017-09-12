@@ -6,5 +6,7 @@ exports.seed = knex =>
       knex('sessions')
         .insert(testSessions)
         .then(() => {
-          knex.raw("SELECT setval('sessions_id_seq', (SELECT MAX(id) FROM sessions))");
+          knex.raw("select setval('sessions_id_seq', (select max(id) from sessions))").catch((err) => {
+            console.error(err);
+          });
         }));

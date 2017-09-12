@@ -170,10 +170,9 @@ router.post('/login', ev(validations.login_post), (req, res, next) => {
   }
 });
 
-router.delete('/logout', (req, res, next) => {
-  console.log('wut');
+router.put('/logout', (req, res, next) => {
   req.session = null;
-  res.redirect('/users/login');
+  res.redirect('/');
 });
 
 // GET all user's events

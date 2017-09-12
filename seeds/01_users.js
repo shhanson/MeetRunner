@@ -19,5 +19,9 @@ exports.seed = function (knex, Promise) {
   testUsers.forEach((user) => {
     userPromises.push(insertUser(knex, user));
   });
-  return Promise.all(userPromises);
+  return Promise.all(userPromises).then(() => {
+    knex.raw("select setval('users_id_seq', (select max(id) from users))").catch((err) => {
+      console.error(err);
+    });
+  });
 };
