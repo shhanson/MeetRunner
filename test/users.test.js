@@ -69,11 +69,6 @@ describe('routes : users', () => {
       });
   });
 
-
-  // describe('POST /users/login', () => {
-  //
-  // });
-
   describe('PUT /users/logout', () => {
     it('should allow the user to logout and redirect to index', (done) => {
       authenticatedUser.put('/users/logout')
@@ -198,6 +193,10 @@ describe('routes : users', () => {
           should.not.exist(err);
           res.should.have.status(302);
         });
+      done();
+    });
+
+    xit('should not allow a user to register twice', (done) => {
       done();
     });
   });
