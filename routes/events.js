@@ -13,15 +13,6 @@ router.use(bodyParser.urlencoded({
   extended: false,
 }));
 
-// Helper function for deleting events
-// function deleteEventReferences(eventID) {
-//   return Promise.all([
-//     knex('events_athletes').where('event_id', eventID).del(),
-//     knex('sessions').where('event_id', eventID).del(),
-//     knex('users_events').where('event_id', eventID).del(),
-//   ]);
-// }
-
 // GET all events
 router.get('/', (req, res, next) => {
   knex('events')
@@ -38,9 +29,10 @@ router.get('/', (req, res, next) => {
 // GET an event with a given ID
 router.get('/:id', (req, res, next) => {
   const eventID = Number.parseInt(req.params.id, 10);
-  if (_.isValid(eventID)) {
+  if (_.isValidID(eventID)) {
     knex('events')
       .where('id', eventID)
+      .first()
       .then((eventInfo) => {
         res.json(eventInfo);
         return;
@@ -74,14 +66,19 @@ router.post('/new', ev(validations.post), (req, res, next) => {
         description: req.body.description,
         entry_fee_cents: req.body.entry_fee_cents,
       })
-      .returning('id')
-      .then(id => knex('users_events')
-        .insert({
-          user_id: req.session.id,
-          event_id: id,
-        }))
-      .then(() => {
-        res.sendStatus(200);
+      .returning('*')
+      .then((newEventData) => {
+        knex('users_events')
+          .insert({
+            user_id: req.session.id,
+            event_id: newEventData[0].id,
+          });
+        return new Promise((resolve) => {
+          resolve(newEventData[0]);
+        });
+      })
+      .then((newEventData) => {
+        res.json(newEventData);
       })
       .catch((err) => {
         console.error(err);
@@ -101,11 +98,12 @@ router.put('/:id/edit', ev(validations.put), (req, res, next) => {
     res.status(400).send({ error: 'Bad request!' });
   } else if (req.session.id) {
     // First check if the user owns the event
-    knex('users_events')
+
+    knex.select('user_id').from('users_events')
       .where('event_id', eventID)
-      .returning('user_id')
+      .first()
       .then((userID) => {
-        if (userID === req.session.id) {
+        if (userID.user_id === req.session.id) {
           return knex('events')
             .where('id', eventID)
             .update({
@@ -122,12 +120,15 @@ router.put('/:id/edit', ev(validations.put), (req, res, next) => {
               email: req.body.email,
               description: req.body.description,
               entry_fee_cents: req.body.entry_fee_cents,
-            });
+            })
+            .returning('*');
         }
         return res.status(401).send({ error: 'Not authorized!' });
       })
-      .then(() => {
-        res.sendStatus(200);
+      .then((eventInfo) => {
+        // console.log(eventInfo[0]);
+        res.json(eventInfo[0]);
+        // res.sendStatus(200);
       })
       .catch((err) => {
         console.error(err);

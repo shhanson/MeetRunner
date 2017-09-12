@@ -10,6 +10,7 @@ module.exports.reg_post = {
     password: Joi.string().label('password').required()
       .min(6),
     vpassword: Joi.ref('password'),
+    timezone: Joi.string().label('timezone'),
   },
 
 };
@@ -31,6 +32,7 @@ module.exports.put = {
     last_name: Joi.string().label('last_name').max(16),
     password: Joi.string().label('password').min(6),
     vpassword: Joi.ref('password'),
+    timezone: Joi.string().label('timezone'),
   },
 
 };

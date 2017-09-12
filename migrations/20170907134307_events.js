@@ -3,7 +3,7 @@ exports.up = knex =>
     table.increments('id');
     table.string('title', 50).notNullable();
     table.string('organizer', 50).notNullable();
-    table.string('sanction_id').notNullable();
+    table.string('sanction_id').notNullable().unique();
     table.timestamp('start_date').notNullable();
     table.timestamp('end_date').notNullable();
     table.string('street_address').notNullable();
