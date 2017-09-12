@@ -102,7 +102,7 @@ router.post('/new', ev(validations.reg_post), (req, res, next) => {
       });
   } else {
     // If the user is already registered and logged in, redirect to user page
-    res.redirect(`/users/${req.session.id}`);
+    res.redirect(`/users/${req.session.id}/events`);
   }
 });
 

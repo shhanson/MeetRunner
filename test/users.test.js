@@ -69,6 +69,30 @@ describe('routes : users', () => {
       });
   });
 
+  // afterEach((done) => {
+  //   authenticatedUser.put('/users/logout')
+  //     .end((err, res) => {
+  //       should.not.exist(err);
+  //       res.should.have.status(302);
+  //       done();
+  //     });
+  // });
+
+  describe('GET /users/login', () => {
+    it('should redirect a logged in user to their events page if already logged in', (done) => {
+      authenticatedUser.post('/users/login')
+        .send(userCredentials)
+        .end((err, res) => {
+          res.should.have.status(302);
+          done();
+        });
+    });
+
+    xit('should not allow a user to login with incorrect credentials', (done) => {
+      done();
+    });
+  });
+
   describe('PUT /users/logout', () => {
     it('should allow the user to logout and redirect to index', (done) => {
       authenticatedUser.put('/users/logout')
@@ -196,8 +220,32 @@ describe('routes : users', () => {
       done();
     });
 
-    xit('should not allow a user to register twice', (done) => {
-      done();
+    it('should not allow a user to register twice', (done) => {
+      request(app).post('/users/new')
+        .send({
+          email: 'david@email.com',
+          first_name: 'Dave',
+          last_name: 'Griffin',
+          password: '123abc',
+        })
+        .end((err, res) => {
+          res.should.have.status(500);
+          done();
+        });
+    });
+
+    it('should redirect a logged in user to index if they try to register', (done) => {
+      authenticatedUser.post('/users/new')
+        .send({
+          email: 'david@email.com',
+          first_name: 'Dave',
+          last_name: 'Griffin',
+          password: '123abc',
+        })
+        .end((err, res) => {
+          res.should.have.status(302);
+          done();
+        });
     });
   });
 

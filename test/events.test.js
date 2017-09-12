@@ -227,15 +227,34 @@ describe('routes : events', () => {
 
   describe('DELETE /api/events/:id/delete', () => {
     it('should allow a user to delete an event', (done) => {
-      done();
+      authenticatedUser.delete('/api/events/2/delete')
+        .end(() => {
+          authenticatedUser.get('/users/1/events')
+            .end((err, res) => {
+              should.not.exist(err);
+              res.should.have.status(200);
+              res.body.should.be.an('array');
+              expect(res.body).to.have.lengthOf(1);
+              expect(res.body[0]).to.have.property('id').eql(1);
+              done();
+            });
+        });
     });
 
     it('should not allow a user to delete another user\'s event', (done) => {
-      done();
+      authenticatedUser.delete('/api/events/3/delete')
+        .end((err, res) => {
+          res.should.have.status(401);
+          done();
+        });
     });
 
     it('should not allow an anonymous user to delete an event', (done) => {
-      done();
+      request(app).delete('/api/events/3/delete')
+        .end((err, res) => {
+          res.should.have.status(401);
+          done();
+        });
     });
   });
 });

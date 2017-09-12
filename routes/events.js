@@ -140,26 +140,34 @@ router.put('/:id/edit', ev(validations.put), (req, res, next) => {
 });
 
 // DELETE an event
-router.delete('/:id', (req, res, next) => {
+router.delete('/:id/delete', (req, res, next) => {
   const eventID = Number.parseInt(req.params.id, 10);
 
   if (!_.isValidID(eventID)) {
     res.status(400).send({ error: 'Bad request!' });
-  } else if (req.session.id) {
+  }
+
+  if (req.session.id) {
     // Check if the logged in user owns the event
-    knex('users_events')
+
+    knex.select('user_id').from('users_events')
       .where('event_id', eventID)
-      .returning('user_id')
+      .first()
       .then((userID) => {
-        if (req.session.id === userID) {
-          return knex('events')
+        if (req.session.id === userID.user_id) {
+          knex('events')
             .where('id', eventID)
-            .del();
+            .del()
+            .then(() => {
+              res.sendStatus(200);
+            })
+            .catch((err) => {
+              console.error(err);
+              next(err);
+            });
+        } else {
+          res.status(401).send({ error: 'Not authorized!' });
         }
-        return res.status(401).send({ error: 'Not authorized!' });
-      })
-      .then(() => {
-        res.sendStatus(200);
       })
       .catch((err) => {
         console.error(err);
