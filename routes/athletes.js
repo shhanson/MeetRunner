@@ -18,30 +18,21 @@ router.get('/:event_id/athletes', (req, res, next) => {
   const eventID = Number.parseInt(req.params.event_id, 10);
   if (!_.isValidID(eventID)) {
     res.status(400).send({ error: 'Bad request!' });
-    return;
   }
 
   if (req.session.id) {
-    knex('users_events')
+    knex.select('user_id').from('users_events')
       .where('event_id', eventID)
-      .returning('user_id')
       .then((userID) => {
-        if (userID === req.session.id) {
-          knex('events_athletes')
+        if (userID.user_id === req.session.id) {
+          return knex('events_athletes')
             .join('athletes', 'id', 'events_athletes.athlete_id')
-            .where('events_athletes.event_id', eventID)
-            .then((athletes) => {
-              res.json(athletes);
-              return;
-            })
-            .catch((err) => {
-              console.error(err);
-              next(err);
-            });
-        } else {
-          res.status(401).send({ error: 'Not authorized!' });
-          return;
+            .where('events_athletes.event_id', eventID);
         }
+        return res.status(401).send({ error: 'Not authorized!' });
+      })
+      .then((athletes) => {
+        res.json(athletes);
       })
       .catch((err) => {
         console.error(err);
@@ -49,7 +40,6 @@ router.get('/:event_id/athletes', (req, res, next) => {
       });
   } else {
     res.status(401).send({ error: 'Not authorized!' });
-    return;
   }
 });
 
@@ -58,15 +48,13 @@ router.post('/:event_id/athletes/new', ev(validations.post), (req, res, next) =>
   const eventID = Number.parseInt(req.params.event_id, 10);
   if (!_.isValidID(eventID)) {
     res.status(400).send({ error: 'Bad request!' });
-    return;
   }
 
   if (req.session.id) {
-    knex('users_events')
+    knex.select('user_id').from('users_events')
       .where('event_id', eventID)
-      .returning('user_id')
       .then((userID) => {
-        if (userID === req.session.id) {
+        if (userID.user_id === req.session.id) {
           knex('athletes')
             .insert({
               email: req.body.email,
@@ -79,20 +67,19 @@ router.post('/:event_id/athletes/new', ev(validations.post), (req, res, next) =>
               category_id: req.body.category_id,
               entry_total: req.body.entry_total,
             })
-            .returning('id')
-            .then((athleteID) => {
+            .returning('*')
+            .then((athleteInfo) => {
               knex('events_athletes')
                 .insert({
                   event_id: eventID,
-                  athlete_id: athleteID,
-                }).then(() => {
-                  res.sendStatus(200);
-                  return;
-                })
-                .catch((err) => {
-                  console.error(err);
-                  next(err);
+                  athlete_id: athleteInfo[0].id,
                 });
+              return new Promise((resolve) => {
+                resolve(athleteInfo[0]);
+              });
+            })
+            .then((athleteInfo) => {
+              res.json(athleteInfo);
             })
             .catch((err) => {
               console.error(err);
@@ -100,7 +87,6 @@ router.post('/:event_id/athletes/new', ev(validations.post), (req, res, next) =>
             });
         } else {
           res.status(401).send({ error: 'Not authorized!' });
-          return;
         }
       })
       .catch((err) => {
@@ -109,7 +95,6 @@ router.post('/:event_id/athletes/new', ev(validations.post), (req, res, next) =>
       });
   } else {
     res.status(401).send({ error: 'Not authorized!' });
-    return;
   }
 });
 
