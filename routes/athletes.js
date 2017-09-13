@@ -100,24 +100,116 @@ router.post('/:event_id/athletes/new', ev(validations.post), (req, res, next) =>
 
 // GET the requested athlete from an event
 router.get('/:event_id/athletes/:athlete_id', (req, res, next) => {
-  // Check logged in
+  const eventID = Number.parseInt(req.params.event_id, 10);
+  const athleteID = Number.parseInt(req.params.athlete_id, 10);
 
+  if (!_.isValidID(eventID) || !_.isValidID(athleteID)) {
+    res.status(400).send({ error: 'Bad request!' });
+  }
+
+  if (req.session.id) {
+    knex.select('user_id').from('users_events')
+      .where('event_id', eventID)
+      .first()
+      .then((userID) => {
+        if (userID.user_id === req.session.id) {
+          return knex('athletes')
+            .where('id', athleteID)
+            .first();
+        }
+        return res.status(401).send({ error: 'Not authorized!' });
+      })
+      .then((athleteInfo) => {
+        res.json(athleteInfo);
+      })
+      .catch((err) => {
+        console.error(err);
+        next(err);
+      });
+  } else {
+    res.status(401).send({ error: 'Not authorized!' });
+  }
 });
 
 // PUT request for specified athlete within an event
 router.put('/:event_id/athletes/:athlete_id/edit', ev(validations.put), (req, res, next) => {
   // Check logged in
+  const eventID = Number.parseInt(req.params.event_id, 10);
+  const athleteID = Number.parseInt(req.params.athlete_id, 10);
+
+  if (!_.isValidID(eventID) || !_.isValidID(athleteID)) {
+    res.status(400).send({ error: 'Bad request!' });
+  }
+
+  if (req.session.id) {
+    knex.select('user_id').from('users_events')
+      .where('event_id', eventID)
+      .first()
+      .then((userID) => {
+        if (userID.user_id === req.session.id) {
+          return knex('athletes')
+            .where('id', athleteID)
+            .update({
+              email: req.body.email,
+              first_name: req.body.first_name,
+              last_name: req.body.last_name,
+              usaw_id: req.body.usaw_id,
+              year_of_birth: req.body.year_of_birth,
+              gender_id: req.body.gender_id,
+              lot_num: req.body.lot_num,
+              bodyweight_grams: req.body.bodyweight_grams,
+              division_id: req.body.division_id,
+              category_id: req.body.category_id,
+              entry_total: req.body.entry_total,
+              total: req.body.total,
+            })
+            .returning('*');
+        }
+        return res.status(401).send({ error: 'Not authorized!' });
+      })
+      .then((athleteInfo) => {
+        res.json(athleteInfo);
+      })
+      .catch((err) => {
+        console.error(err);
+        next(err);
+      });
+  } else {
+    res.status(401).send({ error: 'Not authorized! ' });
+  }
 });
 
 // DELETE an athlete from an event
 router.delete('/:event_id/athletes/:athlete_id', (req, res, next) => {
-  // Check logged in
+  const eventID = Number.parseInt(req.params.event_id, 10);
+  const athleteID = Number.parseInt(req.params.athlete_id, 10);
 
-  // Delete athlete from events_athletes
-  // Delete athlete from athletes_sessions
-  // Delete athlete attempts
-  // Delete athlete from athletes
+  if (!_.isValidID(eventID) || !_.isValidID(athleteID)) {
+    res.status(400).send({ error: 'Bad request!' });
+  }
 
+  if (req.session.id) {
+    knex.select('user_id').from('users_events')
+      .where('event_id', eventID)
+      .first()
+      .then((userID) => {
+        if (userID.user_id === req.session.id) {
+          return knex('athletes')
+            .where('id', athleteID)
+            .del();
+        }
+        return res.status(401).send({ error: 'Not authorized!' });
+      })
+      .then(() => {
+        res.sendStatus(200);
+      })
+      .catch((err) => {
+        console.error(err);
+        next(err);
+      });
+  } else {
+    res.status(401).send({ error: 'Not authorized!' });
+  }
 });
 
 module.exports = router;

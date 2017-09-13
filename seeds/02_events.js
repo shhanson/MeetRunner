@@ -1,4 +1,5 @@
 const testEvents = require('../tools/testData').events;
+const testUsersEvents = require('../tools/testData').users_events;
 
 exports.seed = knex =>
   knex('events').del()
@@ -7,20 +8,7 @@ exports.seed = knex =>
         .insert(testEvents)
         .then(() =>
           knex('users_events')
-            .insert([
-              {
-                user_id: 1,
-                event_id: 1,
-              },
-              {
-                user_id: 1,
-                event_id: 2,
-              },
-              {
-                user_id: 2,
-                event_id: 3,
-              },
-            ])
+            .insert(testUsersEvents)
             .then(() => {
               knex.raw("select setval('events_id_seq', (select max(id) from events))").catch((err) => {
                 console.error(err);

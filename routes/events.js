@@ -35,7 +35,6 @@ router.get('/:id', (req, res, next) => {
       .first()
       .then((eventInfo) => {
         res.json(eventInfo);
-        return;
       })
       .catch((err) => {
         console.error(err);
@@ -43,7 +42,6 @@ router.get('/:id', (req, res, next) => {
       });
   } else {
     res.status(400).send({ error: 'Bad request!' });
-    return;
   }
 });
 

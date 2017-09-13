@@ -184,7 +184,7 @@ describe('routes : sessions', () => {
           should.not.exist(err);
           res.should.have.status(200);
           res.body.should.have.property('description').eql('new description');
-          res.body.should.have.property('start_time').eql('2017-11-11 14:00:00-06');
+          res.body.should.have.property('start_time').eql('2017-11-11T20:30:00.000Z');
           expect(res.body).to.have.all.keys('id', 'event_id', 'date', 'start_time', 'weigh_time', 'description', 'created_at', 'updated_at');
           done();
         });

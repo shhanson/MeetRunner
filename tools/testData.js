@@ -92,8 +92,8 @@ module.exports.sessions = [
     id: 2,
     event_id: 1,
     date: '2017-11-11',
-    weigh_time: '2017-11-11 12:00:00-06',
-    start_time: '2017-11-11 14:00:00-06',
+    weigh_time: '2017-11-11 12:30:00-06',
+    start_time: '2017-11-11 14:30:00-06',
     description: 'Senior Men A',
   },
 
@@ -101,43 +101,368 @@ module.exports.sessions = [
     id: 3,
     event_id: 2,
     date: '2018-07-08',
-    weigh_time: '2018-07-08 11:00:00-06',
-    start_time: '2018-07-08 13:00:00-06',
+    weigh_time: '2018-07-08 09:00:00-06',
+    start_time: '2018-07-08 11:00:00-06',
     description: 'Open Female A1',
   },
 
   {
     id: 4,
+    event_id: 2,
+    date: '2018-07-08',
+    weigh_time: '2018-07-08 13:00:00-06',
+    start_time: '2018-07-08 15:00:00-06',
+    description: 'Open Male A1',
+  },
+
+  {
+    id: 5,
     event_id: 3,
     date: '2018-12-25',
-    weigh_time: '2018-12-25 06:00:00-06',
-    start_time: '2018-12-25 08:00:00-06',
-    description: 'Open Female 1',
+    weigh_time: '2018-12-25 08:30:00-05',
+    start_time: '2018-12-25 10:30:00-05',
+    description: '1F',
+  },
+  {
+    id: 6,
+    event_id: 3,
+    date: '2018-12-25',
+    weigh_time: '2018-12-25 12:30:00-05',
+    start_time: '2018-12-25 14:30:00-05',
+    description: '2M',
   },
 
 ];
 
 module.exports.athletes = [
+  {
+    id: 1,
+    email: 'sarah@email.com',
+    first_name: 'Sarah',
+    last_name: 'Hanson',
+    usaw_id: '185764',
+    year_of_birth: 1990,
+    gender_id: 1,
+    division_id: 3,
+    category_id: 4,
+    entry_total: 137,
+  },
+  {
+    id: 2,
+    email: 'angie@email.com',
+    first_name: 'Angie',
+    last_name: 'Wong',
+    usaw_id: '111111',
+    year_of_birth: 1988,
+    gender_id: 1,
+    division_id: 3,
+    category_id: 2,
+    entry_total: 100,
+  },
+
+  {
+    id: 3,
+    email: 'micah@email.com',
+    first_name: 'Micah',
+    last_name: 'De Valle',
+    usaw_id: '222222',
+    year_of_birth: 1993,
+    gender_id: 1,
+    division_id: 3,
+    category_id: 6,
+    entry_total: 120,
+  },
+
+  {
+    id: 4,
+    email: 'dcadoo@email.com',
+    first_name: 'David',
+    last_name: 'Cadieux',
+    usaw_id: '444444',
+    year_of_birth: 1993,
+    gender_id: 2,
+    division_id: 3,
+    category_id: 9,
+    entry_total: 220,
+  },
+
+  {
+    id: 5,
+    email: 'jonas@email.com',
+    first_name: 'Jonas',
+    last_name: 'Acevedo',
+    usaw_id: '555555',
+    year_of_birth: 1990,
+    gender_id: 2,
+    division_id: 3,
+    category_id: 18,
+    entry_total: 185,
+  },
+
+  {
+    id: 6,
+    email: 'stack@email.com',
+    first_name: 'David',
+    last_name: 'Stack',
+    usaw_id: '9999999',
+    year_of_birth: 1994,
+    gender_id: 2,
+    division_id: 3,
+    category_id: 16,
+    entry_total: 225,
+  },
 
 ];
 
 module.exports.categories = [
-
+  {
+    id: 1,
+    category: '44',
+  },
+  {
+    id: 2,
+    category: '48',
+  },
+  {
+    id: 3,
+    category: '50',
+  },
+  {
+    id: 4,
+    category: '53',
+  },
+  {
+    id: 5,
+    category: '56',
+  },
+  {
+    id: 6,
+    category: '58',
+  },
+  {
+    id: 7,
+    category: '62',
+  },
+  {
+    id: 8,
+    category: '63',
+  },
+  {
+    id: 9,
+    category: '69',
+  },
+  {
+    id: 10,
+    category: '75',
+  },
+  {
+    id: 11,
+    category: '75+',
+  },
+  {
+    id: 12,
+    category: '77',
+  },
+  {
+    id: 13,
+    category: '85',
+  },
+  {
+    id: 14,
+    category: '90',
+  },
+  {
+    id: 15,
+    category: '90+',
+  },
+  {
+    id: 16,
+    category: '94',
+  },
+  {
+    id: 17,
+    category: '94+',
+  },
+  {
+    id: 18,
+    category: '105',
+  },
+  {
+    id: 19,
+    category: '105+',
+  },
 ];
 
 module.exports.divisions = [
-
+  {
+    id: 1,
+    division: 'youth',
+  },
+  {
+    id: 2,
+    division: 'junior',
+  },
+  {
+    id: 3,
+    division: 'senior',
+  },
+  {
+    id: 4,
+    division: 'master',
+  },
 ];
 
 module.exports.genders = [
+  {
+    id: 1,
+    gender: 'f',
+  },
+  {
+    id: 2,
+    gender: 'm',
+  },
 
 ];
 
+module.exports.divisions_categories = [
+
+  { gender_id: 1, division_id: 1, category_id: 1 },
+  { gender_id: 1, division_id: 1, category_id: 2 },
+  { gender_id: 1, division_id: 1, category_id: 4 },
+  { gender_id: 1, division_id: 1, category_id: 6 },
+  { gender_id: 1, division_id: 1, category_id: 8 },
+  { gender_id: 1, division_id: 1, category_id: 9 },
+  { gender_id: 1, division_id: 1, category_id: 10 },
+  { gender_id: 1, division_id: 1, category_id: 11 },
+  { gender_id: 1, division_id: 2, category_id: 2 },
+  { gender_id: 1, division_id: 2, category_id: 4 },
+  { gender_id: 1, division_id: 2, category_id: 6 },
+  { gender_id: 1, division_id: 2, category_id: 8 },
+  { gender_id: 1, division_id: 2, category_id: 9 },
+  { gender_id: 1, division_id: 2, category_id: 10 },
+  { gender_id: 1, division_id: 2, category_id: 14 },
+  { gender_id: 1, division_id: 2, category_id: 15 },
+  { gender_id: 1, division_id: 3, category_id: 2 },
+  { gender_id: 1, division_id: 3, category_id: 4 },
+  { gender_id: 1, division_id: 3, category_id: 6 },
+  { gender_id: 1, division_id: 3, category_id: 8 },
+  { gender_id: 1, division_id: 3, category_id: 9 },
+  { gender_id: 1, division_id: 3, category_id: 10 },
+  { gender_id: 1, division_id: 3, category_id: 14 },
+  { gender_id: 1, division_id: 3, category_id: 15 },
+  { gender_id: 1, division_id: 4, category_id: 2 },
+  { gender_id: 1, division_id: 4, category_id: 4 },
+  { gender_id: 1, division_id: 4, category_id: 6 },
+  { gender_id: 1, division_id: 4, category_id: 8 },
+  { gender_id: 1, division_id: 4, category_id: 9 },
+  { gender_id: 1, division_id: 4, category_id: 10 },
+  { gender_id: 1, division_id: 4, category_id: 14 },
+  { gender_id: 1, division_id: 4, category_id: 15 },
+  { gender_id: 2, division_id: 1, category_id: 3 },
+  { gender_id: 2, division_id: 1, category_id: 5 },
+  { gender_id: 2, division_id: 1, category_id: 7 },
+  { gender_id: 2, division_id: 1, category_id: 9 },
+  { gender_id: 2, division_id: 1, category_id: 12 },
+  { gender_id: 2, division_id: 1, category_id: 13 },
+  { gender_id: 2, division_id: 1, category_id: 16 },
+  { gender_id: 2, division_id: 1, category_id: 17 },
+  { gender_id: 2, division_id: 2, category_id: 5 },
+  { gender_id: 2, division_id: 2, category_id: 7 },
+  { gender_id: 2, division_id: 2, category_id: 9 },
+  { gender_id: 2, division_id: 2, category_id: 12 },
+  { gender_id: 2, division_id: 2, category_id: 13 },
+  { gender_id: 2, division_id: 2, category_id: 16 },
+  { gender_id: 2, division_id: 2, category_id: 18 },
+  { gender_id: 2, division_id: 2, category_id: 19 },
+  { gender_id: 2, division_id: 3, category_id: 5 },
+  { gender_id: 2, division_id: 3, category_id: 7 },
+  { gender_id: 2, division_id: 3, category_id: 9 },
+  { gender_id: 2, division_id: 3, category_id: 12 },
+  { gender_id: 2, division_id: 3, category_id: 13 },
+  { gender_id: 2, division_id: 3, category_id: 16 },
+  { gender_id: 2, division_id: 3, category_id: 18 },
+  { gender_id: 2, division_id: 3, category_id: 19 },
+  { gender_id: 2, division_id: 4, category_id: 5 },
+  { gender_id: 2, division_id: 4, category_id: 7 },
+  { gender_id: 2, division_id: 4, category_id: 9 },
+  { gender_id: 2, division_id: 4, category_id: 12 },
+  { gender_id: 2, division_id: 4, category_id: 13 },
+  { gender_id: 2, division_id: 4, category_id: 16 },
+  { gender_id: 2, division_id: 4, category_id: 18 },
+  { gender_id: 2, division_id: 4, category_id: 19 },
+];
+
 module.exports.users_events = [
+  {
+    user_id: 1,
+    event_id: 1,
+  },
+  {
+    user_id: 1,
+    event_id: 2,
+  },
+  {
+    user_id: 2,
+    event_id: 3,
+  },
+];
+
+module.exports.events_athletes = [
+  {
+    athlete_id: 1,
+    event_id: 1,
+  },
+  {
+    athlete_id: 2,
+    event_id: 2,
+  },
+  {
+    athlete_id: 3,
+    event_id: 3,
+  },
+  {
+    athlete_id: 4,
+    event_id: 1,
+  },
+  {
+    athlete_id: 5,
+    event_id: 2,
+  },
+  {
+    athlete_id: 6,
+    event_id: 2,
+  },
 
 ];
 
 module.exports.athletes_sessions = [
+
+  {
+    athlete_id: 1,
+    session_id: 1,
+  },
+
+  {
+    athlete_id: 2,
+    session_id: 3,
+  },
+  {
+    athlete_id: 3,
+    session_id: 5,
+  },
+  {
+    athlete_id: 4,
+    session_id: 2,
+  },
+  {
+    athlete_id: 5,
+    session_id: 4,
+  },
+  {
+    athlete_id: 6,
+    session_id: 6,
+  },
+
 
 ];
 
