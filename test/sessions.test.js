@@ -102,7 +102,7 @@ describe('routes : sessions', () => {
           should.not.exist(err);
           res.should.have.status(200);
           res.body.should.be.an('array');
-          expect(res.body).to.have.lengthOf(1);
+          expect(res.body).to.have.lengthOf(2);
           done();
         });
     });

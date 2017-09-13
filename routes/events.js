@@ -94,15 +94,16 @@ router.put('/:id/edit', ev(validations.put), (req, res, next) => {
 
   if (!_.isValidID(eventID)) {
     res.status(400).send({ error: 'Bad request!' });
-  } else if (req.session.id) {
-    // First check if the user owns the event
+  }
 
+  if (req.session.id) {
+    // First check if the user owns the event
     knex.select('user_id').from('users_events')
       .where('event_id', eventID)
       .first()
       .then((userID) => {
         if (userID.user_id === req.session.id) {
-          return knex('events')
+          knex('events')
             .where('id', eventID)
             .update({
               title: req.body.title,
@@ -119,14 +120,17 @@ router.put('/:id/edit', ev(validations.put), (req, res, next) => {
               description: req.body.description,
               entry_fee_cents: req.body.entry_fee_cents,
             })
-            .returning('*');
+            .returning('*')
+            .then((eventInfo) => {
+              res.json(eventInfo[0]);
+            })
+            .catch((err) => {
+              console.error(err);
+              next();
+            });
+        } else {
+          res.status(401).send({ error: 'Not authorized!' });
         }
-        return res.status(401).send({ error: 'Not authorized!' });
-      })
-      .then((eventInfo) => {
-        // console.log(eventInfo[0]);
-        res.json(eventInfo[0]);
-        // res.sendStatus(200);
       })
       .catch((err) => {
         console.error(err);

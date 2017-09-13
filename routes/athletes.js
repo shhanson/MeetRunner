@@ -23,13 +23,14 @@ router.get('/:event_id/athletes', (req, res, next) => {
   if (req.session.id) {
     knex.select('user_id').from('users_events')
       .where('event_id', eventID)
+      .first()
       .then((userID) => {
         if (userID.user_id === req.session.id) {
           return knex('events_athletes')
             .join('athletes', 'id', 'events_athletes.athlete_id')
             .where('events_athletes.event_id', eventID);
         }
-        return res.status(401).send({ error: 'Not authorized!' });
+        res.status(401).send({ error: 'Not authorized!' });
       })
       .then((athletes) => {
         res.json(athletes);
@@ -53,6 +54,7 @@ router.post('/:event_id/athletes/new', ev(validations.post), (req, res, next) =>
   if (req.session.id) {
     knex.select('user_id').from('users_events')
       .where('event_id', eventID)
+      .first()
       .then((userID) => {
         if (userID.user_id === req.session.id) {
           knex('athletes')
@@ -66,6 +68,9 @@ router.post('/:event_id/athletes/new', ev(validations.post), (req, res, next) =>
               division_id: req.body.division_id,
               category_id: req.body.category_id,
               entry_total: req.body.entry_total,
+              total: req.body.total,
+              lot_num: req.body.lot_num,
+              bodyweight_grams: req.body.bodyweight_grams,
             })
             .returning('*')
             .then((athleteInfo) => {
@@ -117,7 +122,7 @@ router.get('/:event_id/athletes/:athlete_id', (req, res, next) => {
             .where('id', athleteID)
             .first();
         }
-        return res.status(401).send({ error: 'Not authorized!' });
+        res.status(401).send({ error: 'Not authorized!' });
       })
       .then((athleteInfo) => {
         res.json(athleteInfo);
@@ -147,7 +152,7 @@ router.put('/:event_id/athletes/:athlete_id/edit', ev(validations.put), (req, re
       .first()
       .then((userID) => {
         if (userID.user_id === req.session.id) {
-          return knex('athletes')
+          knex('athletes')
             .where('id', athleteID)
             .update({
               email: req.body.email,
@@ -163,12 +168,17 @@ router.put('/:event_id/athletes/:athlete_id/edit', ev(validations.put), (req, re
               entry_total: req.body.entry_total,
               total: req.body.total,
             })
-            .returning('*');
+            .returning('*')
+            .then((athleteInfo) => {
+              res.json(athleteInfo[0]);
+            })
+            .catch((err) => {
+              console.error(err);
+              next(err);
+            });
+        } else {
+          res.status(401).send({ error: 'Not authorized!' });
         }
-        return res.status(401).send({ error: 'Not authorized!' });
-      })
-      .then((athleteInfo) => {
-        res.json(athleteInfo);
       })
       .catch((err) => {
         console.error(err);
@@ -180,7 +190,7 @@ router.put('/:event_id/athletes/:athlete_id/edit', ev(validations.put), (req, re
 });
 
 // DELETE an athlete from an event
-router.delete('/:event_id/athletes/:athlete_id', (req, res, next) => {
+router.delete('/:event_id/athletes/:athlete_id/delete', (req, res, next) => {
   const eventID = Number.parseInt(req.params.event_id, 10);
   const athleteID = Number.parseInt(req.params.athlete_id, 10);
 
@@ -194,14 +204,19 @@ router.delete('/:event_id/athletes/:athlete_id', (req, res, next) => {
       .first()
       .then((userID) => {
         if (userID.user_id === req.session.id) {
-          return knex('athletes')
+          knex('athletes')
             .where('id', athleteID)
-            .del();
+            .del()
+            .then(() => {
+              res.sendStatus(200);
+            })
+            .catch((err) => {
+              console.error(err);
+              next(err);
+            });
+        } else {
+          res.status(401).send({ error: 'Not authorized!' });
         }
-        return res.status(401).send({ error: 'Not authorized!' });
-      })
-      .then(() => {
-        res.sendStatus(200);
       })
       .catch((err) => {
         console.error(err);

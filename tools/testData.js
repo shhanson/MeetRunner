@@ -430,7 +430,7 @@ module.exports.events_athletes = [
   },
   {
     athlete_id: 6,
-    event_id: 2,
+    event_id: 3,
   },
 
 ];
