@@ -200,6 +200,10 @@ describe('routes : users', () => {
           done();
         });
     });
+
+    xit('should allow a user to change their password', (done) => {
+      done();
+    });
   });
 
 
