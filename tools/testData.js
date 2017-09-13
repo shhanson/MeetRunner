@@ -100,10 +100,10 @@ module.exports.sessions = [
   {
     id: 3,
     event_id: 2,
-    date: '2018-07-07',
-    weigh_time: '2018-07-07 07:00:00-06',
-    start_time: '2018-07-07 09:00:00-06',
-    description: 'Open Female A',
+    date: '2018-07-08',
+    weigh_time: '2018-07-08 11:00:00-06',
+    start_time: '2018-07-08 13:00:00-06',
+    description: 'Open Female A1',
   },
 
   {

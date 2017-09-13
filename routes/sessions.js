@@ -37,13 +37,16 @@ router.post('/:event_id/sessions/new', ev(validations.post), (req, res, next) =>
 
   if (!_.isValidID(eventID)) {
     res.status(400).send({ error: 'Bad request!' });
-  } else if (req.session.id) {
+  }
+
+  if (req.session.id) {
     // Check if the logged in user owns the event
-    knex('users_events')
+
+    knex.select('user_id').from('users_events')
       .where('event_id', eventID)
-      .returning('user_id')
+      .first()
       .then((userID) => {
-        if (userID === req.session.id) {
+        if (userID.user_id === req.session.id) {
           return knex('sessions')
             .insert({
               event_id: eventID,
@@ -51,12 +54,13 @@ router.post('/:event_id/sessions/new', ev(validations.post), (req, res, next) =>
               weigh_time: req.body.weigh_time,
               start_time: req.body.start_time,
               description: req.body.description,
-            });
+            })
+            .returning('*');
         }
         return res.status(401).send({ error: 'Not authorized!' });
       })
-      .then(() => {
-        res.sendStatus(200);
+      .then((newSessionData) => {
+        res.json(newSessionData[0]);
       })
       .catch((err) => {
         console.error(err);
@@ -79,7 +83,9 @@ router.get('/:event_id/sessions/:session_id', (req, res, next) => {
       .where({
         id: sessionID,
         event_id: eventID,
-      }).then((session) => {
+      })
+      .first()
+      .then((session) => {
         res.json(session);
       })
       .catch((err) => {
@@ -96,13 +102,15 @@ router.put('/:event_id/sessions/:session_id/edit', ev(validations.put), (req, re
 
   if (!_.isValidID(eventID) || !_.isValidID(sessionID)) {
     res.status(400).send({ error: 'Bad request!' });
-  } else if (req.session.id) {
+  }
+
+  if (req.session.id) {
     // Check if user owns the event with the session
-    knex('users_events')
+    knex.select('user_id').from('users_events')
       .where('event_id', eventID)
-      .returning('user_id')
+      .first()
       .then((userID) => {
-        if (userID === req.session.id) {
+        if (userID.user_id === req.session.id) {
           return knex('sessions')
             .where('id', sessionID)
             .update({
@@ -110,12 +118,13 @@ router.put('/:event_id/sessions/:session_id/edit', ev(validations.put), (req, re
               weigh_time: req.body.weigh_time,
               start_time: req.body.start_time,
               description: req.body.description,
-            });
+            })
+            .returning('*');
         }
         return res.status(401).send({ error: 'Not authorized!' });
       })
-      .then(() => {
-        res.sendStatus(200);
+      .then((editedSession) => {
+        res.json(editedSession[0]);
       })
       .catch((err) => {
         console.error(err);
@@ -127,26 +136,32 @@ router.put('/:event_id/sessions/:session_id/edit', ev(validations.put), (req, re
 });
 
 // DELETE a session within an event
-router.delete('/:event_id/sessions/:session_id', (req, res, next) => {
+router.delete('/:event_id/sessions/:session_id/delete', (req, res, next) => {
   const eventID = Number.parseInt(req.params.event_id, 10);
   const sessionID = Number.parseInt(req.params.session_id, 10);
 
   if (!_.isValidID(eventID) || !_.isValidID(sessionID)) {
     res.status(400).send({ error: 'Bad request!' });
-  } else if (req.session.id) {
-    knex('users_events')
+  }
+  if (req.session.id) {
+    knex.select('user_id').from('users_events')
       .where('event_id', eventID)
-      .returning('user_id')
+      .first()
       .then((userID) => {
-        if (userID === req.session.id) {
-          return knex('sessions')
+        if (userID.user_id === req.session.id) {
+          knex('sessions')
             .where('id', sessionID)
-            .del();
+            .del()
+            .then(() => {
+              res.sendStatus(200);
+            })
+            .catch((err) => {
+              console.error(err);
+              next(err);
+            });
+        } else {
+          res.status(401).send({ error: 'Not authorized!' });
         }
-        return res.status(401).send({ error: 'Not authorized!' });
-      })
-      .then(() => {
-        res.sendStatus(200);
       })
       .catch((err) => {
         console.error(err);

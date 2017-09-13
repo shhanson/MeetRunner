@@ -78,7 +78,7 @@ describe('routes : users', () => {
   //     });
   // });
 
-  describe('GET /users/login', () => {
+  describe('POST /users/login', () => {
     it('should redirect a logged in user to their events page if already logged in', (done) => {
       authenticatedUser.post('/users/login')
         .send(userCredentials)
