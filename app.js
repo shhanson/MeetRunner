@@ -28,7 +28,7 @@ app.use('/api/events', require('./routes/events'));
 app.use('/api/events', require('./routes/sessions'));
 app.use('/api/events', require('./routes/athletes'));
 app.use('/api/events', require('./routes/athletes_sessions'));
-// app.use('/api/events', require('./routes/attempts'));
+app.use('/api/events', require('./routes/attempts'));
 
 
 app.use('*', (req, res, next) => {

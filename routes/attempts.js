@@ -67,7 +67,7 @@ router.get('/:event_id/athletes/:athlete_id/attempts/:attempt_id', (req, res, ne
           knex('attempts')
             .where('id', attemptID)
             .then((attempt) => {
-              res.json(attempt);
+              res.json(attempt[0]);
             })
             .catch((err) => {
               console.error(err);
@@ -150,6 +150,8 @@ router.put('/:event_id/athletes/:athlete_id/attempts/:attempt_id/edit', ev(valid
               athlete_id: athleteID,
               attempt_num: req.body.attempt_num,
               weight: req.body.weight,
+              attempted: req.body.attempted,
+              success: req.body.success,
             })
             .returning('*')
             .then((attempt) => {
