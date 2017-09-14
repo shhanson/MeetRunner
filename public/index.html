@@ -1,12 +1,41 @@
 <!DOCTYPE html>
-<html>
+<html ng-app='meetrunner'>
   <head>
+    <base href="/">
     <meta charset="utf-8">
     <title>MeetRunner</title>
+
+    <!-- Bootstrap -->
+    <link rel='stylesheet' href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
+    <!-- Google font -->
+    <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
+
   </head>
   <body>
 
     <h1>MeetRunner!</h1>
+
+    <main class='container'>
+      <!-- <ui-view></ui-view> -->
+    </main>
+
+    <!-- jQuery -->
+    <script
+    src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+    integrity="sha256-k2WSCIexGzOj3Euiig+TlR8gA0EmPjuc79OEeY5L45g="
+    crossorigin="anonymous"></script>
+
+    <!-- Bootstrap JS -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+    <!-- Angular 1.6.5 -->
+    <!-- <script src="/node_modules/angular/angular.js"></script> -->
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.5/angular.js'></script>
+
+    <script src="//unpkg.com/angular-ui-router/release/angular-ui-router.min.js"></script>
+
+    <!-- Custom Angular scripts -->
+    <script src='/js/meetrunnerApp.js'></script>
 
   </body>
 </html>
