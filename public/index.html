@@ -5,35 +5,69 @@
     <meta charset="utf-8">
     <title>MeetRunner</title>
 
-    <!-- Bootstrap -->
-    <link rel='stylesheet' href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
+    <!-- Materialize: Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css">
+
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
     <!-- Google font -->
     <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
-
+    <link href="/css/style.css" rel='stylesheet'>
   </head>
+
   <body>
 
-    <h1>MeetRunner!</h1>
+    <nav>
+      <div class="nav-wrapper">
+        <a href="#!" class="brand-logo">Logo</a>
+        <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
+        <ul class="right hide-on-med-and-down">
+          <li><a href="#">Events</a></li>
+          <li><a href="#">Login</a></li>
 
-    <main class='container'>
-      <!-- <ui-view></ui-view> -->
+        </ul>
+        <ul class="side-nav" id="mobile-demo">
+          <li><a href="#">Events</a></li>
+          <li><a href="#">Login</a></li>
+        </ul>
+      </div>
+    </nav>
+
+
+    <main class="container">
+      <div class="row">
+        <h3 class='center-align'>Welcome to MeetRunner</h3>
+      </div>
+      <div class='container'>
+
+          <div class='row center-align'>
+            <div class='col s12 m6'>
+              <a class="waves-effect waves-light btn">Browse Events</a>
+            </div>
+            <div class="col s12 m6">
+              <a class="waves-effect waves-light btn">Login or Register</a>
+            </div>
+          </div>
+
+      </div>
     </main>
+
+
+
 
     <!-- jQuery -->
     <script
-    src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
-    integrity="sha256-k2WSCIexGzOj3Euiig+TlR8gA0EmPjuc79OEeY5L45g="
-    crossorigin="anonymous"></script>
+  src="https://code.jquery.com/jquery-3.2.1.min.js"
+  integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+  crossorigin="anonymous"></script>
+    <!-- Materialize - Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
 
-    <!-- Bootstrap JS -->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-
+    <script src='/js/materializeSetup.js'></script>
     <!-- Angular 1.6.5 -->
-    <!-- <script src="/node_modules/angular/angular.js"></script> -->
     <script src='https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.5/angular.js'></script>
-
-    <script src="//unpkg.com/angular-ui-router/release/angular-ui-router.min.js"></script>
-
+    <!-- Angular-ui-router -->
+    <script src="https://unpkg.com/angular-ui-router/release/angular-ui-router.min.js"></script>
     <!-- Custom Angular scripts -->
     <script src='/js/meetrunnerApp.js'></script>
 

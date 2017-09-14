@@ -2,11 +2,11 @@ const express = require('express');
 const path = require('path');
 const bodyParser = require('body-parser');
 const cookieSession = require('cookie-session');
+const logger = require('morgan');
 
 const app = express();
 
 if (process.env.NODE_ENV !== 'test') {
-  const logger = require('morgan');
   app.use(logger('dev'));
 }
 
