@@ -138,8 +138,7 @@ router.put('/:event_id/sessions/:session_id/athletes/:athlete_id/edit', (req, re
           athlete_id: athleteID,
           session_id: req.body.session_id,
         })
-        .returning(['athlete_id', 'session_id']),
-      )
+        .returning(['athlete_id', 'session_id']))
       .then((data) => {
         res.json(data[0]);
       })
