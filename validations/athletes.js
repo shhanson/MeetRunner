@@ -3,7 +3,7 @@ const Joi = require('joi');
 module.exports.post = {
   body: {
     email: Joi.string().label('email').email().required()
-      .trim(),
+      .trim().lowercase(),
     first_name: Joi.string().label('first_name').max(16).required(),
     last_name: Joi.string().label('last_name').max(16).required(),
     usaw_id: Joi.string().label('usaw_id').required(),
@@ -20,7 +20,7 @@ module.exports.post = {
 
 module.exports.put = {
   body: {
-    email: Joi.string().label('email').email().trim(),
+    email: Joi.string().label('email').email().trim().lowercase(),
     first_name: Joi.string().label('first_name').max(16),
     last_name: Joi.string().label('last_name').max(16),
     usaw_id: Joi.string().label('usaw_id'),

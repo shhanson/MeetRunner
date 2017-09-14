@@ -5,7 +5,7 @@ module.exports.reg_post = {
   body: {
     first_name: Joi.string().label('first_name').max(16).required(),
     last_name: Joi.string().label('last_name').max(16).required(),
-    email: Joi.string().label('email').required().email()
+    email: Joi.string().label('email').required().lowercase().email()
       .trim(),
     password: Joi.string().label('password').required()
       .min(6),
@@ -19,7 +19,7 @@ module.exports.reg_post = {
 module.exports.login_post = {
   body: {
     email: Joi.string().label('email').required().email()
-      .trim(),
+      .trim().lowercase(),
     password: Joi.string().label('password').required()
       .min(6),
   },

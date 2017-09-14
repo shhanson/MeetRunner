@@ -13,7 +13,7 @@ module.exports.post = {
     state: Joi.string().label('state').required(),
     zip_code: Joi.string().label('zip_code').regex(/^\d{5}$/).required(),
     phone: Joi.string().label('phone').regex(/^\d{10}$/).required(),
-    email: Joi.string().label('email').email().required(),
+    email: Joi.string().label('email').email().lowercase().required(),
     description: Joi.string().label('description').required(),
     entry_fee_cents: Joi.number().integer().label('entry_fee_cents').required(),
 
@@ -34,7 +34,7 @@ module.exports.put = {
     state: Joi.string().label('state'),
     zip_code: Joi.string().label('zip_code').regex(/^\d{5}$/),
     phone: Joi.string().label('phone').regex(/^\d{10}$/),
-    email: Joi.string().label('email').email(),
+    email: Joi.string().label('email').lowercase().email(),
     description: Joi.string().label('description'),
     entry_fee_cents: Joi.number().integer().label('entry_fee_cents'),
   },
