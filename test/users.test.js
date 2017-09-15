@@ -46,7 +46,8 @@ describe('routes : users', () => {
       .send(userCredentials)
       .end((err, response) => {
         should.not.exist(err);
-        expect(response.statusCode).to.equal(302);
+        expect(response.statusCode).to.equal(200);
+        expect(response.body).to.have.property('loggedIn').eql(true);
         done();
       });
   });
@@ -57,7 +58,7 @@ describe('routes : users', () => {
       .send(adminCredentials)
       .end((err, response) => {
         should.not.exist(err);
-        expect(response.statusCode).to.equal(302);
+        expect(response.statusCode).to.equal(200);
         done();
       });
   });
@@ -69,14 +70,23 @@ describe('routes : users', () => {
       });
   });
 
-  // afterEach((done) => {
-  //   authenticatedUser.put('/users/logout')
-  //     .end((err, res) => {
-  //       should.not.exist(err);
-  //       res.should.have.status(302);
-  //       done();
-  //     });
-  // });
+  afterEach((done) => {
+    authenticatedUser.put('/users/logout')
+      .end((err, res) => {
+        should.not.exist(err);
+        res.should.have.status(302);
+        done();
+      });
+  });
+
+  afterEach((done) => {
+    adminUser.put('/users/logout')
+      .end((err, res) => {
+        should.not.exist(err);
+        res.should.have.status(302);
+        done();
+      });
+  });
 
   describe('POST /users/login', () => {
     it('should redirect a logged in user to their events page if already logged in', (done) => {

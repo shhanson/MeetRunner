@@ -1,7 +1,32 @@
-h1, h2, h3 {
+/*h1, h2, h3 {*/
+* {
   font-family: 'Lato', sans-serif;
+}
+
+body {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+ }
+
+main {
+  min-height: 100vh;
+  flex: 1 0 auto;
 }
 
 div {
   border-style: 1px solid red;
+}
+
+.nav-wrapper {
+  background-color: #388697;
+}
+
+.btn {
+  background-color: #031927;
+}
+
+.page-footer, .footer-copyright {
+  /*background-color: #031927;*/
+  background-color: darkslategrey;
 }

@@ -17,40 +17,12 @@
 
   <body>
 
-    <nav>
-      <div class="nav-wrapper">
-        <a href="#!" class="brand-logo">Logo</a>
-        <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
-        <ul class="right hide-on-med-and-down">
-          <li><a href="#">Events</a></li>
-          <li><a href="#">Login</a></li>
-
-        </ul>
-        <ul class="side-nav" id="mobile-demo">
-          <li><a href="#">Events</a></li>
-          <li><a href="#">Login</a></li>
-        </ul>
-      </div>
-    </nav>
+    <!-- <nav ui-view='navbar'></nav>  -->
 
 
-    <main class="container">
-      <div class="row">
-        <h3 class='center-align'>Welcome to MeetRunner</h3>
-      </div>
-      <div class='container'>
+    <ui-view></ui-view>
 
-          <div class='row center-align'>
-            <div class='col s12 m6'>
-              <a class="waves-effect waves-light btn">Browse Events</a>
-            </div>
-            <div class="col s12 m6">
-              <a class="waves-effect waves-light btn">Login or Register</a>
-            </div>
-          </div>
 
-      </div>
-    </main>
 
 
 
@@ -70,6 +42,9 @@
     <script src="https://unpkg.com/angular-ui-router/release/angular-ui-router.min.js"></script>
     <!-- Custom Angular scripts -->
     <script src='/js/meetrunnerApp.js'></script>
+    <script src='/js/splash/splash.component.js'></script>
+    <script src='/js/navigation/navigation.component.js'></script>
+    <script src='/js/footerbar/footerbar.component.js'></script>
 
   </body>
 </html>
