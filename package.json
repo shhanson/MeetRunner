@@ -9,6 +9,7 @@
   "dependencies": {
     "@uirouter/angularjs": "latest",
     "angular": "^1.6.6",
+    "angular-materialize": "^0.2.2",
     "bcrypt": "^1.0.3",
     "body-parser": "~1.17.1",
     "concurrently": "^3.5.0",
@@ -37,7 +38,7 @@
     "superagent": "^3.6.0",
     "supertest": "^3.0.0"
   },
-  "engines":{
+  "engines": {
     "node": "8.2.1"
   }
 }

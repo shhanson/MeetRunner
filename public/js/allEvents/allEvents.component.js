@@ -14,6 +14,7 @@
       EventsService.getEvents().then(() => {
         vm.events = EventsService.events;
       });
+      vm.sortSelected = 'start_date';
     };
   }
 }());

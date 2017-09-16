@@ -3,29 +3,49 @@
 
 <main class='container'>
 
-  <h3 class='center-align'>All Events</h3>
+  <div class="row">
+    <h3 class='center-align'>All Events</h3>
+  </div>
 
-  <table class='bordered highlight'>
 
-    <thead>
-      <tr>
-        <th>Title</th>
-        <th>Date</th>
-        <th>Location</th>
-        <th>Actions</th>
-      </tr>
-    </thead>
+  <div class='row'>
+    <div class="input-field col s6 m4">
+      <input placeholder="filter" ng-model='filterInput' name="filterInput" type="search">
+    </div>
 
-    <tbody ng-repeat='event in $ctrl.events | orderBy: date'>
-      <tr>
-        <td>{{ event.title }}</td>
-        <td> {{ event.start_date | date: 'MM/dd/yyyy' }}<span ng-if='event.start_date !== event.end_date'> - {{ event.end_date | date: 'MM/dd/yyyy' }}</span></td>
-        <td>{{ event.city }}, {{ event.state }}</td>
-        <td><a ui-sref='eventReg({ event_id: event.id })'>Register</a></td>
-      </tr>
-    </tbody>
+    <div class='input-field col s6 m4'>
+      <select name='sort' ng-model='$ctrl.sortSelected' material-select watch>
+        <option value='start_date'>sort by date</option>
+        <option value='title'>sort by title</option>
+        <option value='city'>sort by city</option>
+      </select>
+    </div>
+  </div>
 
-  </table>
+
+  <div class='row'>
+    <table class='bordered highlight'>
+
+      <thead>
+        <tr>
+          <td>Title</td>
+          <td>Date</td>
+          <td>Location</td>
+          <td>Actions</td>
+        </tr>
+      </thead>
+
+      <tbody ng-repeat='event in $ctrl.events | orderBy: $ctrl.sortSelected | filter: filterInput'>
+        <tr>
+          <td>{{ event.title }}</td>
+          <td> {{ event.start_date | date: 'MM/dd/yyyy' }}<span ng-if='event.start_date !== event.end_date'> - {{ event.end_date | date: 'MM/dd/yyyy' }}</span></td>
+          <td>{{ event.city }}, {{ event.state }}</td>
+          <td><a ui-sref='eventReg({ event_id: event.id })'>Register</a></td>
+        </tr>
+      </tbody>
+
+    </table>
+  </div>
 
 </main>
 
