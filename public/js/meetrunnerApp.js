@@ -34,7 +34,7 @@
       })
       .state({
         name: 'event',
-        url: '/events/:id',
+        url: '/events/:event_id',
         component: 'event',
       })
       .state({
@@ -54,12 +54,12 @@
       })
       .state({
         name: 'createSession',
-        url: '/events/:id/sessions/new',
+        url: '/events/:event_id/sessions/new',
         component: 'createSession',
       })
       .state({
         name: 'athletes',
-        url: '/events/:id/athletes',
+        url: '/events/:event_id/athletes',
         component: 'athletes',
       });
   }
