@@ -18,7 +18,6 @@ router.get('/', (req, res, next) => {
   knex('events')
     .then((allEvents) => {
       res.json(allEvents);
-      return;
     })
     .catch((err) => {
       console.error(err);
