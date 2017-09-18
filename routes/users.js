@@ -162,7 +162,7 @@ router.post('/login', ev(validations.login_post), (req, res, next) => {
 
 router.put('/logout', (req, res, next) => {
   req.session = null;
-  res.redirect('/');
+  res.status(200).send({ loggedIn: false });
 });
 
 // GET all user's events

@@ -74,7 +74,7 @@ describe('routes : users', () => {
     authenticatedUser.put('/users/logout')
       .end((err, res) => {
         should.not.exist(err);
-        res.should.have.status(302);
+        res.should.have.status(200);
         done();
       });
   });
@@ -83,7 +83,7 @@ describe('routes : users', () => {
     adminUser.put('/users/logout')
       .end((err, res) => {
         should.not.exist(err);
-        res.should.have.status(302);
+        res.should.have.status(200);
         done();
       });
   });
@@ -108,7 +108,7 @@ describe('routes : users', () => {
       authenticatedUser.put('/users/logout')
         .end((err, res) => {
           should.not.exist(err);
-          res.should.have.status(302);
+          res.should.have.status(200);
           done();
         });
     });

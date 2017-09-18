@@ -33,7 +33,8 @@ router.get('/:division_id', (req, res, next) => {
     .first()
     .then((division) => {
       res.json(division);
-    }).catch((err) => {
+    })
+    .catch((err) => {
       console.error(err);
       next(err);
     });
@@ -45,8 +46,7 @@ router.get('/:division_id/categories/male', (req, res, next) => {
   if (!_.isValidID(divisionID)) {
     res.status(400).send({ error: 'Bad request!' });
   }
-
-  knex.select('divisions_categories.*')
+  knex.select('categories.*')
     .from('divisions_categories')
     .join('categories', 'categories.id', 'divisions_categories.category_id')
     .where({
@@ -54,7 +54,6 @@ router.get('/:division_id/categories/male', (req, res, next) => {
       division_id: divisionID,
     })
     .then((categories) => {
-      console.log(categories);
       res.json(categories);
     })
     .catch((err) => {
@@ -70,7 +69,23 @@ router.get('/:division_id/categories/female', (req, res, next) => {
     res.status(400).send({ error: 'Bad request!' });
   }
 
-  knex.select('divisions_categories.*')
+  // knex.select('divisions_categories.*')
+  //   .from('divisions_categories')
+  //   .join('categories', 'categories.id', 'divisions_categories.category_id')
+  //   .where({
+  //     gender_id: genderID,
+  //     division_id: divisionID,
+  //   })
+  //   .then((categories) => {
+  //     console.log(categories);
+  //     res.json(categories);
+  //   })
+  //   .catch((err) => {
+  //     console.error(err);
+  //     next(err);
+  //   });
+
+  knex.select('categories.*')
     .from('divisions_categories')
     .join('categories', 'categories.id', 'divisions_categories.category_id')
     .where({
@@ -78,7 +93,6 @@ router.get('/:division_id/categories/female', (req, res, next) => {
       division_id: divisionID,
     })
     .then((categories) => {
-      console.log(categories);
       res.json(categories);
     })
     .catch((err) => {

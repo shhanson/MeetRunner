@@ -58,7 +58,7 @@ describe('routes : athletes', () => {
       .send(userCredentials)
       .end((err, response) => {
         should.not.exist(err);
-        expect(response.statusCode).to.equal(302);
+        expect(response.statusCode).to.equal(200);
         done();
       });
   });
@@ -69,7 +69,7 @@ describe('routes : athletes', () => {
       .send(adminCredentials)
       .end((err, response) => {
         should.not.exist(err);
-        expect(response.statusCode).to.equal(302);
+        expect(response.statusCode).to.equal(200);
         done();
       });
   });
@@ -77,6 +77,22 @@ describe('routes : athletes', () => {
   afterEach((done) => {
     knex.migrate.rollback()
       .then(() => {
+        done();
+      });
+  });
+
+  afterEach((done) => {
+    adminUser.put('/users/logout')
+      .end((err, res) => {
+        res.should.have.status(200);
+        done();
+      });
+  });
+
+  afterEach((done) => {
+    authenticatedUser.put('/users/logout')
+      .end((err, res) => {
+        res.should.have.status(200);
         done();
       });
   });

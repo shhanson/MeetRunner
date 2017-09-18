@@ -28,6 +28,8 @@ app.use('/api/events', require('./routes/events'));
 app.use('/api/events', require('./routes/sessions'));
 app.use('/api/events', require('./routes/athletes'));
 app.use('/api/events', require('./routes/athletes_sessions'));
+app.use('/api/divisions', require('./routes/divisions'));
+app.use('/api/categories', require('./routes/categories'));
 app.use('/api/events', require('./routes/attempts'));
 
 
