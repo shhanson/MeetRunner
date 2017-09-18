@@ -41,7 +41,7 @@ describe('routes : divisions, categories', () => {
           should.not.exist(err);
           res.should.have.status(200);
           res.body.should.be.an('array');
-          expect(res.body).to.have.lengthOf(4);
+          expect(res.body).to.have.lengthOf(6);
           done();
         });
     });
@@ -53,7 +53,7 @@ describe('routes : divisions, categories', () => {
         .end((err, res) => {
           should.not.exist(err);
           res.should.have.status(200);
-          expect(res.body).to.have.property('division').eql('senior');
+          expect(res.body).to.have.property('division').eql('youth1617');
           done();
         });
     });
@@ -66,7 +66,7 @@ describe('routes : divisions, categories', () => {
           should.not.exist(err);
           res.should.have.status(200);
           res.body.should.be.an('array');
-          expect(res.body).to.have.lengthOf(19);
+          expect(res.body).to.have.lengthOf(25);
           done();
         });
     });
@@ -78,7 +78,7 @@ describe('routes : divisions, categories', () => {
         .end((err, res) => {
           should.not.exist(err);
           res.should.have.status(200);
-          expect(res.body).to.have.property('category').eql('75+');
+          expect(res.body).to.have.property('category').eql('62');
           done();
         });
     });
@@ -91,7 +91,7 @@ describe('routes : divisions, categories', () => {
           should.not.exist(err);
           res.should.have.status(200);
           res.body.should.be.an('array');
-          expect(res.body).to.have.lengthOf(8);
+          expect(res.body).to.have.lengthOf(9);
           done();
         });
     });

@@ -110,6 +110,13 @@
         </div>
 
         <div class='row'>
+            <div class="input-field col s12">
+              <input id="entry_total" type="text" class="validate" ng-model='$ctrl.tempReg.entry_total'>
+              <label for="entry_total">Entry total (kg)</label>
+            </div>
+        </div>
+
+        <div class='row'>
           Total due: {{ ($ctrl.event.entry_fee_cents / 100) | currency: '$'}}
         </div>
 
