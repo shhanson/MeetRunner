@@ -38,7 +38,7 @@ module.exports.events = [
     phone: '2104890342',
     email: 'david@email.com',
     description: 'Come see some big lifts at this outdoor meet!',
-    entry_fee_cents: 45000,
+    entry_fee_cents: 4500,
   },
 
   {
@@ -55,7 +55,7 @@ module.exports.events = [
     phone: '51211111111',
     email: 'david@email.com',
     description: 'Join us at the Naturally Fit Games!',
-    entry_fee_cents: 75000,
+    entry_fee_cents: 7500,
   },
 
   {
@@ -72,7 +72,7 @@ module.exports.events = [
     phone: '2105555555',
     email: 'sarah@email.com',
     description: 'Ho ho ho! Come lift in the cold.',
-    entry_fee_cents: 55000,
+    entry_fee_cents: 5500,
   },
 
 ];

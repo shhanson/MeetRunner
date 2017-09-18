@@ -30,3 +30,7 @@ div {
   /*background-color: #031927;*/
   background-color: darkslategrey;
 }
+
+.eventRegBtn {
+  background-color: green;
+}

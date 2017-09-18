@@ -38,7 +38,7 @@
       <tbody ng-repeat='event in $ctrl.events | orderBy: $ctrl.sortSelected | filter: filterInput'>
         <tr>
           <td>{{ event.title }}</td>
-          <td> {{ event.start_date | date: 'MM/dd/yyyy' }}<span ng-if='event.start_date !== event.end_date'> - {{ event.end_date | date: 'MM/dd/yyyy' }}</span></td>
+          <td> {{ event.start_date | date: 'MMM d, yyyy' }}<span ng-if='event.start_date !== event.end_date'> - {{ event.end_date | date: 'MMM d, yyyy' }}</span></td>
           <td>{{ event.city }}, {{ event.state }}</td>
           <td><a ui-sref='eventReg({ event_id: event.id })'>Register</a></td>
         </tr>
