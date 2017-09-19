@@ -8,15 +8,6 @@
         let divisionID;
         const age = new Date().getFullYear() - yearOfBirth;
 
-        // if (age >= 35) {
-        //   divisionID = 4; // Masters
-        // } else if (age >= 20) {
-        //   divisionID = 3; // Senior
-        // } else if (age >= 15) {
-        //   divisionID = 2; // Junior
-        // } else {
-        //   divisionID = 1; // Youth
-        // }
         if (age >= 35) {
           divisionID = 6; // Masters
         } else if (age >= 21 && age <= 34) {

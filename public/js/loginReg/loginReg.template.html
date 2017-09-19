@@ -1,0 +1,92 @@
+<navigation></navigation>
+
+<main class='container'>
+
+  <div class='row'>
+    <div class='col s12 l6'>
+      <h4 class='center-align'>Returning Users</h4>
+
+      <div class='row'>
+        <div class='col s12'>
+          <form ng-submit="$ctrl.loginUser()">
+            <div class='row'>
+              <div class="input-field col s12">
+                <input id="email" type="email" class="validate" ng-model='$ctrl.login.email'>
+                <label for="email">Email</label>
+              </div>
+            </div>
+
+            <div class='row'>
+              <div class='input-field col s12'>
+                <input id='password' type='password' class='validate' ng-model='$ctrl.login.password'>
+                <label for='password'>Password</label>
+              </div>
+            </div>
+
+            <div class='row'>
+              <div class='col s12 center-align'>
+                <button class="btn waves-effect waves-light" type="submit" name="action">Login</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+
+    </div>
+
+    <div class='col s12 l6'>
+      <h4 class='center-align'>New Users</h4>
+
+      <div class='row'>
+        <div class='col s12'>
+          <form ng-submit='$ctrl.registerUser()'>
+
+            <div class='row'>
+              <div class="input-field col s12">
+                <input id="first_name" type="text" class="validate" ng-model='$ctrl.reg.first_name'>
+                <label for="first_name">First Name</label>
+              </div>
+            </div>
+            <div class='row'>
+              <div class="input-field col s12">
+                <input id="last_name" type="text" class="validate" ng-model='$ctrl.reg.last_name'>
+                <label for="last_name">Last Name</label>
+              </div>
+            </div>
+
+            <div class='row'>
+              <div class="input-field col s12">
+                <input id="regEmail" type="email" class="validate" ng-model='$ctrl.reg.email'>
+                <label for="regEmail">Email</label>
+              </div>
+            </div>
+
+            <div class='row'>
+              <div class='input-field col s12'>
+                <input id='regPassword' type='password' class='validate' ng-model='$ctrl.reg.password'>
+                <label for='regPassword'>Password</label>
+              </div>
+            </div>
+
+            <div class='row'>
+              <div class='input-field col s12'>
+                <input id='vPassword' type='password' class='validate' ng-model='$ctrl.reg.vpassword'>
+                <label for='vPassword'>Confirm password</label>
+              </div>
+            </div>
+
+            <div class='row'>
+              <div class='col s12 center-align'>
+                <button class="btn waves-effect waves-light regBtn" type="submit" name="action">Register</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</main>
+
+<footerbar></footerbar>

@@ -143,7 +143,7 @@ router.post('/login', ev(validations.login_post), (req, res, next) => {
           if (result) {
             req.session.id = userID;
             req.session.is_admin = user.is_admin;
-            res.status(200).send({ loggedIn: true });
+            res.status(200).send({ id: userID, is_admin: user.is_admin });
             // res.redirect(`/users/${userID}/events`);
           } else {
             res.status(401).send({ error: 'Wrong email or password!' });
