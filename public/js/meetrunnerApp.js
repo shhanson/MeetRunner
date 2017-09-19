@@ -1,5 +1,5 @@
 (function () {
-  angular.module('meetrunner', ['ui.router', 'ui.materialize'])
+  angular.module('meetrunner', ['ui.router', 'ui.materialize', 'ngStorage'])
     .config(config);
 
   config.$inject = ['$stateProvider', '$urlRouterProvider', '$locationProvider'];

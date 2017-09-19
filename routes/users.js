@@ -132,32 +132,28 @@ router.delete('/:id', (req, res, next) => {
 
 // User login
 router.post('/login', ev(validations.login_post), (req, res, next) => {
-  if (!req.session.id) {
-    knex('users')
-      .where('email', req.body.email)
-      .first()
-      .then((user) => {
-        const userID = user.id;
-        const storedPassword = user.hashed_password;
-        bcrypt.compare(req.body.password, storedPassword, (err, result) => {
-          if (result) {
-            req.session.id = userID;
-            req.session.is_admin = user.is_admin;
-            res.status(200).send({ id: userID, is_admin: user.is_admin });
-            // res.redirect(`/users/${userID}/events`);
-          } else {
-            res.status(401).send({ error: 'Wrong email or password!' });
-          }
-        });
-      })
-      .catch((err) => {
-        console.error(err);
-        res.status(401).send({ error: 'Wrong email or password!' });
+  knex('users')
+    .where('email', req.body.email)
+    .first()
+    .then((user) => {
+      const userID = user.id;
+      const storedPassword = user.hashed_password;
+      bcrypt.compare(req.body.password, storedPassword, (err, result) => {
+        if (result) {
+          req.session.id = userID;
+          req.session.is_admin = user.is_admin;
+          console.log(req.session);
+          res.status(200).send({ id: userID, is_admin: user.is_admin });
+          // res.redirect(`/users/${userID}/events`);
+        } else {
+          res.status(401).send({ error: 'Wrong email or password!' });
+        }
       });
-  } else {
-    // If the user is already logged in, redirect to user page
-    res.redirect(`/users/${req.session.id}/events`);
-  }
+    })
+    .catch((err) => {
+      console.error(err);
+      res.status(401).send({ error: 'Wrong email or password!' });
+    });
 });
 
 router.put('/logout', (req, res, next) => {

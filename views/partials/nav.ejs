@@ -1,0 +1,30 @@
+<%= session.id %>
+<header>
+  <nav>
+    <div class="nav-wrapper">
+      <a ui-sref='splash' class="brand-logo">MeetRunner</a>
+      <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
+      <ul class="right hide-on-med-and-down">
+        <li><a ui-sref='allEvents'>All Events</a></li>
+
+          <% if(session.id) { %>
+            <li><a ui-sref='myEvents({ user_id: <%= session.id %> })'>My Events</a></li>
+            <li><a ui-sref='profile({ user_id: <%= session.id %> })'>My Account</a></li>
+            <li><a href='/users/logout'>Logout</a></li>
+          <% }  else { %>
+            <li><a ui-sref='loginReg'>Login</a></li>
+          <% }%>
+      </ul>
+      <ul class="side-nav" id="mobile-demo">
+        <li><a ui-sref='allEvents'>Browse Events</a></li>
+        <% if(session.id) { %>
+          <li><a ui-sref='myEvents({ user_id: <%= session.id %> })'>My Events</a></li>
+          <li><a ui-sref='profile({ user_id: <%= session.id %> })'>My Account</a></li>
+          <li><a href='/users/logout'>Logout</a></li>
+        <% }  else { %>
+          <li><a ui-sref='loginReg'>Login</a></li>
+        <% }%>
+      </ul>
+    </div>
+  </nav>
+</header>

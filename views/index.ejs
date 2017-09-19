@@ -20,14 +20,13 @@
 
   <body>
 
-    <!-- <nav ui-view='navbar'></nav>  -->
+    <% include ./partials/nav.ejs %>
 
 
     <ui-view></ui-view>
 
 
-
-
+    <% include ./partials/footer.ejs %>
 
 
     <!-- jQuery -->
@@ -42,9 +41,6 @@
     <!-- Angular-ui-router -->
     <script src="https://unpkg.com/angular-ui-router/release/angular-ui-router.min.js"></script>
 
-    <!-- ngstorage -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/ngStorage/0.3.10/ngStorage.min.js"></script>
-
     <!-- Materialize - Compiled and minified JavaScript -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
 
@@ -55,15 +51,15 @@
     <!-- Custom Angular scripts -->
     <script src='/js/meetrunnerApp.js'></script>
     <script src='/js/services/events.service.js'></script>
-    <script src='/js/navigation/navigation.component.js'></script>
-    <script src='/js/footerbar/footerbar.component.js'></script>
+    <!-- <script src='/js/navigation/navigation.component.js'></script> -->
+    <!-- <script src='/js/footerbar/footerbar.component.js'></script> -->
     <script src='/js/splash/splash.component.js'></script>
     <script src='/js/allEvents/allEvents.component.js'></script>
     <script src='/js/eventReg/eventReg.component.js'></script>
     <script src='/js/services/categories.service.js'></script>
     <script src='/js/services/users.service.js'></script>
     <script src='/js/loginReg/loginReg.component.js'></script>
-    <script src='/js/myEvents/myEvents.component.js'></script>
+    <script src='/js/profile/profile.component.js'></script>
 
   </body>
 </html>
