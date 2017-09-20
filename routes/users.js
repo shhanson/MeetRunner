@@ -17,10 +17,15 @@ router.use(bodyParser.urlencoded({
 
 function getEvents(userID) {
   return knex.select('events.*').from('users_events').join('events', 'users_events.event_id', 'events.id').where('users_events.user_id', userID);
-  // return knex('users_events')
-  //   .where('users_events.user_id', userID)
-  //   .join('events_athletes', 'events_athletes.event_id', 'users_events.event_id')
-  //   .count('events_athletes.athlete_id');
+}
+
+function getNumAthletesForEvent(eventID) {
+  return knex('events')
+    .where('id', eventID)
+    .join('events_athletes', 'events_athletes.event_id', 'events.id')
+    .count('events_athletes.event_id')
+    .first()
+    .then(count => ({ event_id: eventID, count: count.count }));
 }
 
 // GET all Users (superuser only)
@@ -169,8 +174,31 @@ router.get('/:id/events/', (req, res, next) => {
   const userID = Number.parseInt(req.params.id, 10);
   if (_.isValidID(userID) && req.session.id === userID) {
     getEvents(userID).then((events) => {
-      console.log(events);
-      res.json(events);
+      const promises = [];
+      events.forEach((event) => {
+        promises.push(getNumAthletesForEvent(event.id));
+      });
+
+      Promise.all(promises).then((counts) => {
+        const eventsIndexed = events.reduce((a, z) => {
+          a[z.id] = z;
+          return a;
+        }, {});
+
+        counts.forEach((count) => {
+          eventsIndexed[count.event_id].numAthletes = count.count;
+        });
+
+        const result = [];
+        Object.keys(eventsIndexed).forEach((key) => {
+          result.push(eventsIndexed[key]);
+        });
+
+        res.json(result);
+      });
+
+
+      // res.json(events);
     }).catch((err) => {
       console.error(err);
       next(err);

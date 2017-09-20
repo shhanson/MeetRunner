@@ -33,11 +33,11 @@
         </tr>
       </thead>
 
-      <tbody ng-repeat='event in $ctrl.myEvents | orderBy: $ctrl.sortSelected | filter: filterInput'>
-        <tr>
+      <tbody>
+        <tr ng-repeat='event in $ctrl.myEvents | orderBy: $ctrl.sortSelected | filter: filterInput'>
           <td>{{ event.title }}</td>
           <td> {{ event.start_date | date: 'MMM d, yyyy' }}<span ng-if='event.start_date !== event.end_date'> - {{ event.end_date | date: 'MMM d, yyyy' }}</span></td>
-          <td> num</td>
+          <td> {{ event.numAthletes }}</td>
           <td><a ui-sref='manageEvent({ event_id: event.id })'>View/Manage</a></td>
         </tr>
       </tbody>
@@ -49,7 +49,7 @@
 
   <div class='row'>
     <div class='col s12 center-align'>
-      <a class="waves-effect waves-light btn-large center" ui-sref='createEvent'>Create Event</a>
+      <a class="waves-effect waves-light btn-large center" ui-sref='createEvent'><i class="medium material-icons left">add</i> Create Event</a>
     </div>
   </div>
 
