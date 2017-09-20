@@ -33,11 +33,6 @@
         component: 'myEvents',
       })
       .state({
-        name: 'event',
-        url: '/events/:event_id',
-        component: 'event',
-      })
-      .state({
         name: 'eventReg',
         url: '/events/:event_id/register',
         component: 'eventReg',

@@ -5,23 +5,11 @@
     <h3 class='center-align'>My Events</h3>
   </div>
 
-
-  <div class='row'>
-    <div class="input-field col s6 m4">
-      <input placeholder="search" ng-model='filterInput' name="filterInput" type="search">
-    </div>
-
-    <div class='input-field col s6 m4'>
-      <select name='sort' ng-model='$ctrl.sortSelected' material-select watch>
-        <option value='start_date'>sort by date</option>
-        <option value='title'>sort by title</option>
-        <option value='city'>sort by city</option>
-      </select>
-    </div>
+  <div class='row center-align' ng-show='$ctrl.myEvents.length === 0'>
+    <p> You haven't created any events yet! Click "Create Event" to get started.</p>
   </div>
 
-
-  <div class='row'>
+  <div class='row' ng-show='$ctrl.myEvents.length > 0'>
     <table class='bordered highlight'>
 
       <thead>
@@ -34,7 +22,7 @@
       </thead>
 
       <tbody>
-        <tr ng-repeat='event in $ctrl.myEvents | orderBy: $ctrl.sortSelected | filter: filterInput'>
+        <tr ng-repeat='event in $ctrl.myEvents | orderBy: start_date'>
           <td>{{ event.title }}</td>
           <td> {{ event.start_date | date: 'MMM d, yyyy' }}<span ng-if='event.start_date !== event.end_date'> - {{ event.end_date | date: 'MMM d, yyyy' }}</span></td>
           <td> {{ event.numAthletes }}</td>

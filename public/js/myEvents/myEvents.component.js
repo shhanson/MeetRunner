@@ -15,7 +15,6 @@
       UsersService.getEvents(vm.getSession().id).then((response) => {
         vm.myEvents = response.data;
       });
-      vm.sortSelected = 'start_date';
     };
 
     vm.getSession = function getSession() {

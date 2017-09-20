@@ -1,0 +1,183 @@
+<script>
+$('.datepicker').pickadate({
+ selectMonths: true, // Creates a dropdown to control month
+ selectYears: 3, // Creates a dropdown of 15 years to control year,
+ today: 'Today',
+ clear: 'Clear',
+ close: 'Ok',
+ closeOnSelect: true, // Close upon selecting a date,
+ min: true,
+});
+</script>
+<navigation></navigation>
+
+<main class='container'>
+  <div class="row">
+    <h3 class='center-align'>Create an Event</h3>
+  </div>
+
+  <div class='row'>
+    <div class='col s12 m6 offset-m3'>
+      <form ng-submit='$ctrl.createEvent()'>
+
+        <div class='row'>
+          <div class="input-field col s12">
+            <input id="title" type="text" class="validate" ng-model='$ctrl.form.title'>
+            <label for="title">Title</label>
+          </div>
+        </div>
+        <div class='row'>
+          <div class="input-field col s12">
+            <input id="organizer" type="text" class="validate" ng-model='$ctrl.form.organizer'>
+            <label for="organizer">Organizer</label>
+          </div>
+        </div>
+
+        <div class='row'>
+          <div class="input-field col s12">
+            <input id="sanction_id" type="text" class="validate" ng-model='$ctrl.form.sanction_id'>
+            <label for="sanction_id">USAW Sanction ID</label>
+          </div>
+        </div>
+
+        <div class='row'>
+          <div class='input-field col s12 m6'>
+            <input id="entry_fee" type="text" class="validate" ng-model='$ctrl.form.entry_fee'>
+            <label for="entry_fee">Entry fee (USD)</label>
+          </div>
+        </div>
+
+
+        <div class="row">
+          <div class="input-field col s12">
+            <textarea id="description" class="materialize-textarea" ng-model='$ctrl.form.description'></textarea>
+            <label for="description">Description</label>
+          </div>
+        </div>
+
+
+
+        <div class='row'>
+          <div class="input-field col s12">
+            <input id="start_date" type="text" class="datepicker" ng-model='$ctrl.form.start_date'>
+            <label for="start_date">Start Date</label>
+          </div>
+        </div>
+
+        <div class='row'>
+          <div class="input-field col s12">
+            <input id="start_date" type="text" class="datepicker" ng-model='$ctrl.form.end_date'>
+            <label for="end_date">End Date</label>
+          </div>
+        </div>
+
+        <div class='row'>
+          <div class="input-field col s12">
+            <input id="street_address" type="text" class="validate" ng-model='$ctrl.form.street_address'>
+            <label for="street_address">Street Address</label>
+          </div>
+        </div>
+
+        <div class='row'>
+          <div class="input-field col s12">
+            <input id="city" type="text" class="validate" ng-model='$ctrl.form.city'>
+            <label for="city">City</label>
+          </div>
+        </div>
+
+        <div class='row'>
+          <div class='input-field col s12 m4'>
+            <select material-select ng-model='$ctrl.form.state'>
+              <option disabled selected>State</option>
+            	<option value="AL">Alabama</option>
+            	<option value="AK">Alaska</option>
+            	<option value="AZ">Arizona</option>
+            	<option value="AR">Arkansas</option>
+            	<option value="CA">California</option>
+            	<option value="CO">Colorado</option>
+            	<option value="CT">Connecticut</option>
+            	<option value="DE">Delaware</option>
+            	<option value="DC">District Of Columbia</option>
+            	<option value="FL">Florida</option>
+            	<option value="GA">Georgia</option>
+            	<option value="HI">Hawaii</option>
+            	<option value="ID">Idaho</option>
+            	<option value="IL">Illinois</option>
+            	<option value="IN">Indiana</option>
+            	<option value="IA">Iowa</option>
+            	<option value="KS">Kansas</option>
+            	<option value="KY">Kentucky</option>
+            	<option value="LA">Louisiana</option>
+            	<option value="ME">Maine</option>
+            	<option value="MD">Maryland</option>
+            	<option value="MA">Massachusetts</option>
+            	<option value="MI">Michigan</option>
+            	<option value="MN">Minnesota</option>
+            	<option value="MS">Mississippi</option>
+            	<option value="MO">Missouri</option>
+            	<option value="MT">Montana</option>
+            	<option value="NE">Nebraska</option>
+            	<option value="NV">Nevada</option>
+            	<option value="NH">New Hampshire</option>
+            	<option value="NJ">New Jersey</option>
+            	<option value="NM">New Mexico</option>
+            	<option value="NY">New York</option>
+            	<option value="NC">North Carolina</option>
+            	<option value="ND">North Dakota</option>
+            	<option value="OH">Ohio</option>
+            	<option value="OK">Oklahoma</option>
+            	<option value="OR">Oregon</option>
+            	<option value="PA">Pennsylvania</option>
+            	<option value="RI">Rhode Island</option>
+            	<option value="SC">South Carolina</option>
+            	<option value="SD">South Dakota</option>
+            	<option value="TN">Tennessee</option>
+            	<option value="TX">Texas</option>
+            	<option value="UT">Utah</option>
+            	<option value="VT">Vermont</option>
+            	<option value="VA">Virginia</option>
+            	<option value="WA">Washington</option>
+            	<option value="WV">West Virginia</option>
+            	<option value="WI">Wisconsin</option>
+            	<option value="WY">Wyoming</option>
+            </select>
+          </div>
+
+        </div>
+
+        <div class='row'>
+          <div class='input-field col s12 m4'>
+            <input id="zip_code" type="text" class="validate" ng-model='$ctrl.form.zip_code'>
+            <label for="zip_code">Zip code</label>
+          </div>
+        </div>
+
+        <div class='row'>
+          <div class='input-field col s12 m6'>
+            <input id="phone" type="text" class="validate" ng-model='$ctrl.form.phone'>
+            <label for="phone">Phone</label>
+          </div>
+        </div>
+
+        <div class='row'>
+          <div class='input-field col s12'>
+            <input id="email" type="text" class="validate" ng-model='$ctrl.form.email'>
+            <label for="email">Email</label>
+          </div>
+        </div>
+
+
+
+        <div class='row'>
+          <div class='col s12 center-align'>
+            <button class="btn waves-effect waves-light btn" type="submit" name="action">Create Event</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+</div>
+</main>
+
+<footerbar></footerbar>
