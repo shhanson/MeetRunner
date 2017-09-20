@@ -14,7 +14,7 @@
 
     vm.loginUser = function loginUser() {
       UsersService.login(vm.login.email, vm.login.password).then(() => {
-        $state.go('myEvents', { user_id: 1 });
+        $state.go('myEvents', { user_id: vm.getSession().id });
       });
     };
 

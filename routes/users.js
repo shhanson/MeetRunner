@@ -17,6 +17,10 @@ router.use(bodyParser.urlencoded({
 
 function getEvents(userID) {
   return knex.select('events.*').from('users_events').join('events', 'users_events.event_id', 'events.id').where('users_events.user_id', userID);
+  // return knex('users_events')
+  //   .where('users_events.user_id', userID)
+  //   .join('events_athletes', 'events_athletes.event_id', 'users_events.event_id')
+  //   .count('events_athletes.athlete_id');
 }
 
 // GET all Users (superuser only)
@@ -40,7 +44,7 @@ router.get('/:id', (req, res, next) => {
   const userID = Number.parseInt(req.params.id, 10);
 
   if (_.isValidID(userID) && req.session.id === userID) {
-    knex.select('first_name', 'last_name', 'timezone')
+    knex.select('first_name', 'last_name', 'timezone', 'email')
       .from('users')
       .where('id', userID)
       .first()
@@ -166,6 +170,7 @@ router.get('/:id/events/', (req, res, next) => {
   const userID = Number.parseInt(req.params.id, 10);
   if (_.isValidID(userID) && req.session.id === userID) {
     getEvents(userID).then((events) => {
+      console.log(events);
       res.json(events);
     }).catch((err) => {
       console.error(err);

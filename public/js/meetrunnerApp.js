@@ -48,6 +48,16 @@
         component: 'createEvent',
       })
       .state({
+        name: 'manageEvent',
+        url: '/events/:event_id/manage',
+        component: 'manageEvent',
+      })
+      .state({
+        name: 'manageSession',
+        url: '/events/:event_id/sessions/:session_id/manage',
+        component: 'manageSession',
+      })
+      .state({
         name: 'session',
         url: '/events/:event_id/sessions/:session_id',
         component: 'session',

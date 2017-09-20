@@ -33,5 +33,13 @@
 
         });
       };
+
+      self.getEvents = function getEvents(userID) {
+        return $http.get(`/api/users/${userID}/events`);
+      };
+
+      self.getUserInfo = function getUserInfo(userID) {
+        return $http.get(`/api/users/${userID}`);
+      };
     }]);
 }());

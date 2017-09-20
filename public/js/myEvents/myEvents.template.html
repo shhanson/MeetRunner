@@ -1,6 +1,58 @@
 <navigation></navigation>
 
 <main class='container'>
-  <h4>OHAI</h4>
+  <div class="row">
+    <h3 class='center-align'>My Events</h3>
+  </div>
+
+
+  <div class='row'>
+    <div class="input-field col s6 m4">
+      <input placeholder="search" ng-model='filterInput' name="filterInput" type="search">
+    </div>
+
+    <div class='input-field col s6 m4'>
+      <select name='sort' ng-model='$ctrl.sortSelected' material-select watch>
+        <option value='start_date'>sort by date</option>
+        <option value='title'>sort by title</option>
+        <option value='city'>sort by city</option>
+      </select>
+    </div>
+  </div>
+
+
+  <div class='row'>
+    <table class='bordered highlight'>
+
+      <thead>
+        <tr>
+          <td>Title</td>
+          <td>Date</td>
+          <td>Registered Athletes</td>
+          <td>Actions</td>
+        </tr>
+      </thead>
+
+      <tbody ng-repeat='event in $ctrl.myEvents | orderBy: $ctrl.sortSelected | filter: filterInput'>
+        <tr>
+          <td>{{ event.title }}</td>
+          <td> {{ event.start_date | date: 'MMM d, yyyy' }}<span ng-if='event.start_date !== event.end_date'> - {{ event.end_date | date: 'MMM d, yyyy' }}</span></td>
+          <td> num</td>
+          <td><a ui-sref='manageEvent({ event_id: event.id })'>View/Manage</a></td>
+        </tr>
+      </tbody>
+
+    </table>
+
+  </div>
+
+
+  <div class='row'>
+    <div class='col s12 center-align'>
+      <a class="waves-effect waves-light btn-large center" ui-sref='createEvent'>Create Event</a>
+    </div>
+  </div>
+
+
 </main>
 <footerbar></footerbar>
