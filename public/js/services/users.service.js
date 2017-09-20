@@ -22,16 +22,13 @@
           });
       };
 
-      self.register = function register(first_name, last_name, email, password, timezone) {
-        return $http.post('/api/users/new', {
-          first_name,
-          last_name,
-          email,
-          password,
-          timezone,
-        }).then(() => {
-
-        });
+      self.register = function register(obj) {
+        return $http.post('/api/users/new', obj)
+          .then((response) => {
+            self.session.id = response.data.id;
+            self.session.is_admin = response.data.is_admin;
+            $localStorage.session = self.session;
+          });
       };
 
       self.getEvents = function getEvents(userID) {

@@ -5,7 +5,7 @@
       templateUrl: '/js/loginReg/loginReg.template.html',
     });
 
-  LoginRegController.$inject = ['UsersService', '$state', '$localStorage'];
+  LoginRegController.$inject = ['UsersService', '$state', '$localStorage', '$location', '$anchorScroll', '$scope'];
 
   function LoginRegController(UsersService, $state, $localStorage) {
     const vm = this;
@@ -19,7 +19,9 @@
     };
 
     vm.registerUser = function registerUser() {
-
+      UsersService.register(vm.reg).then(() => {
+        $state.go('myEvents', { user_id: vm.getSession().id });
+      });
     };
 
     vm.getSession = function getSession() {

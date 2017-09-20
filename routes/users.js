@@ -44,7 +44,7 @@ router.get('/:id', (req, res, next) => {
   const userID = Number.parseInt(req.params.id, 10);
 
   if (_.isValidID(userID) && req.session.id === userID) {
-    knex.select('first_name', 'last_name', 'timezone', 'email')
+    knex.select('first_name', 'last_name', 'timezone', 'email', 'paypal_email')
       .from('users')
       .where('id', userID)
       .first()
@@ -67,11 +67,12 @@ router.put('/:id/edit', ev(validations.put), (req, res, next) => {
     // Add code to change password
     knex('users')
       .where('id', userID)
-      .returning(['first_name', 'last_name', 'timezone'])
+      .returning(['first_name', 'last_name', 'timezone', 'paypal_email'])
       .update({
         first_name: req.body.first_name,
         last_name: req.body.last_name,
         timezone: req.body.timezone,
+        paypal_email: req.body.paypal_email,
       })
       .then((updatedData) => {
         res.json(updatedData[0]);
@@ -87,27 +88,27 @@ router.put('/:id/edit', ev(validations.put), (req, res, next) => {
 
 // New User Registration
 router.post('/new', ev(validations.reg_post), (req, res, next) => {
-  if (!req.session.id) {
-    bcrypt.hash(req.body.password, saltRounds)
-      .then(digest => knex('users')
-        .insert({
-          first_name: req.body.first_name,
-          last_name: req.body.last_name,
-          email: req.body.email,
-          hashed_password: digest,
-          timezone: req.body.timezone,
-        }))
-      .then(() => {
-        res.redirect('/');
+  bcrypt.hash(req.body.password, saltRounds)
+    .then(digest => knex('users')
+      .insert({
+        first_name: req.body.first_name,
+        last_name: req.body.last_name,
+        email: req.body.email,
+        hashed_password: digest,
+        timezone: req.body.timezone,
+        paypal_email: req.body.paypal_email,
       })
-      .catch((err) => {
-        console.error(err);
-        next(err);
-      });
-  } else {
-    // If the user is already registered and logged in, redirect to user page
-    res.redirect(`/users/${req.session.id}/events`);
-  }
+      .returning(['id', 'is_admin']))
+    .then((user) => {
+      console.log(user);
+      req.session.id = user[0].id;
+      req.session.is_admin = user[0].is_admin;
+      res.status(200).send({ id: req.session.id, is_admin: req.session.is_admin });
+    })
+    .catch((err) => {
+      console.error(err);
+      next(err);
+    });
 });
 
 // Delete user (admin only)
@@ -146,9 +147,7 @@ router.post('/login', ev(validations.login_post), (req, res, next) => {
         if (result) {
           req.session.id = userID;
           req.session.is_admin = user.is_admin;
-          console.log(req.session);
           res.status(200).send({ id: userID, is_admin: user.is_admin });
-          // res.redirect(`/users/${userID}/events`);
         } else {
           res.status(401).send({ error: 'Wrong email or password!' });
         }

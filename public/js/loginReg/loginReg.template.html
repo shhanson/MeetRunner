@@ -3,8 +3,8 @@
 <main class='container'>
 
   <div class='row'>
-    <div class='col s12 l6'>
-      <h4 class='center-align'>Returning Users</h4>
+    <div class='col s12 m6 offset-m3' id='loginForm'>
+      <h4 class='center-align'>Log In</h4>
 
       <div class='row'>
         <div class='col s12'>
@@ -34,8 +34,20 @@
 
     </div>
 
-    <div class='col s12 l6'>
-      <h4 class='center-align'>New Users</h4>
+    <div class='row'>
+      <div class='col s12 center-align'>
+        <a href="#">Forgot password</a>
+      </div>
+    </div>
+
+    <div class='row'>
+      <div class='col s12 center-align'>
+        Not registered yet? <a href="#regForm" ng-click='showRegForm=!showRegForm'>Sign up</a>.
+      </div>
+    </div>
+
+    <div class='col s12 m6 offset-m3' ng-show='showRegForm' id='regForm'>
+      <h4 class='center-align'>Create an Account</h4>
 
       <div class='row'>
         <div class='col s12'>
@@ -57,7 +69,15 @@
             <div class='row'>
               <div class="input-field col s12">
                 <input id="regEmail" type="email" class="validate" ng-model='$ctrl.reg.email'>
-                <label for="regEmail">Email</label>
+                <label for="regEmail">Email (used to login)</label>
+              </div>
+            </div>
+
+            <div class='row'>
+              <div class="input-field col s12">
+                <input id="paypalEmail" type="email" class="validate" ng-model='$ctrl.reg.paypal_email'>
+                <label for="paypalEmail">PayPal Email</label>
+                <p>This will be used for collecting registration fees for your events. Leave blank if it's the same email as the one above.</p>
               </div>
             </div>
 
@@ -85,6 +105,7 @@
       </div>
 
     </div>
+
   </div>
 
 </main>

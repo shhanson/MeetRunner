@@ -11,6 +11,7 @@ module.exports.reg_post = {
       .min(6),
     vpassword: Joi.ref('password'),
     timezone: Joi.string().label('timezone'),
+    paypal_email: Joi.string().label('paypal_email').lowercase().email(),
   },
 
 };
@@ -33,6 +34,7 @@ module.exports.put = {
     password: Joi.string().label('password').min(6),
     vpassword: Joi.ref('password'),
     timezone: Joi.string().label('timezone'),
+    paypal_email: Joi.string().label('paypal_email').lowercase().email(),
   },
 
 };
