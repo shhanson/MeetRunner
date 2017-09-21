@@ -6,7 +6,7 @@
     <div class="col s12 m10 offset-m1">
       <div class="card">
         <div class="card-image">
-          <img src="https://scontent-iad3-1.xx.fbcdn.net/v/t1.0-9/602057_10153452188085157_878223539_n.jpg?oh=13fe280588efd7903aae15c78d130e79&oe=5A4E1222">
+          <img src="/images/hpg_platform.jpg" class='regPhoto'>
         </div>
         <div class="card-content">
           <div class='row'>
@@ -21,7 +21,7 @@
           <div class='col s12 m6 right-align'>
             <h5>{{ ($ctrl.event.entry_fee_cents / 100) | currency : '$' }}</h5>
             <a class="waves-effect waves-light btn-large eventRegBtn
-            " ng-click='regBtnClicked=!regBtnClicked'>{{ regBtnClicked ? 'Cancel' : 'Register' }}</a>
+            " ng-click='regBtnClicked=!regBtnClicked' href='#regForm'>{{ regBtnClicked ? 'Cancel' : 'Register' }}</a>
           </div>
         </div>
       </div>
@@ -36,7 +36,7 @@
 
   <div ng-if="regBtnClicked" class='container'>
 
-    <div class='row'>
+    <div class='row' id='regForm'>
       <div class='col s12'>
         <h4 class='center-align'>Athlete Registration Form</h4>
       </div>

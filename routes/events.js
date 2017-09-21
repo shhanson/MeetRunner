@@ -63,19 +63,17 @@ router.post('/new', ev(validations.post), (req, res, next) => {
         description: req.body.description,
         entry_fee_cents: req.body.entry_fee_cents,
       })
-      .returning('*')
-      .then((newEventData) => {
+      .returning('id')
+      .then((eventID) => {
+        console.log(eventID);
         knex('users_events')
           .insert({
             user_id: req.session.id,
-            event_id: newEventData[0].id,
+            event_id: eventID[0],
+          })
+          .then(() => {
+            res.sendStatus(200);
           });
-        return new Promise((resolve) => {
-          resolve(newEventData[0]);
-        });
-      })
-      .then((newEventData) => {
-        res.json(newEventData);
       })
       .catch((err) => {
         console.error(err);

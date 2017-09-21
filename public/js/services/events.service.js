@@ -14,5 +14,9 @@
       self.getEvent = function getEvent(eventID) {
         return $http.get(`/api/events/${eventID}`);
       };
+
+      self.postEvent = function postEvent(formData) {
+        return $http.post('/api/events/new', formData);
+      };
     }]);
 }());
