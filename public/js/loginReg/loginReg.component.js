@@ -5,7 +5,7 @@
       templateUrl: '/js/loginReg/loginReg.template.html',
     });
 
-  LoginRegController.$inject = ['UsersService', '$state', '$localStorage', '$location', '$anchorScroll', '$scope'];
+  LoginRegController.$inject = ['UsersService', '$state', '$localStorage'];
 
   function LoginRegController(UsersService, $state, $localStorage) {
     const vm = this;

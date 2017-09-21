@@ -1,6 +1,7 @@
 const bodyParser = require('body-parser');
 const ev = require('express-validation');
 const express = require('express');
+const paypal = require('paypal-rest-sdk');
 
 const _ = require('../tools/tools');
 const knex = require('../knex');
@@ -8,10 +9,39 @@ const validations = require('../validations/athletes');
 
 const router = express.Router();
 
+paypal.configure({
+  mode: 'sandbox', // sandbox or live
+  client_id: 'ARjR2CTewWopHOnpFSBDfNN-CxqM0Ll87J1D9_byDAobnYgylhoh33PC9RuF0DQm-95AjOySBwzKWxaz',
+  client_secret: 'ECU_5dC654J5OzbxNwr-eoLPo9Aywjq7tSy3XzRWQ8NClC2_jdtnkxsE4HACE9x9sb5qTD5vwnMmjHWk',
+});
+
 router.use(bodyParser.json());
 router.use(bodyParser.urlencoded({
   extended: false,
 }));
+
+function createPaypalJSON(payeeEmail, entryFee, description) {
+  return {
+    intent: 'sale',
+    payer: {
+      payment_method: 'paypal',
+    },
+    redirect_urls: {
+      return_url: '/',
+      cancel_url: '/',
+    },
+    transactions: [{
+      amount: {
+        total: entryFee,
+        currency: 'USD',
+      },
+      payee: {
+        email: payeeEmail,
+      },
+      description,
+    }],
+  };
+}
 
 // GET all athletes registered for an event
 router.get('/:event_id/athletes', (req, res, next) => {
@@ -42,6 +72,58 @@ router.get('/:event_id/athletes', (req, res, next) => {
   } else {
     res.status(401).send({ error: 'Not authorized!' });
   }
+});
+
+
+router.post('/:event_id/athletes/register', ev(validations.post), (req, res, next) => {
+  const eventID = Number.parseInt(req.params.event_id, 10);
+  if (!_.isValidID(eventID)) {
+    res.status(400).send({ error: 'Bad request!' });
+  }
+
+  knex('users_events')
+    .where('event_id', eventID)
+    .join('users', 'users.id', 'user_id')
+    .join('events', 'events.id', eventID)
+    .then((userData) => {
+      // PAYPAL STUFF
+
+      const payeeEmail = userData[0].paypal_email || userData[0].email;
+      const entryFee = (userData[0].entry_fee_cents / 100).toFixed(2).toString();
+      const description = `${userData[0].title} athlete registration`;
+      const paypalJSON = createPaypalJSON(payeeEmail, entryFee, description);
+
+      // THEN POST ATHLETE
+
+      // THEN POST ATHLETE TO EVENTS_ATHLETES
+      console.log(userData);
+      res.sendStatus(200);
+    })
+    .catch((err) => {
+      console.error(err);
+      next(err);
+    });
+
+  // const createPaymentJSON = {
+  //   intent: 'sale',
+  //   payer: {
+  //     payment_method: 'paypal',
+  //   },
+  //   redirect_urls: {
+  //     return_url: 'http://return.url',
+  //     cancel_url: 'http://cancel.url',
+  //   },
+  //   transactions: [{
+  //     amount: {
+  //       currency: 'USD',
+  //       total: '1.00',
+  //     },
+  //     payee: {
+  //       email: paypal_email,
+  //     },
+  //     description: 'This is the payment description.',
+  //   }],
+  // };
 });
 
 // POST a new athlete to the event

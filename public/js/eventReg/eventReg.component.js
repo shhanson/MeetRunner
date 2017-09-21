@@ -5,9 +5,9 @@
       templateUrl: '/js/eventReg/eventReg.template.html',
     });
 
-  EventRegController.$inject = ['EventsService', 'CategoriesService', '$stateParams', '$state'];
+  EventRegController.$inject = ['EventsService', 'AthletesService', 'CategoriesService', '$stateParams', '$state'];
 
-  function EventRegController(EventsService, CategoriesService, $stateParams, $state) {
+  function EventRegController(EventsService, AthletesService, CategoriesService, $stateParams, $state) {
     const vm = this;
     const event = {};
     const tempReg = {};
@@ -26,6 +26,15 @@
           vm.categories = CategoriesService.categories;
         });
       }
+    };
+
+    vm.register = function register() {
+      console.log('BEFORE POST REQ');
+      console.log(vm.tempReg);
+      vm.tempReg.gender_id = vm.tempReg.gender === 'female' ? 1 : 2;
+      AthletesService.registerAthlete(vm.eventID, vm.tempReg).then(() => {
+        console.log('REGISTRATION SUCCESS');
+      });
     };
   }
 }());

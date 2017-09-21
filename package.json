@@ -23,6 +23,7 @@
     "knex": "^0.13.0",
     "morgan": "~1.8.1",
     "ngstorage": "^0.3.11",
+    "paypal-rest-sdk": "^1.7.1",
     "pg": "^7.3.0",
     "serve-favicon": "~2.4.2"
   },

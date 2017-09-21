@@ -1,0 +1,51 @@
+<navigation></navigation>
+
+<main class='container'>
+  <div class="row center-align">
+    <h3>Manage Event</h3>
+    <h4>Sessions</h4>
+  </div>
+
+  <div class='row center-align' ng-show='$ctrl.sessions.length === 0'>
+    <p> You haven't created any sessions yet! Click "Create Session" to get started.</p>
+  </div>
+
+  <div class='row' ng-show='$ctrl.sessions.length > 0'>
+    <table class='bordered highlight'>
+
+      <thead>
+        <tr>
+          <td>Description</td>
+          <td>Date</td>
+          <td>Weigh-in Time</td>
+          <td>Start Time</td>
+          <td>Number of Athletes</td>
+          <td>Actions</td>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr ng-repeat='session in $ctrl.sessions | orderBy: weigh_time'>
+          <td>{{ session.description }}</td>
+          <td> {{ session.date | date: 'MM-dd-yy' }} </td>
+          <td> {{ session.weigh_time | date: 'H:mm' }} </td>
+          <td> {{ session.start_time | date: 'H:mm'}} </td>
+          <td> num </td>
+          <td><a ui-sref='manageSession({ event_id: session.event_id, session_id: session.id })'>View/Manage</a></td>
+        </tr>
+      </tbody>
+
+    </table>
+
+  </div>
+
+
+  <div class='row'>
+    <div class='col s12 center-align'>
+      <a class="waves-effect waves-light btn-large center" ui-sref='createSession'><i class="medium material-icons left">add</i> Create Session</a>
+    </div>
+  </div>
+
+
+</main>
+<footerbar></footerbar>
