@@ -22,5 +22,9 @@
       self.getEventSessions = function getSessions(eventID) {
         return $http.get(`/api/events/${eventID}/sessions`);
       };
+
+      self.postSession = function postSession(eventID, formData) {
+        return $http.post(`/api/events/${eventID}/sessions/new`, formData);
+      };
     }]);
 }());

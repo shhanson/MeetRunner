@@ -40,7 +40,7 @@
           <td>{{ session.description }}</td>
           <td> {{ session.date | date: 'MM-dd-yy' }} </td>
           <td> {{ session.weigh_time | date: 'h:mma' }} </td>
-          <td> {{ session.start_time | date: 'h:mma'}} </td>
+          <td> {{ session.start_time | date: 'h:mma' }} </td>
           <td> {{ session.numAthletes }} </td>
           <td><a ui-sref='manageSession({ event_id: session.event_id, session_id: session.id })'>Manage</a></td>
         </tr>
@@ -53,19 +53,19 @@
 
   <div class='row center-align'>
     <div class='col s12'>
-      <a class="waves-effect waves-light btn-large" ui-sref='createSession'><i class="medium material-icons left">add</i>Create Session</a>
+      <a class="waves-effect waves-light btn-large btn" ui-sref='createSession({ event_id: $ctrl.event.id })'><i class="medium material-icons left">add</i>Create Session</a>
     </div>
   </div>
 
   <div class='row center-align'>
     <div class='col s12'>
-      <a class="waves-effect waves-light btn-large" ui-sref='editEvent'><i class="medium material-icons left">create</i>Edit Event Info</a>
+      <a class="waves-effect waves-light btn-large btn" ui-sref='editEvent'><i class="medium material-icons left">create</i>Edit Event Info</a>
     </div>
   </div>
 
   <div class='row center-align'>
     <div class='col s12'>
-      <a class="waves-effect waves-light btn-large" ui-sref='manageAthletes'><i class='medium material-icons left'>group</i>Manage Athletes</a>
+      <a class="waves-effect waves-light btn-large btn" ui-sref='manageAthletes'><i class='medium material-icons left'>group</i>Manage Athletes</a>
     </div>
   </div>
 

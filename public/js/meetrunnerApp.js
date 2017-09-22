@@ -1,5 +1,5 @@
 (function () {
-  angular.module('meetrunner', ['ui.router', 'ui.materialize', 'ngStorage'])
+  angular.module('meetrunner', ['ui.router', 'ui.materialize', 'ngStorage', 'angularMoment'])
     .config(config);
 
   config.$inject = ['$stateProvider', '$urlRouterProvider', '$locationProvider'];
@@ -51,11 +51,6 @@
         name: 'manageSession',
         url: '/events/:event_id/sessions/:session_id/manage',
         component: 'manageSession',
-      })
-      .state({
-        name: 'session',
-        url: '/events/:event_id/sessions/:session_id',
-        component: 'session',
       })
       .state({
         name: 'createSession',
