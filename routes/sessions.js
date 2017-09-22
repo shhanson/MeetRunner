@@ -13,6 +13,15 @@ router.use(bodyParser.urlencoded({
   extended: false,
 }));
 
+function getNumAthletesForSession(sessionID) {
+  return knex('sessions')
+    .where('id', sessionID)
+    .join('athletes_sessions', 'athletes_sessions.session_id', 'sessions.id')
+    .count('athletes_sessions.session_id')
+    .first()
+    .then(count => ({ session_id: sessionID, count: count.count }));
+}
+
 // GET all sessions within an event
 router.get('/:event_id/sessions', (req, res, next) => {
   const eventID = Number.parseInt(req.params.event_id, 10);
@@ -20,7 +29,29 @@ router.get('/:event_id/sessions', (req, res, next) => {
     knex('sessions')
       .where('event_id', eventID)
       .then((sessions) => {
-        res.json(sessions);
+        const promises = [];
+        sessions.forEach((session) => {
+          promises.push(getNumAthletesForSession(session.id));
+        });
+
+        Promise.all(promises).then((counts) => {
+          const sessionsIndexed = sessions.reduce((a, z) => {
+            a[z.id] = z;
+            return a;
+          }, {});
+
+          counts.forEach((count) => {
+            sessionsIndexed[count.session_id].numAthletes = count.count;
+          });
+
+          const result = [];
+          Object.keys(sessionsIndexed).forEach((key) => {
+            result.push(sessionsIndexed[key]);
+          });
+
+          res.json(result);
+        });
+        // res.json(sessions);
       })
       .catch((err) => {
         console.error(err);

@@ -26,7 +26,7 @@
           <td>{{ event.title }}</td>
           <td> {{ event.start_date | date: 'MMM d, yyyy' }}<span ng-if='event.start_date !== event.end_date'> - {{ event.end_date | date: 'MMM d, yyyy' }}</span></td>
           <td> {{ event.numAthletes }}</td>
-          <td><a ui-sref='manageEvent({ event_id: event.id })'>View/Manage</a></td>
+          <td><a ui-sref='manageEvent({ event_id: event.id })'>Manage</a></td>
         </tr>
       </tbody>
 
