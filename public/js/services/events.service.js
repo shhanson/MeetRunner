@@ -11,6 +11,10 @@
           });
       };
 
+      self.getSessionlessAthletes = function getSessionlessAthletes(eventID) {
+        return $http.get(`/api/events/${eventID}/athletes/sessionless`);
+      };
+
       self.getEvent = function getEvent(eventID) {
         return $http.get(`/api/events/${eventID}`);
       };
@@ -25,6 +29,10 @@
 
       self.postSession = function postSession(eventID, formData) {
         return $http.post(`/api/events/${eventID}/sessions/new`, formData);
+      };
+
+      self.addAthleteToSession = function addAthleteToSession(eventID, sessionID, athleteID) {
+        return $http.post(`/api/events/${eventID}/sessions/${sessionID}/athletes/${athleteID}/add`);
       };
     }]);
 }());

@@ -35,7 +35,7 @@ $('.timepicker').pickatime({
   <div class='row'>
     <div class='col s12 m6 offset-m3'>
 
-      <form ng-submit='$ctrl.createSession()'>
+      <form>
 
         <div class='row'>
           <div class="input-field col s12">
@@ -71,14 +71,55 @@ $('.timepicker').pickatime({
           </div>
         </div>
 
-        <div class='row'>
-          <div class='col s12 center-align'>
-            <button class="btn waves-effect waves-light btn" type="submit" name="action">Create Session</button>
-          </div>
-        </div>
+
       </form>
 
 
+    </div>
+  </div>
+
+  <div class='row center-align' ng-if='$ctrl.sessionlessAthletes.length > 0'>
+    <h5> Add Athletes</h5>
+    <table class='striped'>
+      <thead>
+        <tr>
+          <td>Name</td>
+          <td>USAW ID</td>
+          <td>Gender</td>
+          <td>Year of Birth</td>
+          <td>Division</td>
+          <td>Category</td>
+          <td>Entry total</td>
+          <td>Add</td>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr ng-repeat='athlete in $ctrl.sessionlessAthletes | orderBy: "entry_total"'>
+          <td> {{ athlete.first_name }} {{ athlete.last_name}}</td>
+          <td> {{ athlete.usaw_id }} </td>
+          <td> {{ athlete.gender_id === 1 ? 'F' : 'M' }} </td>
+          <td> {{ athlete.year_of_birth }} </td>
+          <td> {{ $ctrl.DIVISIONS[athlete.division_id] }} </td>
+          <td> {{ $ctrl.CATEGORIES[athlete.category_id] }}</td>
+          <td> {{ athlete.entry_total }}</td>
+          <td>
+
+            <input type="checkbox" id="add_{{athlete.id}}" ng-model='$ctrl.athlete[athlete.id]'/>
+            <label for='add_{{athlete.id}}'></label>
+
+          </td>
+        </tr>
+
+
+      </tbody>
+
+    </table>
+  </div>
+
+  <div class='row'>
+    <div class='col s12 center-align'>
+      <button ng-click='$ctrl.createSession()' class="btn waves-effect waves-light btn" type="submit" name="action">Create Session</button>
     </div>
   </div>
 

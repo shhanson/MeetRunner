@@ -212,6 +212,46 @@ module.exports.athletes = [
     entry_total: 225,
   },
 
+  {
+    id: 7,
+    email: 'dan@email.com',
+    first_name: 'Dan',
+    last_name: 'S',
+    usaw_id: '99944',
+    year_of_birth: 1990,
+    gender_id: 2,
+    division_id: 5,
+    category_id: 22,
+    entry_total: 225,
+  },
+
+  {
+    id: 8,
+    email: 'abby@email.com',
+    first_name: 'Abby',
+    last_name: 'R',
+    usaw_id: '99654',
+    year_of_birth: 1990,
+    gender_id: 1,
+    division_id: 5,
+    category_id: 15,
+    entry_total: 110,
+  },
+
+  {
+    id: 9,
+    email: 'brittany@email.com',
+    first_name: 'Brittany',
+    last_name: 'S',
+    usaw_id: '9963254',
+    year_of_birth: 1989,
+    gender_id: 1,
+    division_id: 5,
+    category_id: 13,
+    entry_total: 140,
+  },
+
+
 ];
 
 module.exports.categories = [
@@ -421,6 +461,18 @@ module.exports.events_athletes = [
   {
     athlete_id: 6,
     event_id: 3,
+  },
+  {
+    athlete_id: 7,
+    event_id: 1,
+  },
+  {
+    athlete_id: 8,
+    event_id: 1,
+  },
+  {
+    athlete_id: 9,
+    event_id: 1,
   },
 
 ];
