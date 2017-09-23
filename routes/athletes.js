@@ -9,11 +9,6 @@ const validations = require('../validations/athletes');
 
 const router = express.Router();
 
-paypal.configure({
-  mode: 'sandbox', // sandbox or live
-  client_id: 'ARjR2CTewWopHOnpFSBDfNN-CxqM0Ll87J1D9_byDAobnYgylhoh33PC9RuF0DQm-95AjOySBwzKWxaz',
-  client_secret: 'ECU_5dC654J5OzbxNwr-eoLPo9Aywjq7tSy3XzRWQ8NClC2_jdtnkxsE4HACE9x9sb5qTD5vwnMmjHWk',
-});
 
 router.use(bodyParser.json());
 router.use(bodyParser.urlencoded({

@@ -95,7 +95,7 @@ $('.timepicker').pickatime({
       </thead>
 
       <tbody>
-        <tr ng-repeat='athlete in $ctrl.sessionlessAthletes | orderBy: "entry_total"'>
+        <tr ng-repeat='athlete in $ctrl.sessionlessAthletes | orderBy: ["gender_id","entry_total"]'>
           <td> {{ athlete.first_name }} {{ athlete.last_name}}</td>
           <td> {{ athlete.usaw_id }} </td>
           <td> {{ athlete.gender_id === 1 ? 'F' : 'M' }} </td>
