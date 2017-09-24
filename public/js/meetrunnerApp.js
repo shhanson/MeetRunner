@@ -53,6 +53,11 @@
         component: 'manageSession',
       })
       .state({
+        name: 'editSession',
+        url: '/events/:event_id/sessions/:session_id/edit',
+        component: 'editSession',
+      })
+      .state({
         name: 'createSession',
         url: '/events/:event_id/sessions/new',
         component: 'createSession',

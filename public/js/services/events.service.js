@@ -4,6 +4,7 @@
       const self = this;
       self.events = [];
       self.event = {};
+      self.session = {};
 
       self.getEvents = function getEvents() {
         return $http.get('/api/events')
@@ -30,6 +31,12 @@
         return $http.get(`/api/events/${eventID}/sessions`);
       };
 
+      self.getSession = function getSession(eventID, sessionID) {
+        return $http.get(`/api/events/${eventID}/sessions/${sessionID}`).then((response) => {
+          self.session = response.data;
+        });
+      };
+
       self.postSession = function postSession(eventID, formData) {
         return $http.post(`/api/events/${eventID}/sessions/new`, formData);
       };
@@ -45,6 +52,12 @@
       self.updateEvent = function updateEvent(eventID, eventInfo) {
         return $http.put(`/api/events/${eventID}/edit`, eventInfo).then((response) => {
           self.event = response.data;
+        });
+      };
+
+      self.updateSession = function updateSession(eventID, sessionID, sessionInfo) {
+        return $http.put(`/api/events/${eventID}/sessions/${sessionID}/edit`, sessionInfo).then((response) => {
+          self.session = response.data;
         });
       };
     }]);

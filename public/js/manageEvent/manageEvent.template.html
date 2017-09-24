@@ -37,7 +37,7 @@
           <td> {{ session.weigh_time | date: 'h:mma' }} </td>
           <td> {{ session.start_time | date: 'h:mma' }} </td>
           <td> {{ session.numAthletes }} </td>
-          <td><a ui-sref='manageSession({ event_id: session.event_id, session_id: session.id })'>Manage</a></td>
+          <td><a ui-sref='editSession({ event_id: session.event_id, session_id: session.id })'>Edit Info</a></td>
         </tr>
       </tbody>
 

@@ -54,6 +54,7 @@ $('.timepicker').pickatime({
         <div class='row' ng-show='$ctrl.event.start_date === $ctrl.event.end_date'>
           <div class='input-field col 12'>
             <input id='date' type='text' ng-model='$ctrl.form.date' ng-value='$ctrl.event.start_date' disabled>
+            <label for="date">Date</label>
           </div>
         </div>
 
@@ -67,7 +68,7 @@ $('.timepicker').pickatime({
         <div class='row'>
           <div class="input-field col s12">
             <input id="start_time" type="text" class="timepicker" ng-model='$ctrl.form.start_time'>
-            <label for="weigh_time">Start Time</label>
+            <label for="start_time">Start Time</label>
           </div>
         </div>
 
