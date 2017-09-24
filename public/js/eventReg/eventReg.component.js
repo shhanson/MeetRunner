@@ -16,7 +16,7 @@
     vm.$onInit = function onInit() {
       vm.eventID = $stateParams.event_id;
       EventsService.getEvent(vm.eventID).then((response) => {
-        vm.event = response.data;
+        vm.event = EventsService.event;
       });
     };
 
@@ -29,8 +29,6 @@
     };
 
     vm.register = function register() {
-      console.log('BEFORE POST REQ');
-      console.log(vm.tempReg);
       vm.tempReg.gender_id = vm.tempReg.gender === 'female' ? 1 : 2;
       AthletesService.registerAthlete(vm.eventID, vm.tempReg).then(() => {
         console.log('REGISTRATION SUCCESS');

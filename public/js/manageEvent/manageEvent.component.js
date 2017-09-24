@@ -18,13 +18,19 @@
         vm.sessions = response.data;
       });
 
-      EventsService.getEvent($stateParams.event_id).then((response) => {
-        vm.event = response.data;
+      EventsService.getEvent($stateParams.event_id).then(() => {
+        vm.event = EventsService.event;
       });
     };
 
     vm.getSession = function getSession() {
       return $localStorage.session;
+    };
+
+    vm.updateEvent = function updateEvent() {
+      EventsService.updateEvent(vm.event.id, vm.event).then(() => {
+        vm.event = EventsService.event;
+      });
     };
   }
 }());

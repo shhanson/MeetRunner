@@ -3,6 +3,7 @@
     .service('EventsService', ['$http', function service($http) {
       const self = this;
       self.events = [];
+      self.event = {};
 
       self.getEvents = function getEvents() {
         return $http.get('/api/events')
@@ -16,7 +17,9 @@
       };
 
       self.getEvent = function getEvent(eventID) {
-        return $http.get(`/api/events/${eventID}`);
+        return $http.get(`/api/events/${eventID}`).then((response) => {
+          self.event = response.data;
+        });
       };
 
       self.postEvent = function postEvent(formData) {
@@ -37,6 +40,12 @@
 
       self.getAthleteSession = function getAthleteSession(eventID, athleteID) {
         return $http.get(`/api/events/${eventID}/athletes/${athleteID}/session`);
+      };
+
+      self.updateEvent = function updateEvent(eventID, eventInfo) {
+        return $http.put(`/api/events/${eventID}/edit`, eventInfo).then((response) => {
+          self.event = response.data;
+        });
       };
     }]);
 }());

@@ -69,8 +69,8 @@
         });
       });
 
-      EventsService.getEvent(vm.eventID).then((response) => {
-        vm.event = response.data;
+      EventsService.getEvent(vm.eventID).then(() => {
+        vm.event = EventsService.event;
       });
 
       EventsService.getEventSessions(vm.eventID).then((response) => {

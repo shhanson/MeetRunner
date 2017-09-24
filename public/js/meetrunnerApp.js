@@ -61,6 +61,11 @@
         name: 'manageAthletes',
         url: '/events/:event_id/athletes',
         component: 'manageAthletes',
+      })
+      .state({
+        name: 'editEvent',
+        url: '/events/:event_id/edit',
+        component: 'editEvent',
       });
   }
 }());
