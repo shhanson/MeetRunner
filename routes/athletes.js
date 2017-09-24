@@ -196,7 +196,7 @@ router.get('/:event_id/athletes/:athlete_id/session', (req, res, next) => {
     })
     .catch((err) => {
       console.error(err);
-      next(err);
+      res.json(-1);
     });
 });
 

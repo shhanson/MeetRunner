@@ -14,5 +14,21 @@
           self.athletes = response.data;
         });
       };
+
+      self.addToSession = function addToSession(eventID, sessionID, athleteID) {
+        return $http.post(`/api/events/${eventID}/sessions/${sessionID}/athletes/${athleteID}/add`, {
+          event_id: eventID,
+          session_id: sessionID,
+          athlete_id: athleteID,
+        });
+      };
+
+      self.changeSession = function changeSession(eventID, sessionID, athleteID) {
+        return $http.put(`/api/events/${eventID}/sessions/${sessionID}/athletes/${athleteID}/edit`, {
+          event_id: eventID,
+          session_id: sessionID,
+          athlete_id: athleteID,
+        });
+      };
     }]);
 }());

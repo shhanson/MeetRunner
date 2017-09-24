@@ -52,7 +52,7 @@
 
           <td class='input-field'>
 
-            <select material-select ng-model='$ctrl.selected[athlete.id]'>
+            <select material-select ng-change='$ctrl.setSession(athlete.id)' ng-model='$ctrl.selected[athlete.id]'>
               <option ng-repeat='session in $ctrl.sessions' ng-value='session.id'>{{session.description}}</option>
 
             </select>

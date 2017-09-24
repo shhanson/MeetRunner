@@ -72,7 +72,21 @@
     };
 
     vm.setSession = function setSession(athleteID) {
-      console.log(vm.selected[athleteID]);
+      const selectedSession = vm.selected[athleteID];
+
+      vm.athletes.forEach((athlete) => {
+        if (athlete.id === athleteID) {
+          if (athlete.session_id === -1) {
+            AthletesService.addToSession(vm.eventID, selectedSession, athleteID).then(() => {
+              athlete.session_id = vm.selected[athleteID];
+            });
+          } else {
+            AthletesService.changeSession(vm.eventID, selectedSession, athleteID).then(() => {
+              athlete.session_id = vm.selected[athleteID];
+            });
+          }
+        }
+      });
     };
   }
 }());
