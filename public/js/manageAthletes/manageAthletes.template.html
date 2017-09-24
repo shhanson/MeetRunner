@@ -15,6 +15,23 @@
     <p> There aren't any athletes registered for this event yet! </p>
   </div>
 
+  <div class='row' ng-show='$ctrl.athletes.length > 0' >
+    <div class="input-field col s6 m4">
+      <input placeholder="search" ng-model='filterInput' name="filterInput" type="search">
+    </div>
+
+    <div class='input-field col s6 m4'>
+      <select name='sort' ng-model='$ctrl.sortSelected' material-select watch>
+
+        <option value='first_name'>sort by first name</option>
+        <option value='gender'>sort by gender</option>
+        <option value='year_of_birth'>sort by year of birth</option>
+        <option value='session_id'>sort by session</option>
+        <option value='lot_num'>sort by lot number</option>
+      </select>
+    </div>
+  </div>
+
   <div class='row' ng-show='$ctrl.athletes.length > 0'>
     <table class='bordered striped'>
       <thead>
@@ -38,7 +55,7 @@
       </thead>
 
       <tbody>
-        <tr ng-repeat='athlete in $ctrl.athletes | orderBy: ["gender_id", "entry_total"]'>
+        <tr ng-repeat='athlete in $ctrl.athletes | orderBy: $ctrl.sortSelected | filter: filterInput'>
           <td>{{ athlete.lot_num }}</td>
           <td>{{ athlete.first_name }}</td>
           <td>{{ athlete.last_name }}</td>

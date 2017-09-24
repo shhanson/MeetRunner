@@ -20,7 +20,7 @@
 
           <div class='col s12 m6 right-align'>
             <h5>{{ ($ctrl.event.entry_fee_cents / 100) | currency : '$' }}</h5>
-            <a class="waves-effect waves-light btn-large eventRegBtn
+            <a class="waves-effect waves-light btn-large green
             " ng-click='regBtnClicked=!regBtnClicked' href='#regForm'>{{ regBtnClicked ? 'Cancel' : 'Register' }}</a>
           </div>
         </div>
@@ -125,11 +125,11 @@
         </div>
 
         <div class='row'>
-          Total due: {{ ($ctrl.event.entry_fee_cents / 100) | currency: '$'}} (non-refundable)
+          <h5>Total due: {{ ($ctrl.event.entry_fee_cents / 100) | currency: '$'}} (non-refundable)</h5>
         </div>
 
         <div class='row center-align' >
-          <button class="btn waves-effect waves-light" type="submit" name="action">Register</button>
+          <button class="btn waves-effect waves-light btn-large green" type="submit" name="action">Register</button>
         </div>
 
       </form>

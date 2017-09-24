@@ -13,6 +13,8 @@
     vm.event = {};
     vm.sessions = [];
     vm.selected = {};
+    vm.nums = [];
+    vm.sortSelected = ['gender_id', 'entry_total'];
 
     vm.DIVISIONS = {
       1: 'youth13u',
@@ -53,6 +55,10 @@
     vm.$onInit = function onInit() {
       AthletesService.getAthletes(vm.eventID).then(() => {
         vm.athletes = AthletesService.athletes;
+
+        for (let i = 1; i <= vm.athletes.length; i++) {
+          vm.nums.push(i);
+        }
 
         vm.athletes.forEach((athlete) => {
           athlete.bodyweight_kg = (athlete.bodyweight_grams / 100).toFixed(2);
@@ -98,20 +104,21 @@
     };
 
     vm.generateLotNums = function generateLotNums() {
-      const nums = [];
-      for (let i = 1; i <= vm.athletes.length; i++) {
-        nums.push(i);
+      if (vm.nums.length === 0) {
+        for (let i = 1; i <= vm.athletes.length; i++) {
+          vm.nums.push(i);
+        }
       }
-
+      const promises = [];
       vm.athletes.forEach((athlete) => {
-        const lotNum = nums[Math.floor(Math.random() * nums.length)];
+        const lotNum = vm.nums[Math.floor(Math.random() * vm.nums.length)];
         athlete.lot_num = lotNum;
 
-
-        AthletesService.updateAthlete(vm.eventID, athlete.id, athlete).then(() => {
-          nums.splice(nums.indexOf(lotNum), 1);
-        });
+        promises.push(AthletesService.updateAthlete(vm.eventID, athlete.id, athlete));
+        vm.nums.splice(vm.nums.indexOf(lotNum), 1);
       });
+
+      Promise.all(promises);
     };
   }
 }());
