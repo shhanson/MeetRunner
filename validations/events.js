@@ -16,6 +16,7 @@ module.exports.post = {
     email: Joi.string().label('email').email().lowercase().required(),
     description: Joi.string().label('description').required(),
     entry_fee_cents: Joi.number().integer().label('entry_fee_cents').required(),
+    image_url: Joi.string().label('image_url'),
 
   },
 
@@ -37,6 +38,7 @@ module.exports.put = {
     email: Joi.string().label('email').lowercase().email(),
     description: Joi.string().label('description'),
     entry_fee_cents: Joi.number().integer().label('entry_fee_cents'),
+    image_url: Joi.string().label('image_url'),
   },
 
 
