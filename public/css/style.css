@@ -26,6 +26,10 @@ div {
   background-color: #031927;
 }
 
+.green {
+  background-color: green;
+}
+
 .page-footer, .footer-copyright {
   /*background-color: #031927;*/
   background-color: darkslategrey;

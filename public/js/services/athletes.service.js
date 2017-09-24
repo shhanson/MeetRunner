@@ -30,5 +30,9 @@
           athlete_id: athleteID,
         });
       };
+
+      self.updateAthlete = function updateAthlete(eventID, athleteID, athlete) {
+        return $http.put(`/api/events/${eventID}/athletes/${athleteID}/edit`, athlete);
+      };
     }]);
 }());

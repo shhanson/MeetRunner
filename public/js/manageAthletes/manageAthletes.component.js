@@ -55,6 +55,7 @@
         vm.athletes = AthletesService.athletes;
 
         vm.athletes.forEach((athlete) => {
+          athlete.bodyweight_kg = (athlete.bodyweight_grams / 100).toFixed(2);
           EventsService.getAthleteSession(vm.eventID, athlete.id).then((response) => {
             athlete.session_id = response.data;
             vm.selected[athlete.id] = athlete.session_id;
@@ -86,6 +87,30 @@
             });
           }
         }
+      });
+    };
+
+    vm.updateAthlete = function updateAthlete(athlete) {
+      athlete.bodyweight_grams = Math.round(athlete.bodyweight_kg * 100);
+      AthletesService.updateAthlete(vm.eventID, athlete.id, athlete).then(() => {
+
+      });
+    };
+
+    vm.generateLotNums = function generateLotNums() {
+      const nums = [];
+      for (let i = 1; i <= vm.athletes.length; i++) {
+        nums.push(i);
+      }
+
+      vm.athletes.forEach((athlete) => {
+        const lotNum = nums[Math.floor(Math.random() * nums.length)];
+        athlete.lot_num = lotNum;
+
+
+        AthletesService.updateAthlete(vm.eventID, athlete.id, athlete).then(() => {
+          nums.splice(nums.indexOf(lotNum), 1);
+        });
       });
     };
   }

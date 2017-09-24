@@ -32,6 +32,7 @@
           <td>Entry Total</td>
           <td>Session</td>
           <td>Bodyweight</td>
+          <td>Save Changes</td>
 
         </tr>
       </thead>
@@ -59,11 +60,27 @@
 
 
           </td>
-          <td>{{ athlete.bodyweight_grams ? athlete.bodyweight_grams / 100 : ''}}</td>
+          <td class='input-field'>
+            <div class='col s4'>
+              <input type="text" class="validate" ng-model='athlete.bodyweight_kg' >
+            </div>
+
+
+          </td>
+
+          <td>
+            <a class="waves-effect waves-light btn-small btn green" ng-click='$ctrl.updateAthlete(athlete)'>Save</a>
+          </td>
         </tr>
       </tbody>
 
     </table>
+  </div>
+
+  <div class='row center-align'>
+    <div class='col s12 center-align'>
+      <a class="waves-effect waves-light btn-large btn" ng-click='$ctrl.generateLotNums()'>Generate Lot Numbers </a>
+    </div>
   </div>
 </main>
 
