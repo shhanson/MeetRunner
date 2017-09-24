@@ -146,6 +146,7 @@ module.exports.athletes = [
     division_id: 5,
     category_id: 9,
     entry_total: 137,
+    coach: 'David Griffin',
   },
   {
     id: 2,
@@ -158,6 +159,7 @@ module.exports.athletes = [
     division_id: 5,
     category_id: 2,
     entry_total: 100,
+    coach: 'David Griffin',
   },
 
   {
@@ -171,6 +173,7 @@ module.exports.athletes = [
     division_id: 5,
     category_id: 7,
     entry_total: 120,
+    coach: 'David Griffin',
   },
 
   {
@@ -184,6 +187,7 @@ module.exports.athletes = [
     division_id: 5,
     category_id: 17,
     entry_total: 220,
+    coach: 'David Griffin',
   },
 
   {
@@ -197,6 +201,7 @@ module.exports.athletes = [
     division_id: 5,
     category_id: 24,
     entry_total: 185,
+    coach: 'David Griffin',
   },
 
   {
@@ -210,6 +215,7 @@ module.exports.athletes = [
     division_id: 5,
     category_id: 22,
     entry_total: 225,
+
   },
 
   {
@@ -223,6 +229,7 @@ module.exports.athletes = [
     division_id: 5,
     category_id: 22,
     entry_total: 225,
+    coach: 'David Griffin',
   },
 
   {
@@ -236,6 +243,7 @@ module.exports.athletes = [
     division_id: 5,
     category_id: 15,
     entry_total: 110,
+    coach: 'David Griffin',
   },
 
   {
@@ -249,6 +257,8 @@ module.exports.athletes = [
     division_id: 5,
     category_id: 13,
     entry_total: 140,
+    coach: 'Ursula Garza',
+    club: 'Texas Barbell',
   },
 
 

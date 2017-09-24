@@ -58,9 +58,9 @@
         component: 'createSession',
       })
       .state({
-        name: 'athletes',
+        name: 'manageAthletes',
         url: '/events/:event_id/athletes',
-        component: 'athletes',
+        component: 'manageAthletes',
       });
   }
 }());

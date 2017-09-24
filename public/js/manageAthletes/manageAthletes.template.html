@@ -1,0 +1,70 @@
+
+<navigation></navigation>
+
+<main>
+  <div class='row center-align'>
+    <h3> {{ $ctrl.event.title }} </h3>
+  </div>
+
+
+  <div class='row center-align'>
+    <h4>Registered Athletes</h4>
+  </div>
+
+  <div class='row center-align' ng-show='$ctrl.athletes.length === 0'>
+    <p> There aren't any athletes registered for this event yet! </p>
+  </div>
+
+  <div class='row' ng-show='$ctrl.athletes.length > 0'>
+    <table class='bordered striped'>
+      <thead>
+        <tr>
+          <td>Lot #</td>
+          <td>First Name</td>
+          <td>Last Name</td>
+          <td>USAW #</td>
+          <td>Club</td>
+          <td>Coach</td>
+          <td>Gender</td>
+          <td>YOB</td>
+          <td>Div</td>
+          <td>Cat</td>
+          <td>Entry Total</td>
+          <td>Session</td>
+          <td>Bodyweight</td>
+
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr ng-repeat='athlete in $ctrl.athletes | orderBy: ["gender_id", "entry_total"]'>
+          <td>{{ athlete.lot_num }}</td>
+          <td>{{ athlete.first_name }}</td>
+          <td>{{ athlete.last_name }}</td>
+          <td>{{ athlete.usaw_id }}</td>
+          <td>{{ athlete.club }}</td>
+          <td>{{ athlete.coach }}</td>
+          <td>{{ athlete.gender_id === 1 ? 'F' : 'M' }}</td>
+          <td>{{ athlete.year_of_birth }}</td>
+          <td>{{ $ctrl.DIVISIONS[athlete.division_id] }}</td>
+          <td>{{ $ctrl.CATEGORIES[athlete.category_id] }}</td>
+          <td>{{ athlete.entry_total }}</td>
+
+          <td class='input-field'>
+
+            <select material-select ng-model='$ctrl.selected[athlete.id]'>
+              <option ng-repeat='session in $ctrl.sessions' ng-value='session.id'>{{session.description}}</option>
+
+            </select>
+
+
+          </td>
+          <td>{{ athlete.bodyweight_grams ? athlete.bodyweight_grams / 100 : ''}}</td>
+        </tr>
+      </tbody>
+
+    </table>
+  </div>
+</main>
+
+<footerbar></footerbar>

@@ -129,7 +129,6 @@ router.put('/:event_id/athletes/:athlete_id/edit', ev(validations.put), (req, re
 });
 
 router.get('/:event_id/athletes/sessionless', (req, res, next) => {
-  console.log('FARRRTTTT');
   const eventID = Number.parseInt(req.params.event_id, 10);
   if (!_.isValidID(eventID)) {
     res.status(400).send({ error: 'Bad request!' });
@@ -181,6 +180,26 @@ router.get('/:event_id/athletes/sessionless', (req, res, next) => {
       next(err);
     });
 });
+
+router.get('/:event_id/athletes/:athlete_id/session', (req, res, next) => {
+  const eventID = Number.parseInt(req.params.event_id, 10);
+  const athleteID = Number.parseInt(req.params.athlete_id, 10);
+
+  if (!_.isValidID(eventID) || !_.isValidID(athleteID)) {
+    res.status(400).send({ error: 'Bad request!' });
+  }
+
+  knex.select('session_id').from('athletes_sessions')
+    .where('athlete_id', athleteID)
+    .then((data) => {
+      res.json(data[0].session_id);
+    })
+    .catch((err) => {
+      console.error(err);
+      next(err);
+    });
+});
+
 // GET the requested athlete from an event
 router.get('/:event_id/athletes/:athlete_id', (req, res, next) => {
   const eventID = Number.parseInt(req.params.event_id, 10);

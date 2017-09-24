@@ -15,6 +15,8 @@ module.exports.post = {
     entry_total: Joi.number().integer().label('entry_total').required(),
     total: Joi.number().integer().label('total'),
     bodyweight_grams: Joi.number().integer().label('bodyweight_grams'),
+    club: Joi.string().label('club'),
+    coach: Joi.string().label('coach'),
   },
 };
 
@@ -32,5 +34,7 @@ module.exports.put = {
     entry_total: Joi.number().integer().label('entry_total'),
     total: Joi.number().integer().label('total'),
     bodyweight_grams: Joi.number().integer().label('bodyweight_grams'),
+    club: Joi.string().label('club'),
+    coach: Joi.string().label('coach'),
   },
 };

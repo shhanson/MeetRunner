@@ -34,5 +34,9 @@
       self.addAthleteToSession = function addAthleteToSession(eventID, sessionID, athleteID) {
         return $http.post(`/api/events/${eventID}/sessions/${sessionID}/athletes/${athleteID}/add`);
       };
+
+      self.getAthleteSession = function getAthleteSession(eventID, athleteID) {
+        return $http.get(`/api/events/${eventID}/athletes/${athleteID}/session`);
+      };
     }]);
 }());
