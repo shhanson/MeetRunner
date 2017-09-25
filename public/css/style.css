@@ -46,11 +46,26 @@ div {
 }
 
 .event-img {
+
+}
+
+.img-container {
+  margin-top: 5%;
+}
+
+.img-container img {
   display: block;
   /*max-width:230px;*/
   max-height:350px;
   width: 100%;
   height: auto;
   object-fit: cover;
+}
 
+.material-icons{
+  vertical-align: top;
+}
+
+.wide {
+  width: 100%;
 }

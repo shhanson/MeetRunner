@@ -2,51 +2,52 @@
 
 <main class='container'>
 
-
-
   <div class="row">
-
-    <div class='col s12 m10 offset-m1'>
-
-        <img ng-src='{{ $ctrl.event.image_url }}' class='event-img'>
-
-
+    <div class='col s12 img-container'>
+        <img ng-src='{{ $ctrl.event.image_url }}'>
     </div>
-
   </div>
 
   <div class='row'>
+      <div class="col s12">
+        <div class="card-panel">
 
-    <div class="col s12 m10 offset-m1">
-      <div class="card">
-        <!-- <div class="card-image img-container">
-          <img ng-src="{{$ctrl.event.image_url}}">
-        </div> -->
-        <div class="card-content">
           <div class='row'>
-          <div class="col s12 m6">
+            <div class='col s12 m6'>
+              <h4>{{ $ctrl.event.start_date | amDateFormat: 'MMM D' }}<span ng-if='$ctrl.event.start_date !== $ctrl.event.end_date'>-{{ $ctrl.event.end_date | amDateFormat: 'MMM D'}}</span></h4>
+              <h4> {{ $ctrl.event.title }} </h4>
+              <p>Hosted by: {{ $ctrl.event.organizer }} (<a href='#'>contact</a>)</p>
+              <p>Sanction ID: {{ $ctrl.event.sanction_id }}</p>
+            </div>
 
-            <h4> {{ $ctrl.event.title }} </h4>
-            <h5> {{ $ctrl.event.start_date | date: 'EEEE, MMMM d, yyyy'}}<span ng-if='$ctrl.event.start_date !== $ctrl.event.end_date'> - <p>{{ $ctrl.event.end_date | date: 'EEEE, MMMM d, yyyy' }}</p></span></h5>
-            <p> {{ $ctrl.event.street_address }}</p>
-            <p> {{ $ctrl.event.city }}, {{ $ctrl.event.state }} {{ $ctrl.event.zip_code}} </p>
+            <div class='col s12 m6'>
+              <p><i class="material-icons">date_range</i> {{ $ctrl.event.start_date | date: 'fullDate' }}<span ng-if='$ctrl.event.start_date !== $ctrl.event.end_date'> - {{ $ctrl.event.end_date | date: 'fullDate'}}</span></p>
+
+              <p><i class='material-icons'>location_on</i> {{ $ctrl.event.street_address}}
+              {{ $ctrl.event.city }}, {{ $ctrl.event.state }}, {{ $ctrl.event.zip_code }}</p>
+
+              <p><a class="waves-effect waves-light btn green wide"  ng-click='regBtnClicked = !regBtnClicked'>Register</a></p>
+
+            </div>
+
           </div>
 
-          <div class='col s12 m6 right-align'>
-            <h5>{{ ($ctrl.event.entry_fee_cents / 100) | currency : '$' }}</h5>
-            <a class="waves-effect waves-light btn-large green
-            " ng-click='regBtnClicked=!regBtnClicked' href='#regForm'>{{ regBtnClicked ? 'Cancel' : 'Register' }}</a>
-          </div>
+
+
         </div>
       </div>
-        <div class="card-action">
-          <p>
-            {{ $ctrl.event.description }}
-          </p>
-        </div>
+  </div>
+
+  <div class='row'>
+    <div class="col s12">
+      <div class="card-panel">
+        <h4>Event Description</h4>
+        <p>{{ $ctrl.event.description }}</p>
+        <p>Nam feugiat facilisis urna, a eleifend lectus vehicula vel. Mauris posuere congue felis, eget maximus justo elementum nec. Vestibulum lectus turpis, dignissim eget eleifend id, iaculis sed sapien. Duis laoreet ac justo at aliquet. Suspendisse molestie mauris sit amet odio aliquet, eget viverra enim ultricies. Curabitur sem leo, pretium in facilisis vel, egestas quis orci. Interdum et malesuada fames ac ante ipsum primis in faucibus. Praesent at mi lobortis, lobortis magna et, commodo ipsum. Curabitur eget pulvinar sapien, sed volutpat ex. Quisque nec enim vestibulum, interdum ipsum id, imperdiet metus.</p>
       </div>
     </div>
   </div>
+
 
   <div ng-if="regBtnClicked" class='container'>
 
