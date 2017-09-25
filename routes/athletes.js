@@ -240,49 +240,42 @@ router.post('/:event_id/athletes/register', ev(validations.post), (req, res, nex
     res.status(400).send({ error: 'Bad request!' });
   }
 
-  knex('users_events')
-    .where('event_id', eventID)
-    .join('users', 'users.id', 'user_id')
-    .join('events', 'events.id', eventID)
-    .then((userData) => {
-      // PAYPAL STUFF
-
-      const payeeEmail = userData[0].paypal_email || userData[0].email;
-      const entryFee = (userData[0].entry_fee_cents / 100).toFixed(2).toString();
-      const description = `${userData[0].title} athlete registration`;
-      const paypalJSON = createPaypalJSON(payeeEmail, entryFee, description);
-
-      // THEN POST ATHLETE
-
-      // THEN POST ATHLETE TO EVENTS_ATHLETES
-      console.log(userData);
-      res.sendStatus(200);
+  knex('athletes')
+    .insert({
+      email: req.body.email,
+      first_name: req.body.first_name,
+      last_name: req.body.last_name,
+      usaw_id: req.body.usaw_id,
+      year_of_birth: req.body.year_of_birth,
+      gender_id: req.body.gender_id,
+      division_id: req.body.division_id,
+      category_id: req.body.category_id,
+      entry_total: req.body.entry_total,
+      total: req.body.total,
+      lot_num: req.body.lot_num,
+      bodyweight_grams: req.body.bodyweight_grams,
+      coach: req.body.coach,
+      club: req.body.club,
+    })
+    .returning('id')
+    .then((athleteID) => {
+      knex('events_athletes')
+        .insert({
+          event_id: eventID,
+          athlete_id: athleteID[0],
+        })
+        .then(() => {
+          res.sendStatus(200);
+        })
+        .catch((err) => {
+          console.error(err);
+          next(err);
+        });
     })
     .catch((err) => {
       console.error(err);
       next(err);
     });
-
-  // const createPaymentJSON = {
-  //   intent: 'sale',
-  //   payer: {
-  //     payment_method: 'paypal',
-  //   },
-  //   redirect_urls: {
-  //     return_url: 'http://return.url',
-  //     cancel_url: 'http://cancel.url',
-  //   },
-  //   transactions: [{
-  //     amount: {
-  //       currency: 'USD',
-  //       total: '1.00',
-  //     },
-  //     payee: {
-  //       email: paypal_email,
-  //     },
-  //     description: 'This is the payment description.',
-  //   }],
-  // };
 });
 
 router.post('/:event_id/athletes/new', ev(validations.post), (req, res, next) => {
@@ -311,6 +304,8 @@ router.post('/:event_id/athletes/new', ev(validations.post), (req, res, next) =>
               total: req.body.total,
               lot_num: req.body.lot_num,
               bodyweight_grams: req.body.bodyweight_grams,
+              coach: req.body.coach,
+              club: req.body.club,
             })
             .returning('*')
             .then((athleteInfo) => {
