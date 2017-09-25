@@ -116,6 +116,7 @@ router.put('/:id/edit', ev(validations.put), (req, res, next) => {
               email: req.body.email,
               description: req.body.description,
               entry_fee_cents: req.body.entry_fee_cents,
+              registration_open: req.body.registration_open,
             })
             .returning('*')
             .then((eventInfo) => {

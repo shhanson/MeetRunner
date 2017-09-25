@@ -32,5 +32,12 @@
         vm.event = EventsService.event;
       });
     };
+
+    vm.toggleRegStatus = function toggleRegStatus() {
+      vm.event.registration_open = !vm.event.registration_open;
+      EventsService.updateEvent(vm.event.id, vm.event).then(() => {
+        vm.event = EventsService.event;
+      });
+    };
   }
 }());

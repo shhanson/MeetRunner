@@ -12,11 +12,13 @@
     const event = {};
     const tempReg = {};
     const categories = [];
+    const descriptionDisplay = [];
 
     vm.$onInit = function onInit() {
       vm.eventID = $stateParams.event_id;
-      EventsService.getEvent(vm.eventID).then((response) => {
+      EventsService.getEvent(vm.eventID).then(() => {
         vm.event = EventsService.event;
+        vm.descriptionDisplay = vm.event.description.split('\n').filter(item => item !== '');
       });
     };
 
