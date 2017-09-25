@@ -1,6 +1,6 @@
 exports.up = knex =>
   knex.schema.table('athletes', (table) => {
-    table.string('coach');
+    table.string('coach').defaultTo('');
   });
 
 exports.down = knex =>

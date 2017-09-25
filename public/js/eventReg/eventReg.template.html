@@ -30,6 +30,10 @@
 
               <p ng-if='!$ctrl.event.registration_open'><a class="waves-effect waves-light btn wide" ng-click='regBtnClicked = !regBtnClicked' disabled>Registration Closed</a></p>
 
+              <p ng-show='$ctrl.sessions.length > 0'>
+                <a class="waves-effect waves-light btn wide" href='#sessions'>View Session Info</a>
+              </p>
+
             </div>
 
           </div>
@@ -50,6 +54,40 @@
     </div>
   </div>
 
+  <div class='row' ng-show='$ctrl.sessions.length > 0' id='sessions'>
+    <div class="col s12">
+      <div class="card-panel">
+        <h4>Sessions</h4>
+
+        <table class='bordered striped'>
+
+          <thead>
+            <tr>
+              <td>Description</td>
+              <td>Date</td>
+              <td>Weigh-in Time</td>
+              <td>Start Time</td>
+              <td># Athletes</td>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr ng-repeat='session in $ctrl.sessions | orderBy: weigh_time'>
+              <td>{{ session.description }}</td>
+              <td> {{ session.date | date: 'MM-dd-yy' }} </td>
+              <td> {{ session.weigh_time | date: 'h:mma' }} </td>
+              <td> {{ session.start_time | date: 'h:mma' }} </td>
+              <td> {{ session.numAthletes }} </td>
+
+            </tr>
+          </tbody>
+
+        </table>
+
+
+      </div>
+    </div>
+  </div>
 
   <div ng-if="regBtnClicked" class='container'>
 

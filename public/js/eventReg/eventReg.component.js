@@ -13,6 +13,7 @@
     vm.tempReg = {};
     vm.categories = [];
     vm.descriptionDisplay = [];
+    vm.sessions = [];
 
 
     vm.$onInit = function onInit() {
@@ -20,6 +21,11 @@
       EventsService.getEvent(vm.eventID).then(() => {
         vm.event = EventsService.event;
         vm.descriptionDisplay = vm.event.description.split('\n').filter(item => item !== '');
+      });
+
+      EventsService.getEventSessions(vm.eventID).then((response) => {
+        vm.sessions = response.data;
+        console.log(vm.sessions);
       });
     };
 
