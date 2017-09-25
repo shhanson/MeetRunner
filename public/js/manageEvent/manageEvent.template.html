@@ -46,22 +46,31 @@
   </div>
 
 
-  <div class='row center-align'>
-    <div class='col s12'>
-      <a class="waves-effect waves-light btn-large btn" ui-sref='createSession({ event_id: $ctrl.event.id })'><i class="medium material-icons left">add</i>Create Session</a>
+  <div class='row'>
+    <div class='col s12 m6 right-align'>
+      <a class="waves-effect waves-light btn-large btn manage" ui-sref='createSession({ event_id: $ctrl.event.id })'><i class="medium material-icons left">add</i>Create Session</a>
     </div>
+
+    <div class='col s12 m6'>
+      <a class="waves-effect waves-light btn-large btn manage" ui-sref='editEvent({event_id: $ctrl.event.id})'><i class="medium material-icons left">create</i>Edit Event Info</a>
+    </div>
+
   </div>
 
-  <div class='row center-align'>
-    <div class='col s12'>
-      <a class="waves-effect waves-light btn-large btn" ui-sref='editEvent({event_id: $ctrl.event.id})'><i class="medium material-icons left">create</i>Edit Event Info</a>
+  <div class='row'>
+    <div class='col s12 m6 right-align'>
+      <a class="waves-effect waves-light btn-large btn manage" ui-sref='manageAthletes({event_id: $ctrl.event.id})'><i class='medium material-icons left'>group</i>Manage Athletes</a>
     </div>
-  </div>
 
-  <div class='row center-align'>
-    <div class='col s12'>
-      <a class="waves-effect waves-light btn-large btn" ui-sref='manageAthletes({event_id: $ctrl.event.id})'><i class='medium material-icons left'>group</i>Manage Athletes</a>
+    <div class='col s12 m6'>
+
+
+      <a class="waves-effect waves-light btn-large btn manage" ng-show='$ctrl.event.registration_open' ng-click='$ctrl.toggleRegStatus()'><i class='medium material-icons left'>do_not_disturb</i>Close Registration</a>
+
+      <a class="waves-effect waves-light btn-large btn manage" ng-show='!$ctrl.event.registration_open' ng-click='$ctrl.toggleRegStatus()'><i class='medium material-icons left'>control_point</i>Reopen Registration</a>
+
     </div>
+
   </div>
 
 

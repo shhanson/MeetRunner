@@ -31,16 +31,18 @@
           <td>Title</td>
           <td>Date</td>
           <td>Location</td>
-          <td>Actions</td>
+          <td class='center-align'>Registration status</td>
         </tr>
       </thead>
 
-      <tbody ng-repeat='event in $ctrl.events | orderBy: $ctrl.sortSelected | filter: filterInput'>
-        <tr>
-          <td>{{ event.title }}</td>
-          <td> {{ event.start_date | date: 'MMM d, yyyy' }}<span ng-if='event.start_date !== event.end_date'> - {{ event.end_date | date: 'MMM d, yyyy' }}</span></td>
-          <td>{{ event.city }}, {{ event.state }}</td>
-          <td><a ui-sref='eventReg({ event_id: event.id })'>Register</a></td>
+      <tbody>
+        <tr ng-repeat='event in $ctrl.events | orderBy: $ctrl.sortSelected | filter: filterInput'>
+
+            <td><a ui-sref='eventReg({ event_id: event.id })'>{{ event.title }}</a></td>
+            <td> {{ event.start_date | date: 'MMM d, yyyy' }}<span ng-if='event.start_date !== event.end_date'> - {{ event.end_date | date: 'MMM d, yyyy' }}</span></td>
+            <td>{{ event.city }}, {{ event.state }}</td>
+            <td class='center-align'>{{ event.registration_open ? 'Open' : 'Closed' }}</td>
+
         </tr>
       </tbody>
 

@@ -69,3 +69,7 @@ div {
 .wide {
   width: 100%;
 }
+
+.manage {
+  width: 300px;
+}

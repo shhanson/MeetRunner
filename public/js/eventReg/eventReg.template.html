@@ -16,7 +16,7 @@
             <div class='col s12 m6'>
               <h4>{{ $ctrl.event.start_date | amDateFormat: 'MMM D' }}<span ng-if='$ctrl.event.start_date !== $ctrl.event.end_date'>-{{ $ctrl.event.end_date | amDateFormat: 'MMM D'}}</span></h4>
               <h4> {{ $ctrl.event.title }} </h4>
-              <p>Hosted by: {{ $ctrl.event.organizer }} (<a href='#'>contact</a>)</p>
+              <p>Hosted by: {{ $ctrl.event.organizer }} ({{ $ctrl.event.email }})</p>
               <p>Sanction ID: {{ $ctrl.event.sanction_id }}</p>
             </div>
 
@@ -26,7 +26,9 @@
               <p><i class='material-icons'>location_on</i> {{ $ctrl.event.street_address}}
               {{ $ctrl.event.city }}, {{ $ctrl.event.state }}, {{ $ctrl.event.zip_code }}</p>
 
-              <p><a class="waves-effect waves-light btn green wide"  ng-click='regBtnClicked = !regBtnClicked'>Register</a></p>
+              <p ng-show='$ctrl.event.registration_open'><a class="waves-effect waves-light btn green wide" ng-click='regBtnClicked = !regBtnClicked'>Register</a></p>
+
+              <p ng-if='!$ctrl.event.registration_open'><a class="waves-effect waves-light btn wide" ng-click='regBtnClicked = !regBtnClicked' disabled>Registration Closed</a></p>
 
             </div>
 
@@ -43,7 +45,7 @@
       <div class="card-panel">
         <h4>Event Description</h4>
         <p>{{ $ctrl.event.description }}</p>
-        <p>Nam feugiat facilisis urna, a eleifend lectus vehicula vel. Mauris posuere congue felis, eget maximus justo elementum nec. Vestibulum lectus turpis, dignissim eget eleifend id, iaculis sed sapien. Duis laoreet ac justo at aliquet. Suspendisse molestie mauris sit amet odio aliquet, eget viverra enim ultricies. Curabitur sem leo, pretium in facilisis vel, egestas quis orci. Interdum et malesuada fames ac ante ipsum primis in faucibus. Praesent at mi lobortis, lobortis magna et, commodo ipsum. Curabitur eget pulvinar sapien, sed volutpat ex. Quisque nec enim vestibulum, interdum ipsum id, imperdiet metus.</p>
+
       </div>
     </div>
   </div>
