@@ -12,7 +12,8 @@ exports.up = knex =>
     table.string('zip_code').notNullable();
     table.string('phone').notNullable();
     table.string('email').notNullable();
-    table.string('description').notNullable();
+    //  table.string('description').notNullable();
+    table.text('description', 'longtext').notNullable();
     table.integer('entry_fee_cents').notNullable().defaultTo(0);
     table.timestamps(true, true);
   });

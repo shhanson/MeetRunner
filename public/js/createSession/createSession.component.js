@@ -68,12 +68,16 @@
     vm.createSession = function createSession() {
       vm.form.event_id = vm.eventID;
 
+
       if (!vm.form.date) {
         vm.form.date = vm.event.start_date;
+      } else {
+        vm.form.date = new Date(vm.form.date).toISOString();
       }
 
       vm.form.weigh_time = vm.timeParser(vm.form.date, vm.form.weigh_time);
       vm.form.start_time = vm.timeParser(vm.form.date, vm.form.start_time);
+
 
       const addAthletes = [];
       if (vm.athlete) {

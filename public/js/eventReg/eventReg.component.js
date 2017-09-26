@@ -25,7 +25,6 @@
 
       EventsService.getEventSessions(vm.eventID).then((response) => {
         vm.sessions = response.data;
-        console.log(vm.sessions);
       });
     };
 

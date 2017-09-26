@@ -62,6 +62,7 @@ router.post('/new', ev(validations.post), (req, res, next) => {
         email: req.body.email,
         description: req.body.description,
         entry_fee_cents: req.body.entry_fee_cents,
+        image_url: req.body.image_url,
       })
       .returning('id')
       .then((eventID) => {
@@ -117,6 +118,7 @@ router.put('/:id/edit', ev(validations.put), (req, res, next) => {
               description: req.body.description,
               entry_fee_cents: req.body.entry_fee_cents,
               registration_open: req.body.registration_open,
+              image_url: req.body.image_url,
             })
             .returning('*')
             .then((eventInfo) => {
