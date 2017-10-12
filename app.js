@@ -49,6 +49,8 @@ app.use((err, req, res, next) => {
   console.log(err);
   res.status(err.status || 500);
   res.json(err);
+//  res.sendFile('error.html', { root: path.join(__dirname, 'public') });
+
 });
 
 module.exports = app;

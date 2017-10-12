@@ -8,6 +8,9 @@ $('.datepicker').pickadate({
  closeOnSelect: true, // Close upon selecting a date,
  min: true,
 });
+
+$('.datepicker').set('select', [date.getFullYear(), date.getMonth() + 1, date.getDate()]);
+
 </script>
 <navigation></navigation>
 
