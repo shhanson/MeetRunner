@@ -12,7 +12,11 @@
     vm.form = {};
 
     vm.createEvent = function createEvent() {
-      vm.form.entry_fee_cents = Number.parseInt(vm.form.entry_fee_cents, 10) * 100;
+      if(!vm.form.entry_fee.includes('.')){
+        vm.form.entry_fee += ".00";
+      }
+
+      vm.form.entry_fee_cents = Number.parseInt(vm.form.entry_fee, 10) * 100;
       vm.form.start_date = new Date(vm.form.start_date).toISOString();
       vm.form.end_date = new Date(vm.form.end_date).toISOString();
 
@@ -25,6 +29,10 @@
 
     vm.getSession = function getSession() {
       return $localStorage.session;
+    };
+
+    vm.setEndDate = function setEndDate() {
+      vm.form.end_date = vm.form.start_date;
     };
   }
 }());

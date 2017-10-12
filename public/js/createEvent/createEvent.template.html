@@ -1,4 +1,4 @@
-<script>
+<!-- <script>
 $('.datepicker').pickadate({
  selectMonths: true, // Creates a dropdown to control month
  selectYears: 3, // Creates a dropdown of 15 years to control year,
@@ -9,52 +9,51 @@ $('.datepicker').pickadate({
  min: true,
 });
 
-$('.datepicker').set('select', [date.getFullYear(), date.getMonth() + 1, date.getDate()]);
-
-</script>
+</script> -->
 <navigation></navigation>
 
 <main class='container'>
   <div class="row">
     <h3 class='center-align'>Create an Event</h3>
+    <p class='center-align'>(*) Required</p>
   </div>
 
   <div class='row'>
     <div class='col s12 m6 offset-m3'>
-      <form ng-submit='$ctrl.createEvent()'>
+      <form ng-submit='$ctrl.createEvent()' name='createEventForm' novalidate>
 
         <div class='row'>
           <div class="input-field col s12">
-            <input id="title" type="text" class="validate" ng-model='$ctrl.form.title'>
-            <label for="title">Title</label>
+            <input id="title" type="text" class="validate" ng-model='$ctrl.form.title' required>
+            <label for="title">Event Title*</label>
           </div>
         </div>
         <div class='row'>
           <div class="input-field col s12">
-            <input id="organizer" type="text" class="validate" ng-model='$ctrl.form.organizer'>
-            <label for="organizer">Organizer</label>
+            <input id="organizer" type="text" class="validate" ng-model='$ctrl.form.organizer' required>
+            <label for="organizer">Organizer*</label>
           </div>
         </div>
 
         <div class='row'>
           <div class="input-field col s12">
-            <input id="sanction_id" type="text" class="validate" ng-model='$ctrl.form.sanction_id'>
-            <label for="sanction_id">USAW Sanction ID</label>
+            <input id="sanction_id" type="text" class="validate" ng-model='$ctrl.form.sanction_id' required>
+            <label for="sanction_id">USAW Sanction ID*</label>
           </div>
         </div>
 
         <div class='row'>
           <div class='input-field col s12 m6'>
-            <input id="entry_fee_cents" type="text" class="validate" ng-model='$ctrl.form.entry_fee_cents'>
-            <label for="entry_fee_cents">Entry fee (USD)</label>
+            <input id="entry_fee" type="text" class="validate" ng-model='$ctrl.form.entry_fee' required>
+            <label for="entry_fee">Entry fee (USD)*</label>
           </div>
         </div>
 
 
         <div class="row">
           <div class="input-field col s12">
-            <textarea id="description" class="materialize-textarea" ng-model='$ctrl.form.description'></textarea>
-            <label for="description">Description</label>
+            <textarea id="description" class="materialize-textarea" ng-model='$ctrl.form.description' required></textarea>
+            <label for="description">Description*</label>
           </div>
         </div>
 
@@ -66,38 +65,62 @@ $('.datepicker').set('select', [date.getFullYear(), date.getMonth() + 1, date.ge
         </div>
 
 
-        <div class='row'>
+        <!-- <div class='row'>
           <div class="input-field col s12">
-            <input id="start_date" type="text" class="datepicker" ng-model='$ctrl.form.start_date'>
+            <input id="start_date" type="text" class="datepicker" ng-model='$ctrl.form.start_date' required>
             <label for="start_date">Start Date</label>
           </div>
+        </div> -->
+
+
+
+        <div class='row'>
+
+          <div class='col s6'>
+            <p><label for='start_date'>Start Date*</label></p>
+            <input id='start_date' type='date' ng-model='$ctrl.form.start_date' class='validate browser-default' ng-change='$ctrl.setEndDate()' required>
+          </div>
+
         </div>
 
         <div class='row'>
+
+          <div class='col s6'>
+            <p>
+              <input type="checkbox" id="multiday" ng-model='multidayChecked' class='filled-in' />
+              <label for="multiday">Multi-day event?</label>
+            </p>
+          </div>
+        </div>
+
+
+        <div class='row' ng-if='multidayChecked'>
+          <div class='col s6'>
+            <p><label for='end_date'>End Date</label></p>
+            <input id='end_date' type='date' ng-model='$ctrl.form.end_date' class='validate browser-default'>
+          </div>
+        </div>
+
+
+
+        <div class='row'>
           <div class="input-field col s12">
-            <input id="start_date" type="text" class="datepicker" ng-model='$ctrl.form.end_date'>
-            <label for="end_date">End Date</label>
+            <input id="street_address" type="text" class="validate" ng-model='$ctrl.form.street_address' required>
+            <label for="street_address">Street Address*</label>
           </div>
         </div>
 
         <div class='row'>
           <div class="input-field col s12">
-            <input id="street_address" type="text" class="validate" ng-model='$ctrl.form.street_address'>
-            <label for="street_address">Street Address</label>
-          </div>
-        </div>
-
-        <div class='row'>
-          <div class="input-field col s12">
-            <input id="city" type="text" class="validate" ng-model='$ctrl.form.city'>
-            <label for="city">City</label>
+            <input id="city" type="text" class="validate" ng-model='$ctrl.form.city' required>
+            <label for="city">City*</label>
           </div>
         </div>
 
         <div class='row'>
           <div class='input-field col s12 m4'>
-            <span>State</span>
-              <select name="state" material-select ng-model='$ctrl.form.state'>
+            <label for='state'>State*</label>
+              <select name="state" material-select ng-model='$ctrl.form.state' required>
               	<option value="AL">AL</option>
               	<option value="AK">AK</option>
               	<option value="AZ">AZ</option>
@@ -156,22 +179,22 @@ $('.datepicker').set('select', [date.getFullYear(), date.getMonth() + 1, date.ge
 
         <div class='row'>
           <div class='input-field col s12 m4'>
-            <input id="zip_code" type="text" class="validate" ng-model='$ctrl.form.zip_code'>
-            <label for="zip_code">Zip code</label>
+            <input id="zip_code" type="text" class="validate" ng-model='$ctrl.form.zip_code' required>
+            <label for="zip_code">Zip code*</label>
           </div>
         </div>
 
         <div class='row'>
           <div class='input-field col s12 m6'>
-            <input id="phone" type="text" class="validate" ng-model='$ctrl.form.phone'>
-            <label for="phone">Phone</label>
+            <input id="phone" type="text" class="validate" ng-model='$ctrl.form.phone' required>
+            <label for="phone">Phone*</label>
           </div>
         </div>
 
         <div class='row'>
           <div class='input-field col s12'>
-            <input id="email" type="text" class="validate" ng-model='$ctrl.form.email'>
-            <label for="email">Email</label>
+            <input id="email" type="email" class="validate" ng-model='$ctrl.form.email' required>
+            <label for="email">Email*</label>
           </div>
         </div>
 
@@ -179,7 +202,7 @@ $('.datepicker').set('select', [date.getFullYear(), date.getMonth() + 1, date.ge
 
         <div class='row'>
           <div class='col s12 center-align'>
-            <button class="btn waves-effect waves-light btn" type="submit" name="action">Create Event</button>
+            <button class="btn waves-effect waves-light btn" type="submit" name="action" ng-disabled='createEventForm.$invalid'>Create Event</button>
           </div>
         </div>
       </form>
