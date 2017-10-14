@@ -15,7 +15,7 @@ $('.datepicker').pickadate({
 <main class='container'>
   <div class="row">
     <h3 class='center-align'>Create an Event</h3>
-    <p class='center-align'>(*) Required</p>
+    <p class='center-align'>* Required</p>
   </div>
 
   <div class='row'>
@@ -179,14 +179,14 @@ $('.datepicker').pickadate({
 
         <div class='row'>
           <div class='input-field col s12 m4'>
-            <input id="zip_code" type="text" class="validate" ng-model='$ctrl.form.zip_code' required>
+            <input id="zip_code" type="text" class="validate" ng-model='$ctrl.form.zip_code' ng-minlength='5' ng-maxlength='5' required>
             <label for="zip_code">Zip code*</label>
           </div>
         </div>
 
         <div class='row'>
           <div class='input-field col s12 m6'>
-            <input id="phone" type="text" class="validate" ng-model='$ctrl.form.phone' required>
+            <input id="phone" type="text" class="validate" ng-model='$ctrl.form.phone' required ng-minlength='10' ng-maxlength='10'>
             <label for="phone">Phone*</label>
           </div>
         </div>
