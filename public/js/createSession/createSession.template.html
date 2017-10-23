@@ -1,13 +1,13 @@
 <script>
-$('.datepicker').pickadate({
-  selectMonths: true, // Creates a dropdown to control month
-  selectYears: 3, // Creates a dropdown of 15 years to control year,
-  today: 'Today',
-  clear: 'Clear',
-  close: 'Ok',
-  closeOnSelect: false, // Close upon selecting a date,
-  min: true,
-});
+// $('.datepicker').pickadate({
+//   selectMonths: true, // Creates a dropdown to control month
+//   selectYears: 3, // Creates a dropdown of 15 years to control year,
+//   today: 'Today',
+//   clear: 'Clear',
+//   close: 'Ok',
+//   closeOnSelect: false, // Close upon selecting a date,
+//   min: true,
+// });
 
 $('.timepicker').pickatime({
   default: 'now', // Set default time: 'now', '1:30AM', '16:30'
@@ -45,16 +45,25 @@ $('.timepicker').pickatime({
         </div>
 
         <div class='row' ng-show='$ctrl.event.start_date !== $ctrl.event.end_date'>
-          <div class="input-field col s12">
+          <!-- <div class="input-field col s12">
             <input id="date" type="text" class="datepicker" ng-model='$ctrl.form.date'>
             <label for="date">Date</label>
+          </div> -->
+
+          <div class='col s6'>
+            <p><label for='date'>Date</label></p>
+            <input id='date' type='date' ng-model='$ctrl.form.date' ng-value='$ctrl.form.start_date' class='validate browser-default'>
           </div>
         </div>
 
         <div class='row' ng-show='$ctrl.event.start_date === $ctrl.event.end_date'>
-          <div class='input-field col 12'>
+          <!-- <div class='input-field col 12'>
             <input id='date' type='text' ng-model='$ctrl.form.date' ng-value='$ctrl.event.start_date' disabled>
             <label for="date">Date</label>
+          </div> -->
+          <div class='col s6'>
+            <p><label for='date'>Date</label></p>
+            <input id='date' type='date' ng-model='$ctrl.form.date' class='validate browser-default' disabled>
           </div>
         </div>
 

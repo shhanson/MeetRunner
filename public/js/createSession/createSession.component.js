@@ -54,6 +54,7 @@
     vm.$onInit = function onInit() {
       EventsService.getEvent(vm.eventID).then(() => {
         vm.event = EventsService.event;
+        vm.form.date = new Date(vm.event.start_date);
       });
 
       UsersService.getUserInfo(vm.getSession().id).then((response) => {
@@ -102,6 +103,7 @@
     };
 
     vm.timeParser = function timeParser(date, time) {
+
       const AMPM = time.match(/AM|PM/)[0].toLowerCase();
       let hours = Number.parseInt(time.match(/^.+?(?=:)/), 10);
       const minutes = time.match(/:.{2}/);
