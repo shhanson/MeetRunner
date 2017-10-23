@@ -66,6 +66,11 @@
       });
     };
 
+    vm.setStartTime = function setStartTime(){
+      console.log(typeof vm.form.weigh_time);
+      console.log(vm.form.start_time);
+    };
+
     vm.createSession = function createSession() {
       vm.form.event_id = vm.eventID;
 
