@@ -4,7 +4,7 @@
 
   <div class="row">
     <div class='col s12 img-container'>
-        <img ng-src='{{ $ctrl.event.image_url }}'>
+        <img ng-src='{{ $ctrl.event.image_url }}' onerror="this.src='/images/karhu_platform-min.jpg'">
     </div>
   </div>
 
