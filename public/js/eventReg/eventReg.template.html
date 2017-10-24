@@ -24,7 +24,7 @@
               <p><i class="material-icons">date_range</i> {{ $ctrl.event.start_date | date: 'fullDate' }}<span ng-if='$ctrl.event.start_date !== $ctrl.event.end_date'> - {{ $ctrl.event.end_date | date: 'fullDate'}}</span></p>
 
               <p><i class='material-icons'>location_on</i> {{ $ctrl.event.street_address}}
-              {{ $ctrl.event.city }}, {{ $ctrl.event.state }}, {{ $ctrl.event.zip_code }}</p>
+              {{ $ctrl.event.city }}, {{ $ctrl.event.state }}, {{ $ctrl.event.zip_code }} (<a ng-href='https://www.google.com/maps/search/?api=1&query={{$ctrl.event.street_address}}+{{$ctrl.event.city}}+{{$ctrl.event.state}}+{{$ctrl.event.zip_code}}'>map</a>)</p>
 
               <p ng-show='$ctrl.event.registration_open'><a class="waves-effect waves-light btn green wide" ng-click='regBtnClicked = !regBtnClicked' href='#regform'>Register</a></p>
 
@@ -72,7 +72,7 @@
           </thead>
 
           <tbody>
-            <tr ng-repeat='session in $ctrl.sessions | orderBy: weigh_time'>
+            <tr ng-repeat='session in $ctrl.sessions | orderBy: "date"'>
               <td>{{ session.description }}</td>
               <td> {{ session.date | date: 'MM-dd-yy' }} </td>
               <td> {{ session.weigh_time | date: 'h:mma' }} </td>
@@ -94,48 +94,50 @@
     <div class='row' id='regform'>
       <div class='col s12'>
         <h4 class='center-align'>Athlete Registration Form</h4>
+        <p class='center-align'>* Required</p>
       </div>
     </div>
 
     <div class='row'>
     <div class='col s12 m8 offset-m2'>
-      <form ng-submit="$ctrl.register()">
+      <form ng-submit="$ctrl.register()" name='eventRegForm' novalidate>
 
         <div class='row'>
           <div class="input-field col s12">
-            <input id="email" type="email" class="validate" ng-model='$ctrl.tempReg.email'>
-            <label for="email">Email</label>
+            <input id="email" type="email" class="validate" ng-model='$ctrl.tempReg.email' required>
+            <label for="email">Email*</label>
           </div>
         </div>
 
         <div class='row'>
           <div class="input-field col s12">
-            <input id="first_name" type="text" class="validate" ng-model='$ctrl.tempReg.first_name'>
-            <label for="first_name">First Name</label>
+            <input id="first_name" type="text" class="validate" ng-model='$ctrl.tempReg.first_name' required>
+            <label for="first_name">First Name*</label>
           </div>
         </div>
 
         <div class='row'>
           <div class="input-field col s12">
-            <input id="last_name" type="text" class="validate" ng-model='$ctrl.tempReg.last_name'>
-            <label for="last_name">Last Name</label>
+            <input id="last_name" type="text" class="validate" ng-model='$ctrl.tempReg.last_name' required>
+            <label for="last_name">Last Name*</label>
           </div>
         </div>
 
         <div class='row'>
           <div class="input-field col s12">
-            <input id="usaw_id" type="text" class="validate" ng-model='$ctrl.tempReg.usaw_id'>
-            <label for="usaw_id">USAW Member ID</label>
+            <input id="usaw_id" type="text" class="validate" ng-model='$ctrl.tempReg.usaw_id' required>
+            <label for="usaw_id">USAW Member ID*</label>
           </div>
         </div>
 
         <div class='row'>
           <div class="input-field col s7">
-            <input id="year_of_birth" type="text" class="validate" ng-model='$ctrl.tempReg.year_of_birth' ng-change='$ctrl.getCategories()'>
-            <label for="year_of_birth">Year of Birth</label>
+            <input id="year_of_birth" type="text" class="validate" ng-model='$ctrl.tempReg.year_of_birth' ng-change='$ctrl.getCategories()' required>
+            <label for="year_of_birth">Year of Birth*</label>
           </div>
 
           <div class='col s5'>
+            <p>Gender*</p>
             <p>
               <input class="with-gap" name="gender" type="radio" id="female" value='female' ng-model='$ctrl.tempReg.gender' ng-change="$ctrl.getCategories()" />
               <label for="female">Female</label>
@@ -166,16 +168,16 @@
         <div class='row'>
           <div class="input-field col s12">
             <select material-select watch ng-model='$ctrl.tempReg.category'
-            ng-options="category as category.category for category in $ctrl.categories">
+            ng-options="category as category.category for category in $ctrl.categories" required>
             </select>
-            <label>Category</label>
+            <label>Category*</label>
           </div>
         </div>
 
         <div class='row'>
             <div class="input-field col s12">
-              <input id="entry_total" type="text" class="validate" ng-model='$ctrl.tempReg.entry_total'>
-              <label for="entry_total">Entry total (kg)</label>
+              <input id="entry_total" type="text" class="validate" ng-model='$ctrl.tempReg.entry_total' required>
+              <label for="entry_total">Entry total (kg)*</label>
             </div>
         </div>
 
@@ -184,7 +186,7 @@
         </div>
 
         <div class='row center-align' >
-          <button class="btn waves-effect waves-light btn-large green" type="submit" name="action">Register</button>
+          <button class="btn waves-effect waves-light btn-large green" type="submit" name="action" ng-disabled='eventRegForm.$invalid'>Register</button>
         </div>
 
       </form>
