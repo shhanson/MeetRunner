@@ -78,7 +78,7 @@
       if (!vm.form.date) {
         vm.form.date = vm.event.start_date;
       } else {
-        vm.form.date = new Date(vm.form.date).toISOString();
+        vm.form.date = vm.form.date.toISOString();
       }
 
       vm.form.weigh_time = vm.timeParser(vm.form.date, vm.form.weigh_time);

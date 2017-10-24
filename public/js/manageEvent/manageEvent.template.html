@@ -33,9 +33,9 @@
       <tbody>
         <tr ng-repeat='session in $ctrl.sessions | orderBy: ["date", "weigh_time"] '>
           <td>{{ session.description }}</td>
-          <td> {{ session.date | date: 'MM-dd-yy' }} </td>
-          <td> {{ session.weigh_time | date: 'h:mma' }} </td>
-          <td> {{ session.start_time | date: 'h:mma' }} </td>
+          <td> {{ session.date | amUtcOffset:'-0600' | amDateFormat: 'MM-DD-YY' }} </td>
+          <td> {{ session.weigh_time | amUtcOffset:'-0600' | amDateFormat: 'h:mma' }} </td>
+          <td> {{ session.start_time | amUtcOffset:'-0600' | amDateFormat: 'h:mma' }} </td>
           <td> {{ session.numAthletes }} </td>
           <td><a ui-sref='editSession({ event_id: session.event_id, session_id: session.id })'>Edit Info</a></td>
         </tr>

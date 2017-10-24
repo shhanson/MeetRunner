@@ -18,9 +18,14 @@
     vm.$onInit = function onInit() {
       EventsService.getSession(vm.eventID, vm.sessionID).then(() => {
         vm.session = EventsService.session;
-        vm.session.date = new Date(vm.session.date);
-        vm.session.weigh_time = vm.display(vm.session.weigh_time);
-        vm.session.start_time = vm.display(vm.session.start_time);
+        //vm.session.date = new Date(vm.session.date);
+        vm.date = new Date(vm.session.date);
+        //console.log(vm.session.weigh_time);
+        //vm.session.weigh_time = vm.displayTime(vm.session.weigh_time);
+        //vm.session.start_time = vm.displayTime(vm.session.start_time);
+
+        vm.weigh_time = vm.displayTime(vm.session.weigh_time);
+        vm.start_time = vm.displayTime(vm.session.start_time);
       });
 
       EventsService.getEvent(vm.eventID).then(() => {
@@ -33,16 +38,22 @@
     };
 
     vm.updateSession = function updateSession() {
-      vm.session.date = new Date(vm.session.date).toISOString();
-      vm.session.start_time = vm.timeParser(vm.session.date, vm.session.start_time);
-      vm.session.weigh_time = vm.timeParser(vm.session.date, vm.session.weigh_time);
+
+      //vm.session.date = new Date(vm.session.date).toISOString();
+      vm.session.date = vm.date.toISOString();
+      console.log(vm.session.date);
+      vm.session.start_time = vm.timeParser(vm.session.date, vm.start_time);
+      vm.session.weigh_time = vm.timeParser(vm.session.date, vm.weigh_time);
+
+
+
       EventsService.updateSession(vm.eventID, vm.sessionID, vm.session).then(() => {
         vm.session = EventsService.session;
         $state.go('manageEvent', { event_id: vm.eventID });
       });
     };
 
-    vm.display = function display(time){
+    vm.displayTime = function displayTime(time){
       let tempDate = new Date(time);
       let hour = tempDate.getHours();
       let minutes = tempDate.getMinutes();
@@ -54,14 +65,13 @@
 
     };
 
-    vm.formatTime = function formatTime(label) {
-      if (label === 'start_time') {
-        vm.session.start_time = vm.timeParser(vm.session.date, vm.session.start_time);
-      }
 
-      if (label === 'weigh_time') {
-        vm.session.weigh_time = vm.timeParser(vm.session.date, vm.session.weigh_time);
-      }
+
+    vm.dateParser = function dateParser(date){
+      //console.log('DATE PARSER');
+      //console.log(date);
+      return `${date}${vm.timezone}`;
+
     };
 
     vm.timeParser = function timeParser(date, time) {
