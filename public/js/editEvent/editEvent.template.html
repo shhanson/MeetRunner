@@ -1,4 +1,4 @@
-<script>
+<!-- <script>
 $('.datepicker').pickadate({
  selectMonths: true, // Creates a dropdown to control month
  selectYears: 3, // Creates a dropdown of 15 years to control year,
@@ -8,88 +8,104 @@ $('.datepicker').pickadate({
  closeOnSelect: true, // Close upon selecting a date,
  min: true,
 });
-</script>
+</script> -->
 <navigation></navigation>
 
 <main class='container'>
   <div class='row center-align'>
     <h3>Edit Event Info</h3>
     <h4>{{ $ctrl.event.title }}</h4>
+    <p>* Required</p>
   </div>
 
   <div class='row'>
     <div class='col s12 m6 offset-m3'>
-      <form ng-submit='$ctrl.updateEvent()'>
+      <form ng-submit='$ctrl.updateEvent()' name='editEventForm' novalidate>
 
         <div class='row'>
           <div class="input-field col s12">
-            <input id="title" type="text" class="validate" ng-model='$ctrl.event.title'>
-            <label for="title">Title</label>
+            <input id="title" type="text" class="validate" ng-model='$ctrl.event.title' required>
+            <label for="title">Event Title*</label>
           </div>
         </div>
         <div class='row'>
           <div class="input-field col s12">
-            <input id="organizer" type="text" class="validate" ng-model='$ctrl.event.organizer'>
-            <label for="organizer">Organizer</label>
+            <input id="organizer" type="text" class="validate" ng-model='$ctrl.event.organizer' required>
+            <label for="organizer">Organizer*</label>
           </div>
         </div>
 
         <div class='row'>
           <div class="input-field col s12">
-            <input id="sanction_id" type="text" class="validate" ng-model='$ctrl.event.sanction_id'>
-            <label for="sanction_id">USAW Sanction ID</label>
+            <input id="sanction_id" type="text" class="validate" ng-model='$ctrl.event.sanction_id' required>
+            <label for="sanction_id">USAW Sanction ID*</label>
           </div>
         </div>
 
         <div class='row'>
           <div class='input-field col s12 m6'>
-            <input id="entry_fee_cents" type="text" class="validate" ng-model='$ctrl.event.entry_fee'>
-            <label for="entry_fee_cents">Entry fee (USD)</label>
+            <input id="entry_fee_cents" type="text" class="validate" ng-model='$ctrl.event.entry_fee' required>
+            <label for="entry_fee_cents">Entry fee (USD)*</label>
           </div>
         </div>
 
 
         <div class="row">
           <div class="input-field col s12">
-            <textarea id="description" class="materialize-textarea" ng-model='$ctrl.event.description'></textarea>
-            <label for="description">Description</label>
+            <textarea id="description" class="materialize-textarea" ng-model='$ctrl.event.description' required></textarea>
+            <label for="description">Description*</label>
+          </div>
+        </div>
+
+        <div class='row'>
+          <div class='input-field col s12'>
+            <input id='image_url' type='text' class='validate' ng-model='$ctrl.event.image_url'>
+            <label for='image_url'>Image URL</label>
           </div>
         </div>
 
 
 
         <div class='row'>
-          <div class="input-field col s12">
+          <!-- <div class="input-field col s12">
             <input id="start_date" type="text" class="datepicker" ng-model='$ctrl.event.start_date'>
             <label for="start_date">Start Date</label>
+          </div> -->
+          <div class='col s6'>
+            <p><label for='start_date'>Start Date*</label></p>
+            <input id='start_date' type='date' ng-model='$ctrl.event.start_date' class='validate browser-default' ng-change='$ctrl.setEndDate()' required>
           </div>
         </div>
 
         <div class='row'>
-          <div class="input-field col s12">
+          <!-- <div class="input-field col s12">
             <input id="start_date" type="text" class="datepicker" ng-model='$ctrl.event.end_date'>
             <label for="end_date">End Date</label>
+          </div> -->
+          <div class='col s6'>
+            <p><label for='end_date'>End Date*</label></p>
+            <input id='end_date' type='date' ng-model='$ctrl.event.end_date' class='validate browser-default' required>
           </div>
         </div>
 
         <div class='row'>
           <div class="input-field col s12">
-            <input id="street_address" type="text" class="validate" ng-model='$ctrl.event.street_address'>
-            <label for="street_address">Street Address</label>
+            <input id="street_address" type="text" class="validate" ng-model='$ctrl.event.street_address' required>
+            <label for="street_address">Street Address*</label>
           </div>
         </div>
 
         <div class='row'>
           <div class="input-field col s12">
-            <input id="city" type="text" class="validate" ng-model='$ctrl.event.city'>
-            <label for="city">City</label>
+            <input id="city" type="text" class="validate" ng-model='$ctrl.event.city' required>
+            <label for="city">City*</label>
           </div>
         </div>
 
         <div class='row'>
           <div class='input-field col s12 m4'>
-            <span>State</span>
-              <select name="state" material-select ng-model='$ctrl.event.state'>
+            <span>State*</span>
+              <select name="state" material-select ng-model='$ctrl.event.state' required>
                 <option value="AL">AL</option>
                 <option value="AK">AK</option>
                 <option value="AZ">AZ</option>
@@ -148,22 +164,22 @@ $('.datepicker').pickadate({
 
         <div class='row'>
           <div class='input-field col s12 m4'>
-            <input id="zip_code" type="text" class="validate" ng-model='$ctrl.event.zip_code'>
-            <label for="zip_code">Zip code</label>
+            <input id="zip_code" type="text" class="validate" ng-model='$ctrl.event.zip_code' ng-minlength='5' ng-maxlength='5' required>
+            <label for="zip_code">Zip code*</label>
           </div>
         </div>
 
         <div class='row'>
           <div class='input-field col s12 m6'>
-            <input id="phone" type="text" class="validate" ng-model='$ctrl.event.phone'>
-            <label for="phone">Phone</label>
+            <input id="phone" type="text" class="validate" ng-model='$ctrl.event.phone' required ng-minlength='10' ng-maxlength='10'>
+            <label for="phone">Phone*</label>
           </div>
         </div>
 
         <div class='row'>
           <div class='input-field col s12'>
-            <input id="email" type="text" class="validate" ng-model='$ctrl.event.email'>
-            <label for="email">Email</label>
+            <input id="email" type="email" class="validate" ng-model='$ctrl.event.email' required>
+            <label for="email">Email*</label>
           </div>
         </div>
 
@@ -171,7 +187,7 @@ $('.datepicker').pickadate({
 
         <div class='row'>
           <div class='col s12 center-align modal-footer'>
-            <button class=" modal-action modal-close btn waves-effect waves-light btn"  name="action" ng-click='$ctrl.updateEvent()'>Save Changes</button>
+            <button class=" modal-action modal-close btn waves-effect waves-light btn"  name="action" ng-click='$ctrl.updateEvent()' ng-disabled='editEventForm.$invalid || editEventForm.$pristine'>Save Changes</button>
           </div>
         </div>
 
