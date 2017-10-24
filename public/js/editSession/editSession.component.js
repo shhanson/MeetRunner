@@ -18,6 +18,9 @@
     vm.$onInit = function onInit() {
       EventsService.getSession(vm.eventID, vm.sessionID).then(() => {
         vm.session = EventsService.session;
+        vm.session.date = new Date(vm.session.date);
+        vm.session.weigh_time = vm.display(vm.session.weigh_time);
+        vm.session.start_time = vm.display(vm.session.start_time);
       });
 
       EventsService.getEvent(vm.eventID).then(() => {
@@ -30,10 +33,25 @@
     };
 
     vm.updateSession = function updateSession() {
+      vm.session.date = new Date(vm.session.date).toISOString();
+      vm.session.start_time = vm.timeParser(vm.session.date, vm.session.start_time);
+      vm.session.weigh_time = vm.timeParser(vm.session.date, vm.session.weigh_time);
       EventsService.updateSession(vm.eventID, vm.sessionID, vm.session).then(() => {
         vm.session = EventsService.session;
         $state.go('manageEvent', { event_id: vm.eventID });
       });
+    };
+
+    vm.display = function display(time){
+      let tempDate = new Date(time);
+      let hour = tempDate.getHours();
+      let minutes = tempDate.getMinutes();
+      let AMPM = (hour >= 12) ? 'PM' : 'AM';
+
+      hour = (hour > 12) ? hour % 12 : hour;
+
+      return `${hour < 10 ? '0': ''}${hour}:${minutes < 10 ? '0': ''}${minutes}${AMPM}`;
+
     };
 
     vm.formatTime = function formatTime(label) {
@@ -47,6 +65,7 @@
     };
 
     vm.timeParser = function timeParser(date, time) {
+      //date = new Date(date).toISOString();
       const AMPM = time.match(/AM|PM/)[0].toLowerCase();
       let hours = Number.parseInt(time.match(/^.+?(?=:)/), 10);
       const minutes = time.match(/:.{2}/);
@@ -66,5 +85,7 @@
     vm.getSession = function getSession() {
       return $localStorage.session;
     };
+
+
   }
 }());

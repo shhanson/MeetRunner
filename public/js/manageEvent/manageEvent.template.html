@@ -31,7 +31,7 @@
       </thead>
 
       <tbody>
-        <tr ng-repeat='session in $ctrl.sessions | orderBy: weigh_time'>
+        <tr ng-repeat='session in $ctrl.sessions | orderBy: ["date", "weigh_time"] '>
           <td>{{ session.description }}</td>
           <td> {{ session.date | date: 'MM-dd-yy' }} </td>
           <td> {{ session.weigh_time | date: 'h:mma' }} </td>
