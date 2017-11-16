@@ -17,6 +17,14 @@
       });
     };
 
+    vm.editProfile = function editProfile() {
+      UsersService.editUserInfo(vm.getSession().id, vm.form).then((response) => {
+        vm.form = response.data;
+      }).catch((err) => {
+        vm.updateError = true;
+      });
+    };
+
     vm.getSession = function getSession() {
       return $localStorage.session;
     };

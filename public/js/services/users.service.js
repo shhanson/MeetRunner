@@ -38,5 +38,9 @@
       self.getUserInfo = function getUserInfo(userID) {
         return $http.get(`/api/users/${userID}`);
       };
+
+      self.editUserInfo = function editUserInfo(userID, data) {
+        return $http.put(`/api/users/${userID}/edit`, data);
+      };
     }]);
 }());
