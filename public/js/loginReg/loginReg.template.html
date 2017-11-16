@@ -9,7 +9,7 @@
 
       <div class='row'>
         <div class='col s12'>
-          <form ng-submit="$ctrl.loginUser()" name='login' novalidate>
+          <form ng-submit="$ctrl.loginUser()" name='loginForm' novalidate>
             <div class='row'>
               <div class="input-field col s12">
                 <input id="email" type="email" class="validate" ng-model='$ctrl.login.email' required>
@@ -30,7 +30,7 @@
 
             <div class='row'>
               <div class='col s12 center-align'>
-                <button class="btn waves-effect waves-light" type="submit" name="action" ng-disabled='login.$invalid'>Login</button>
+                <button class="btn waves-effect waves-light" type="submit" name="action" ng-disabled='loginForm.$invalid'>Login</button>
               </div>
             </div>
           </form>
@@ -39,11 +39,11 @@
 
     </div>
 
-    <div class='row'>
+    <!-- <div class='row'>
       <div class='col s12 center-align'>
         <a href="#">Forgot password?</a>
       </div>
-    </div>
+    </div> -->
 
     <div class='row'>
       <div class='col s12 center-align'>
@@ -56,24 +56,24 @@
 
       <div class='row'>
         <div class='col s12'>
-          <form ng-submit='$ctrl.registerUser()'>
+          <form ng-submit='$ctrl.registerUser()' name='regForm' novalidate>
 
             <div class='row'>
               <div class="input-field col s12">
-                <input id="first_name" type="text" class="validate" ng-model='$ctrl.reg.first_name'>
+                <input id="first_name" type="text" class="validate" ng-model='$ctrl.reg.first_name' required ng-maxlength='16'>
                 <label for="first_name">First Name</label>
               </div>
             </div>
             <div class='row'>
               <div class="input-field col s12">
-                <input id="last_name" type="text" class="validate" ng-model='$ctrl.reg.last_name'>
+                <input id="last_name" type="text" class="validate" ng-model='$ctrl.reg.last_name' required ng-maxlength='16'>
                 <label for="last_name">Last Name</label>
               </div>
             </div>
 
             <div class='row'>
               <div class="input-field col s12">
-                <input id="regEmail" type="email" class="validate" ng-model='$ctrl.reg.email'>
+                <input id="regEmail" type="email" class="validate" ng-model='$ctrl.reg.email' required>
                 <label for="regEmail">Email (used to login)</label>
               </div>
             </div>
@@ -88,21 +88,25 @@
 
             <div class='row'>
               <div class='input-field col s12'>
-                <input id='regPassword' type='password' class='validate' ng-model='$ctrl.reg.password'>
-                <label for='regPassword'>Password</label>
+                <input id='regPassword' type='password' class='validate' ng-model='$ctrl.reg.password' required ng-minlength='6' ng-model='password'>
+                <label for='regPassword'>Password (must be at least 6 characters in length)</label>
               </div>
             </div>
 
             <div class='row'>
               <div class='input-field col s12'>
-                <input id='vPassword' type='password' class='validate' ng-model='$ctrl.reg.vpassword'>
+                <input id='vPassword' type='password' class='validate' ng-model='$ctrl.reg.vpassword' required>
                 <label for='vPassword'>Confirm password</label>
               </div>
             </div>
 
+            <div class='row' ng-show='$ctrl.regError'>
+              <p class='red-text darken-4 center-align'>Something went wrong!</p>
+            </div>
+
             <div class='row'>
               <div class='col s12 center-align'>
-                <button class="btn waves-effect waves-light regBtn" type="submit" name="action">Register</button>
+                <button class="btn waves-effect waves-light regBtn" type="submit" name="action" ng-disabled='regForm.$invalid'>Register</button>
               </div>
             </div>
           </form>

@@ -9,9 +9,7 @@
 
   function LoginRegController(UsersService, $state, $localStorage) {
     const vm = this;
-    // const login = {};
-    // const reg = {};
-    vm.emailPassError = false;
+
 
     vm.loginUser = function loginUser() {
       UsersService.login(vm.login.email, vm.login.password).then(() => {
@@ -24,7 +22,10 @@
 
     vm.registerUser = function registerUser() {
       UsersService.register(vm.reg).then(() => {
+        vm.regError = false;
         $state.go('myEvents', { user_id: vm.getSession().id });
+      }).catch(() => {
+        vm.regError = true;
       });
     };
 
